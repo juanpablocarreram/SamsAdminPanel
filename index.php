@@ -532,7 +532,7 @@
 </div>
 
 <!-- ═══════════════════════════════════════════════
-     TAB 2 · PROMOCIONES  (MODIFICADO)
+     TAB 2 · PROMOCIONES
 ═══════════════════════════════════════════════ -->
 <div class="tab-pane fade" id="panel-promos" role="tabpanel">
     <div style="display: flex; gap: 20px; height: 100%;">
@@ -620,7 +620,7 @@
     <div style="display: flex; gap: 20px; align-items: flex-start;">
         <div style="flex: 1; min-width: 0;">
             <div class="sam-form-card">
-                <div class="section-title">🚚 Registrar Recepción de Mercancía</div>
+                <div class="section-title">Registrar Recepción de Mercancía</div>
                 <div class="mb-3">
                     <label class="form-label">Proveedor</label>
                     <select id="compraProveedor" class="form-select">
@@ -641,7 +641,7 @@
                     </select>
                 </div>
                 <hr class="my-2">
-                <div class="section-title" style="margin-bottom: 12px; font-size: 0.95rem;">📦 Agregar Productos</div>
+                <div class="section-title" style="margin-bottom: 12px; font-size: 0.95rem;">Agregar Productos</div>
                 <div class="mb-3">
                     <label class="form-label">Producto</label>
                     <select id="compraProductoSel" class="form-select">
@@ -659,7 +659,7 @@
                     </div>
                 </div>
                 <button class="btn btn-success w-100 mb-3" onclick="agregarItemCompra()">➕ Agregar a lista</button>
-                <div class="section-title" style="margin-bottom: 12px;">📋 Items Agregados</div>
+                <div class="section-title" style="margin-bottom: 12px;">Items Agregados</div>
                 <div style="margin-bottom: 12px; border-radius: 8px; border: 1px solid var(--sam-border); overflow: hidden;">
                     <table class="table table-sm mb-0 compra-items-table">
                         <thead>
@@ -706,7 +706,7 @@
 </div>
 
 <!-- ═══════════════════════════════════════════════
-     TAB 4 · PUNTO DE VENTA  (MODIFICADO)
+     TAB 4 · PUNTO DE VENTA 
 ═══════════════════════════════════════════════ -->
 <div class="tab-pane fade" id="panel-ventas" role="tabpanel">
     <div style="display: flex; gap: 16px; height: calc(100vh - 180px);">
@@ -750,7 +750,7 @@
         <!-- PANEL RESUMEN + SOCIO + PAGO -->
         <div style="flex: 0 0 34%; min-width: 0;">
             <div class="pos-panel">
-                <div class="pos-panel-header">🧾 Resumen de Venta</div>
+                <div class="pos-panel-header"> Resumen de Venta</div>
                 <div class="pos-panel-body">
 
                     <!-- BLOQUE SOCIO + MEMBRESÍA -->
@@ -919,7 +919,7 @@ let invTimer;
 document.getElementById('invSearch').addEventListener('input', () => { clearTimeout(invTimer); invTimer = setTimeout(loadInventario, 350); });
 
 // ═══════════════════════════════════════════
-// TAB 2 · PROMOCIONES  (MODIFICADO)
+// TAB 2 · PROMOCIONES 
 // ═══════════════════════════════════════════
 let tiposMembresia = []; // [{id, nombre}]
 
@@ -1204,7 +1204,7 @@ async function loadHistCompra() {
 }
 
 // ═══════════════════════════════════════════════════════
-// TAB 4 · PUNTO DE VENTA  (MODIFICADO — lógica membresía)
+// TAB 4 · PUNTO DE VENTA  (lógica membresía)
 // ═══════════════════════════════════════════════════════
 let cart = [];
 let selectedSocio = null; // { socio_id, nombre, socio_membresia_id, tipo_membresia_id, membresia, numero_socio, saldo_cashback }
