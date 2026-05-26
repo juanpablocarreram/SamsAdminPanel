@@ -186,9 +186,10 @@ try {
         }
 
         // 5. Aplicar cashback si corresponde
+        // IMPORTANTE: Si es un familiar con Plus, el cashback va al titular
         if ($socio_membresia_id) {
             $stmtMemb = $pdo->prepare(
-                "SELECT sm.id, tm.cashback
+                "SELECT sm.id, sm.cuenta_titular_id, tm.cashback, tm.nombre as tipo_membresia
                  FROM socio_membresia_ICA_final sm
                  JOIN tipo_membresia_ICA_final tm ON sm.tipo_id = tm.id
                  WHERE sm.id = ? AND sm.fecha_fin >= CURDATE()"
@@ -198,11 +199,20 @@ try {
 
             if ($membRow && $membRow['cashback'] > 0) {
                 $cashback_ganado = round($total * ($membRow['cashback'] / 100), 2);
+                
+                // Determinar a quién acumularle el cashback
+                $cuenta_destino_id = $membRow['id']; // Por defecto, al mismo socio
+                
+                // Si es familiar (tiene cuenta_titular_id) y es Plus, acumular al titular
+                if ($membRow['cuenta_titular_id'] && $membRow['tipo_membresia'] === 'PLUS') {
+                    $cuenta_destino_id = $membRow['cuenta_titular_id'];
+                }
+                
                 $pdo->prepare(
                     "UPDATE socio_membresia_ICA_final
                      SET saldo_cashback = saldo_cashback + ?
                      WHERE id = ?"
-                )->execute([$cashback_ganado, $membRow['id']]);
+                )->execute([$cashback_ganado, $cuenta_destino_id]);
             }
         }
 

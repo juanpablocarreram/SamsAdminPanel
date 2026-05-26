@@ -72,18 +72,26 @@ CREATE TABLE IF NOT EXISTS categoria_ICA_final (
     FOREIGN KEY (division_id) REFERENCES division_ICA_final(id)
 );
 
--- Esta tabla une al Humano con el Plástico/Membresía que compró. 
--- Aquí es donde se permite que una persona tenga más de un plástico (Socio ID) con beneficios distintos.
+-- Esta tabla une al Humano con el Plástico/Membresía que compró.
+-- MODIFICADA: Implementa la jerarquía familiar (auto-referencia), roles y control de complementarias.
 CREATE TABLE IF NOT EXISTS socio_membresia_ICA_final (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    numero_socio VARCHAR(50) UNIQUE, -- El número impreso en el plástico/App
-    socio_id BIGINT,                  -- ID del Humano
-    tipo_id BIGINT,                   -- ¿Es Clásica, Benefits o Plus?
+    numero_socio VARCHAR(50) UNIQUE,                                             -- El número impreso en el plástico/App
+    socio_id BIGINT,                                                             -- ID del Humano
+    cuenta_titular_id BIGINT NULL,                                               -- CORRECCIÓN: Apunta al plástico del titular (NULL si es dueño de cuenta)
+    tipo_id BIGINT,                                                              -- ¿Es Clásica, Benefits o Plus?
+    parentesco ENUM('TITULAR', 'CONYUGE', 'HIJO', 'PADRE', 'HERMANO', 'OTRO') DEFAULT 'TITULAR', -- CORRECCIÓN: Rol familiar
+    es_complementaria BOOLEAN DEFAULT 0,                                         -- CORRECCIÓN: 1 = Gratis, 0 = Adicional con costo
     saldo_cashback DECIMAL(10,2) DEFAULT 0.00,
-    fecha_fin DATE,
+    fecha_fin DATE,                                                              -- Misma fecha de vencimiento que el titular
     activo BOOLEAN DEFAULT 1,
+    
     FOREIGN KEY (socio_id) REFERENCES socio_ICA_final(id),
-    FOREIGN KEY (tipo_id) REFERENCES tipo_membresia_ICA_final(id)
+    FOREIGN KEY (tipo_id) REFERENCES tipo_membresia_ICA_final(id),
+    FOREIGN KEY (cuenta_titular_id) REFERENCES socio_membresia_ICA_final(id) ON DELETE SET NULL,
+    
+    -- REGLA DE NEGOCIO: Evita que un mismo titular registre más de una tarjeta complementaria gratis
+    UNIQUE KEY uq_una_complementaria_por_titular (cuenta_titular_id, es_complementaria)
 );
 
 -- =========================================================
@@ -172,7 +180,7 @@ CREATE TABLE IF NOT EXISTS inventario_movimiento_ICA_final (
     cantidad DECIMAL(10,2),
     fecha DATETIME,
     proveedor_id BIGINT NULL,
-    FOREIGN KEY (producto_id) REFERENCES producto_ICA_final(id), -- Corrección de llave foránea
+    FOREIGN KEY (producto_id) REFERENCES producto_ICA_final(id),
     FOREIGN KEY (proveedor_id) REFERENCES proveedor_ICA_final(id)
 );
 
@@ -207,7 +215,7 @@ CREATE TABLE IF NOT EXISTS promocion_membresia_ICA_final (
 -- 7. TRANSACCIONES / VENTAS
 -- =========================================================
 
--- La venta apunta a la membresía específica escaneada en la caja
+-- La venta apunta a la membresía específica escaneada en la caja (sea del titular o del familiar)
 CREATE TABLE IF NOT EXISTS venta_ICA_final (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     socio_membresia_id BIGINT, 

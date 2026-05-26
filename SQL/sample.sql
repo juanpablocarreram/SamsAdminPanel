@@ -1,7 +1,6 @@
--- ═══════════════════════════════════════════════════════════
--- DATOS DE EJEMPLO ACTUALIZADOS · Sam's Club style (ICA_final)
--- Ejecutar DESPUÉS del nuevo schema_ICA_final.sql
--- ═══════════════════════════════════════════════════════════
+-- =========================================================
+-- DATOS DE EJEMPLO ACTUALIZADOS Y CORREGIDOS (ICA_final)
+-- =========================================================
 
 -- 1. PUESTOS
 INSERT INTO puesto_ICA_final (nombre, area, nivel) VALUES
@@ -73,37 +72,43 @@ INSERT INTO zona_operativa_ICA_final (nombre, tipo) VALUES
 ('Farmacia', 'SERVICIO'),
 ('Salida de Control', 'SALIDA_CONTROL');
 
--- 7. EMPLEADOS
-INSERT INTO empleado_ICA_final (numero_empleado, nombre, puesto_id, fecha_ingreso, active) VALUES
+-- 7. EMPLEADOS (CORRECCIÓN: Campo 'activo' en lugar de 'active')
+INSERT INTO empleado_ICA_final (numero_empleado, nombre, puesto_id, fecha_ingreso, activo) VALUES
 ('EMP001', 'María López García', 1, '2021-03-15', 1),
 ('EMP002', 'Juan Pérez Martínez', 2, '2019-06-01', 1),
 ('EMP003', 'Ana Torres Ruiz', 3, '2022-01-10', 1),
 ('EMP004', 'Carlos Sánchez Vega', 4, '2018-09-20', 1),
 ('EMP005', 'Rosa Hernández Cruz', 5, '2023-02-28', 1);
 
--- 8. SOCIOS (Únicamente la información de la persona humana)
+-- 8. SOCIOS (La información humana básica)
 INSERT INTO socio_ICA_final (nombre, correo, telefono) VALUES
-('Roberto Gutiérrez Flores',  'roberto@email.com',  '5551234567'),
-('Patricia Morales Luna',     'patricia@email.com', '5557654321'),
-('Diego Ramírez Ochoa',      'diego@email.com',    '5559876543'),
-('Sofía Jiménez Reyes',      'sofia@email.com',    '5553210987'),
-('Miguel Ángel Castro Nava',  'miguel@email.com',   '5554567890');
+('Roberto Gutiérrez Flores',  'roberto@email.com',  '5551234567'), -- ID 1
+('Patricia Morales Luna',     'patricia@email.com', '5557654321'), -- ID 2
+('Diego Ramírez Ochoa',      'diego@email.com',    '5559876543'), -- ID 3
+('Sofía Jiménez Reyes',      'sofia@email.com',    '5553210987'), -- ID 4
+('Miguel Ángel Castro Nava',  'miguel@email.com',   '5554567890'), -- ID 5
+('Elena Ramírez Ochoa',      'elena@email.com',     '5551112233'); -- ID 6 (Nueva familiar para el ejemplo)
 
 -- 9. TIPOS DE MEMBRESÍA
 INSERT INTO tipo_membresia_ICA_final (nombre, cashback) VALUES
-('CLASICA', 0.00),
-('BENEFITS', 2.00),
-('PLUS', 3.50);
+('CLASICA', 0.00),  -- ID 1
+('BENEFITS', 2.00), -- ID 2
+('PLUS', 3.50);     -- ID 3
 
--- 10. MEMBRESÍAS DE SOCIOS (Se asigna el plástico/número a la persona)
--- Aquí simulamos que el Socio 3 (Diego) tiene dos plásticos: un PLUS y uno CLASICA (Negocio)
-INSERT INTO socio_membresia_ICA_final (numero_socio, socio_id, tipo_id, saldo_cashback, fecha_fin, activo) VALUES
-('SAM-100001', 1, 1, 0.00,   '2026-12-31', 1), -- Roberto: Clásica
-('SAM-100002', 2, 2, 145.50, '2026-08-15', 1), -- Patricia: Benefits
-('SAM-100003', 3, 3, 320.00, '2027-01-01', 1), -- Diego: Cuenta Personal PLUS
-('SAM-100004', 4, 2, 75.25,  '2026-11-30', 1), -- Sofía: Benefits
-('SAM-100005', 5, 1, 0.00,   '2026-09-15', 1), -- Miguel: Clásica
-('SAM-999999', 3, 1, 0.00,   '2027-03-01', 1); -- Diego: Segunda Cuenta (Clásica Empresarial)
+-- 10. MEMBRESÍAS DE SOCIOS (CORRECCIÓN: Se implementan las nuevas columnas de jerarquía familiar)
+-- Primero insertamos las cuentas Titulares (cuenta_titular_id = NULL)
+INSERT INTO socio_membresia_ICA_final (id, numero_socio, socio_id, cuenta_titular_id, tipo_id, parentesco, es_complementaria, saldo_cashback, fecha_fin, activo) VALUES
+(1, 'SAM-100001', 1, NULL, 1, 'TITULAR', 0, 0.00,   '2026-12-31', 1), -- Roberto: Clásica
+(2, 'SAM-100002', 2, NULL, 2, 'TITULAR', 0, 145.50, '2026-08-15', 1), -- Patricia: Benefits
+(3, 'SAM-100003', 3, NULL, 3, 'TITULAR', 0, 320.00, '2027-01-01', 1), -- Diego: Cuenta Personal PLUS (Titular ID 3)
+(4, 'SAM-100004', 4, NULL, 2, 'TITULAR', 0, 75.25,  '2026-11-30', 1), -- Sofía: Benefits
+(5, 'SAM-100005', 5, NULL, 1, 'TITULAR', 0, 0.00,   '2026-09-15', 1), -- Miguel: Clásica
+(6, 'SAM-999999', 3, NULL, 1, 'TITULAR', 0, 0.00,   '2027-03-01', 1); -- Diego: OTRA cuenta (Clásica Empresarial)
+
+-- Ahora insertamos un Miembro Vinculado (Familiar) que depende del Titular de Diego (ID 3)
+INSERT INTO socio_membresia_ICA_final (id, numero_socio, socio_id, cuenta_titular_id, tipo_id, parentesco, es_complementaria, saldo_cashback, fecha_fin, activo) VALUES
+(7, 'SAM-100003-F', 6, 3, 3, 'HERMANO', 1, 0.00, '2027-01-01', 1); -- Elena: Tarjeta complementaria (gratis) vinculada al PLUS de Diego
+
 
 -- 11. PRODUCTOS
 INSERT INTO producto_ICA_final (sku, nombre, marca, es_members_mark, categoria_id, proveedor_id, tipo, multipack, dias_vida_util, requiere_refrigeracion, requiere_congelacion, activo) VALUES
@@ -165,44 +170,46 @@ INSERT INTO inventario_ICA_final (producto_id, zona_id, cantidad, es_reserva) VA
 (4,  3, 600, 1), (6,  3, 288, 1), (10, 3, 144, 1), (16, 3, 120, 1), (12, 4, 10,  1),
 (13, 4, 8,   1), (19, 4, 288, 1), (21, 4, 100, 1);
 
--- 14. PROMOCIONES SEGMENTADAS (Configuración de ofertas)
+-- 14. PROMOCIONES SEGMENTADAS
 INSERT INTO promocion_ICA_final (id, producto_id, nombre_promo, descuento_pct, descuento_monto, fecha_inicio, fecha_fin, aplica_a_todos, activo) VALUES
-(1, 3,  'Refresco x24 Oferta',    10.00, 0.00,  '2026-05-01', '2026-05-31', 1, 1), -- General (Aplica a todos)
-(2, 6,  'Snack Pack Ahorro',       0.00, 20.00,  '2026-05-01', '2026-05-31', 1, 1), -- General
-(3, 10, 'Cuidado Personal -15%',  15.00, 0.00,  '2026-05-10', '2026-05-25', 1, 1), -- General
-(4, 19, 'Leche en Pack Ahorro',    0.00, 25.00,  '2026-05-01', '2026-05-31', 0, 1), -- Exclusiva (Segmentada)
-(5, 12, 'Pantalla Especial PLUS', 15.00, 0.00,  '2026-05-15', '2026-05-20', 0, 1); -- Exclusiva (Segmentada)
+(1, 3,  'Refresco x24 Oferta',    10.00, 0.00,  '2026-05-01', '2026-05-31', 1, 1), 
+(2, 6,  'Snack Pack Ahorro',       0.00, 20.00,  '2026-05-01', '2026-05-31', 1, 1), 
+(3, 10, 'Cuidado Personal -15%',  15.00, 0.00,  '2026-05-10', '2026-05-25', 1, 1), 
+(4, 19, 'Leche en Pack Ahorro',    0.00, 25.00,  '2026-05-01', '2026-05-31', 0, 1), 
+(5, 12, 'Pantalla Especial PLUS', 15.00, 0.00,  '2026-05-15', '2026-05-20', 0, 1); 
 
--- REGLAS DE ASIGNACIÓN: ¿Quién goza de las promociones exclusivas?
--- (Membresías de referencia: 1 = CLASICA, 2 = BENEFITS, 3 = PLUS)
+-- REGLAS DE ASIGNACIÓN DE DESCUENTOS SEGMENTADOS
 INSERT INTO promocion_membresia_ICA_final (promocion_id, tipo_membresia_id) VALUES
-(4, 2), -- Promo 4 (Leche) disponible para BENEFITS
-(4, 3), -- Promo 4 (Leche) disponible para PLUS (La clásica no goza de este descuento)
-(5, 3); -- Promo 5 (Pantalla Samsung) ÚNICAMENTE disponible para socios PLUS
+(4, 2), -- Promo 4 (Leche) para BENEFITS
+(4, 3), -- Promo 4 (Leche) para PLUS
+(5, 3); -- Promo 5 (Pantalla) ÚNICAMENTE para PLUS
 
--- 15. VENTAS DE EJEMPLO (Apuntando a la tarjeta de socio específica usada)
+-- 15. VENTAS DE EJEMPLO (Apuntando a los IDs correctos de la tabla socio_membresia_ICA_final)
 INSERT INTO venta_ICA_final (socio_membresia_id, canal, total, fecha) VALUES
-(1, 'CAJA',    434.80,  '2026-05-13 10:30:00'), -- Usó tarjeta 'SAM-100001' (Clásica)
-(2, 'SELF',     226.00,  '2026-05-13 11:15:00'), -- Usó tarjeta 'SAM-100002' (Benefits)
-(3, 'SCAN_GO', 11049.15, '2026-05-13 12:45:00'), -- Usó tarjeta 'SAM-100003' (Plus)
-(4, 'CAJA',     284.00,  '2026-05-14 09:20:00'), -- Usó tarjeta 'SAM-100004' (Benefits)
-(6, 'CAJA',    12999.00, '2026-05-14 14:00:00'); -- Diego usó su OTRA tarjeta 'SAM-999999' (Clásica Empresarial)
+(1, 'CAJA',    434.80,  '2026-05-13 10:30:00'), -- Roberto (Clásica - ID 1)
+(2, 'SELF',     226.00,  '2026-05-13 11:15:00'), -- Patricia (Benefits - ID 2)
+(3, 'SCAN_GO', 11049.15, '2026-05-13 12:45:00'), -- Diego (Titular PLUS - ID 3)
+(4, 'CAJA',     284.00,  '2026-05-14 09:20:00'), -- Sofía (Benefits - ID 4)
+(6, 'CAJA',    12999.00, '2026-05-14 14:00:00'), -- Diego (Su otra cuenta Clásica - ID 6)
+(7, 'CAJA',     220.00,  '2026-05-14 15:30:00'); -- Elena (Familiar PLUS vinculada - ID 7)
 
 -- DETALLE DE ELEMENTOS VENDIDOS E HISTORIAL DE PROMO APLICADA
 INSERT INTO venta_item_ICA_final (venta_id, producto_id, cantidad, precio, descuento, promocion_id, tipo_descuento) VALUES
--- Venta 1 (Clásica): Aplica la promo general de Coca Cola, pero paga leche a precio completo (no tiene derecho a promo 4)
+-- Venta 1 (Clásica)
 (1, 3,  1, 285.00, 28.50,  1,    'PROMOCION_GENERAL'),
 (1, 1,  2, 89.90,  0.00,   NULL, 'NINGUNO'),
--- Venta 2 (Benefits): Aplica promo general de Sabritas
+-- Venta 2 (Benefits)
 (2, 6,  1, 148.00, 20.00,  2,    'PROMOCION_GENERAL'),
 (2, 8,  1, 98.00,  0.00,   NULL, 'NINGUNO'),
--- Venta 3 (Plus): Diego compra pantalla con su membresía PLUS. Aplica descuento exclusivo del 15% ($1,949.85)
+-- Venta 3 (Plus)
 (3, 12, 1, 12999.00, 1949.85, 5, 'PROMOCION_MEMBRESIA'),
--- Venta 4 (Benefits): Goza del descuento segmentado de la leche porque su membresía lo permite
+-- Venta 4 (Benefits)
 (4, 19, 1, 245.00, 25.00,  4,    'PROMOCION_MEMBRESIA'),
 (4, 20, 1, 89.00,  0.00,   NULL, 'NINGUNO'),
--- Venta 5 (Clásica Empresarial): Diego compra la misma pantalla pero con su OTRA tarjeta (Clásica). Paga precio FULL sin descuento.
-(5, 12, 1, 12999.00, 0.00, NULL, 'NINGUNO');
+-- Venta 5 (Clásica Empresarial de Diego)
+(5, 12, 1, 12999.00, 0.00, NULL, 'NINGUNO'),
+-- Venta 6 (Familiar PLUS - Elena compra leche con el descuento segmentado heredado por el tipo de cuenta)
+(6, 19, 1, 245.00, 25.00,  4,    'PROMOCION_MEMBRESIA');
 
 -- PAGOS ASOCIADOS
 INSERT INTO pago_ICA_final (venta_id, metodo, monto) VALUES
@@ -210,7 +217,8 @@ INSERT INTO pago_ICA_final (venta_id, metodo, monto) VALUES
 (2, 'EFECTIVO', 226.00),
 (3, 'TARJETA',  11049.15),
 (4, 'CASHI',    284.00),
-(5, 'EFECTIVO', 12999.00);
+(5, 'EFECTIVO', 12999.00),
+(6, 'TARJETA',  220.00);
 
 -- 16. MOVIMIENTOS DE INVENTARIO
 INSERT INTO inventario_movimiento_ICA_final (producto_id, tipo, cantidad, fecha, proveedor_id) VALUES
