@@ -975,8 +975,14 @@ async function api(url, data=null) {
 // DASHBOARD
 // ═══════════════════════════════════════════
 async function loadDashboard() {
+    const [sociosRes, invRes, promoRes, ventasRes] = await Promise.all([
+        api('socios.php?action=list_titulares'),
+        api('inventario.php?action=stats'),
+        api('promociones.php?action=list_promos'),
+        api('ventas.php?action=historial')
+    ]);
+
     // Socios activos + membership breakdown
-    const sociosRes = await api('socios.php?action=list_titulares');
     if (sociosRes.success) {
         document.getElementById('dash-socios').textContent = sociosRes.data.length;
         const counts = { CLASICA: 0, BENEFITS: 0, PLUS: 0 };
@@ -996,20 +1002,18 @@ async function loadDashboard() {
     }
 
     // Sin stock count
-    const invRes = await api('inventario.php?action=stats');
     if (invRes.success) document.getElementById('dash-sinstock').textContent = invRes.data.sin_stock;
 
     // Promociones activas count
-    const promoRes = await api('promociones.php?action=list_promos');
     if (promoRes.success) {
-        document.getElementById('dash-promos').textContent = promoRes.data.filter(p => p.activo === '1').length;
+        document.getElementById('dash-promos').textContent = promoRes.data.filter(p => p.activo == 1).length;
     }
 
     // Ventas recientes + ingresos hoy
-    const ventasRes = await api('ventas.php?action=historial');
     const dashBody = document.getElementById('dash-ventas-body');
     if (ventasRes.success && ventasRes.data.length) {
-        const todayStr = new Date().toISOString().slice(0, 10);
+        const now = new Date();
+        const todayStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
         let todayTotal = 0;
         ventasRes.data.forEach(v => {
             if (v.fecha && v.fecha.startsWith(todayStr)) todayTotal += parseFloat(v.total || 0);
