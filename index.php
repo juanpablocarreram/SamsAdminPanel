@@ -300,45 +300,55 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
 </head>
 <body>
 
-<!-- NAVBAR -->
-<nav class="sam-navbar">
-    <div class="sam-navbar-inner container-fluid px-0">
-        <div class="sam-brand">
-            <img src="img/sams_logo.png" alt="Sam's Club" class="sam-brand-logo">
-        </div>
-        <ul class="nav sam-nav-tabs" id="mainTab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="tab-inv" data-bs-toggle="tab" href="#panel-inventario" role="tab">Inventario</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="tab-socios" data-bs-toggle="tab" href="#panel-socios" role="tab">Socios</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="tab-promo" data-bs-toggle="tab" href="#panel-promos" role="tab">Promociones</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="tab-comp" data-bs-toggle="tab" href="#panel-compras" role="tab">Compras</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="tab-vta" data-bs-toggle="tab" href="#panel-ventas" role="tab">Punto de Venta</a>
-            </li>
-        </ul>
-        <div class="sam-nav-right">
-            <div class="sam-system-badge">
-                <span class="sam-status-dot"></span>
-                Sistema activo
-            </div>
+<!-- SIDEBAR -->
+<aside class="sam-sidebar">
+    <div class="sam-sidebar-brand">
+        <img src="img/sams_logo.png" alt="Sam's">
+        <div>
+            <div class="sam-sidebar-brand-text">Sam's Admin</div>
+            <div class="sam-sidebar-brand-sub">Panel de Control</div>
         </div>
     </div>
-</nav>
+    <nav class="sam-nav">
+        <div class="sam-nav-item active" data-section="dashboard" onclick="showSection('dashboard')">
+            <span class="nav-icon">⊞</span> Dashboard
+        </div>
+        <div class="sam-nav-item" data-section="inventario" onclick="showSection('inventario')">
+            <span class="nav-icon">📦</span> Inventario
+        </div>
+        <div class="sam-nav-item" data-section="socios" onclick="showSection('socios')">
+            <span class="nav-icon">👥</span> Socios
+        </div>
+        <div class="sam-nav-item" data-section="promociones" onclick="showSection('promociones')">
+            <span class="nav-icon">🏷️</span> Promociones
+        </div>
+        <div class="sam-nav-item" data-section="compras" onclick="showSection('compras')">
+            <span class="nav-icon">🛒</span> Compras
+        </div>
+        <div class="sam-nav-item" data-section="ventas" onclick="showSection('ventas')">
+            <span class="nav-icon">💳</span> Punto de Venta
+        </div>
+    </nav>
+    <div class="sam-sidebar-footer">
+        <span class="sam-status-dot"></span>
+        Sistema activo
+    </div>
+</aside>
 
-<div class="container-fluid px-3">
-<div class="tab-content" id="mainTabContent">
+<!-- MAIN -->
+<main class="sam-main">
+    <div class="sam-page-header">
+        <div class="sam-page-title" id="page-title">Dashboard</div>
+        <div class="sam-page-meta">
+            <span class="sam-date-chip" id="page-date"></span>
+            <button class="btn btn-sm btn-outline-primary" onclick="refreshCurrentSection()">↺ Actualizar</button>
+        </div>
+    </div>
 
 <!-- ═══════════════════════════════════════════════
      TAB 1 · INVENTARIO
 ═══════════════════════════════════════════════ -->
-<div class="tab-pane fade show active" id="panel-inventario" role="tabpanel">
+<div class="sam-section" id="section-inventario">
     <div class="row g-3 mb-4" id="invStats">
         <div class="col-6 col-md-3"><div class="stat-card"><h3 id="st-total">—</h3><p>Total productos</p></div></div>
         <div class="col-6 col-md-3"><div class="stat-card green"><h3 id="st-stock">—</h3><p>Con existencia</p></div></div>
@@ -371,7 +381,7 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
 <!-- ═══════════════════════════════════════════════
      TAB 2 · SOCIOS
 ═══════════════════════════════════════════════ -->
-<div class="tab-pane fade" id="panel-socios" role="tabpanel">
+<div class="sam-section" id="section-socios">
     <div style="display: flex; gap: 20px; height: 100%; align-items: flex-start;">
         <!-- FORM PANEL -->
         <div style="flex: 0 0 35%; min-width: 0;">
@@ -536,7 +546,7 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
 <!-- ═══════════════════════════════════════════════
      TAB 3 · PROMOCIONES
 ═══════════════════════════════════════════════ -->
-<div class="tab-pane fade" id="panel-promos" role="tabpanel">
+<div class="sam-section" id="section-promociones">
     <div style="display: flex; gap: 20px; height: 100%;">
         <div style="flex: 0 0 40%; min-width: 0;">
             <div class="sam-form-card">
@@ -610,7 +620,7 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
 <!-- ═══════════════════════════════════════════════
      TAB 4 · COMPRAS
 ═══════════════════════════════════════════════ -->
-<div class="tab-pane fade" id="panel-compras" role="tabpanel">
+<div class="sam-section" id="section-compras">
     <div style="display: flex; gap: 20px; align-items: flex-start;">
         <div style="flex: 1; min-width: 0;">
             <div class="sam-form-card">
@@ -692,7 +702,7 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
 <!-- ═══════════════════════════════════════════════
      TAB 5 · PUNTO DE VENTA
 ═══════════════════════════════════════════════ -->
-<div class="tab-pane fade" id="panel-ventas" role="tabpanel">
+<div class="sam-section" id="section-ventas">
     <div style="display: flex; gap: 16px; height: calc(100vh - 180px);">
         <div style="flex: 1; min-width: 0; display: flex; flex-direction: column;">
             <div style="display: grid; grid-template-columns: 0.6fr 1fr; gap: 12px; margin-bottom: 12px; flex-shrink: 0;">
@@ -806,11 +816,50 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
     </div>
 </div>
 
-</div><!-- /tab-content -->
-</div><!-- /container-fluid -->
+</main><!-- /sam-main -->
 
 <div id="toastArea"></div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+const sectionTitles = {
+    dashboard:   'Dashboard',
+    inventario:  'Inventario',
+    socios:      'Socios',
+    promociones: 'Promociones',
+    compras:     'Compras',
+    ventas:      'Punto de Venta'
+};
+
+let currentSection = 'dashboard';
+
+function showSection(name) {
+    document.querySelectorAll('.sam-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.sam-nav-item').forEach(i => i.classList.remove('active'));
+    const section = document.getElementById('section-' + name);
+    if (section) section.classList.add('active');
+    const navItem = document.querySelector('[data-section="' + name + '"]');
+    if (navItem) navItem.classList.add('active');
+    document.getElementById('page-title').textContent = sectionTitles[name] || name;
+    currentSection = name;
+}
+
+function refreshCurrentSection() {
+    const map = {
+        dashboard:   loadDashboard,
+        inventario:  () => { loadInventario(); loadInvStats(); },
+        socios:      loadSocios,
+        promociones: loadPromos,
+        compras:     loadHistCompra,
+        ventas:      loadHistVentas
+    };
+    if (map[currentSection]) map[currentSection]();
+}
+
+document.getElementById('page-date').textContent = new Date().toLocaleDateString('es-MX', {
+    weekday: 'short', day: '2-digit', month: 'short', year: 'numeric'
+});
+</script>
 
 <script>
 window.addEventListener('error', (e) => { console.error('❌ ERROR:', e.error); toast('Error: ' + (e.error?.message || 'Desconocido'), 'error'); });
