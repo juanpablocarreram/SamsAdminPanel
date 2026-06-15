@@ -290,6 +290,9 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
 .py-3 { padding-top: 14px; padding-bottom: 14px; }
 .py-4 { padding-top: 20px; padding-bottom: 20px; }
 #pagoResumen { font-size: .82rem; margin-top: 6px; display: flex; justify-content: space-between; color: rgba(255,255,255,.55); }
+#pagoResumen .pago-faltante { color: #F87171; font-weight: 700; }
+#pagoResumen .pago-ok { color: var(--sam-green); font-weight: 700; }
+.acciones-socio { display: flex; gap: 4px; flex-wrap: nowrap; }
 #cambioInfo { font-size: .85rem; font-weight: 600; color: var(--sam-green); margin-top: 4px; }
 .todos-check-wrap label { font-size: .85rem; font-weight: 600; color: var(--sam-muted); cursor: pointer; display: flex; align-items: center; gap: 8px; }
 @media (max-width: 900px) { .sam-main { margin-left: 0; padding: 16px; } .sam-sidebar { display: none; } .pos-terminal { flex: 0 0 280px; } }
