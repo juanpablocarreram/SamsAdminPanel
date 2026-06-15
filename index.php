@@ -846,7 +846,7 @@ function showSection(name) {
 
 function refreshCurrentSection() {
     const map = {
-        dashboard:   loadDashboard,
+        dashboard:   () => {},
         inventario:  () => { loadInventario(); loadInvStats(); },
         socios:      loadSocios,
         promociones: loadPromos,
@@ -1747,6 +1747,7 @@ let sociosBuscarTimer;
 // INIT
 // ═══════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', () => {
+    showSection('inventario');
     loadInventario();
     loadInvStats();
     loadProductosPromo();
@@ -1758,11 +1759,6 @@ document.addEventListener('DOMContentLoaded', () => {
     loadSocios();
     loadFamiliares();
 
-    document.getElementById('tab-inv').addEventListener('shown.bs.tab', () => { loadInventario(); loadInvStats(); });
-    document.getElementById('tab-socios').addEventListener('shown.bs.tab', () => { loadSocios(); loadFamiliares(); });
-    document.getElementById('tab-promo').addEventListener('shown.bs.tab', () => { loadPromos(); });
-    document.getElementById('tab-comp').addEventListener('shown.bs.tab', () => { loadCompraData(); });
-    document.getElementById('tab-vta').addEventListener('shown.bs.tab', () => { loadHistVentas(); });
     document.getElementById('pagosContainer').addEventListener('input', actualizarResumenPago);
 
     document.getElementById('familiarBuscar')?.addEventListener('input', () => {
