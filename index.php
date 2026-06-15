@@ -345,6 +345,84 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
         </div>
     </div>
 
+<!-- ═══ DASHBOARD ═══ -->
+<div class="sam-section active" id="section-dashboard">
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+            <div class="stat-card blue">
+                <span class="stat-card-icon">👥</span>
+                <h3 id="dash-socios">—</h3>
+                <p>Socios activos</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="stat-card green">
+                <span class="stat-card-icon">💰</span>
+                <h3 id="dash-ingresos">—</h3>
+                <p>Ingresos hoy</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="stat-card red">
+                <span class="stat-card-icon">📦</span>
+                <h3 id="dash-sinstock">—</h3>
+                <p>Sin existencia</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="stat-card yellow">
+                <span class="stat-card-icon">🏷️</span>
+                <h3 id="dash-promos">—</h3>
+                <p>Promociones activas</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-7">
+            <div class="sam-card" style="height:100%;">
+                <span class="section-title">Ventas Recientes</span>
+                <div class="sam-table">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr><th>#</th><th>Fecha</th><th>Canal</th><th class="text-end">Total</th></tr>
+                        </thead>
+                        <tbody id="dash-ventas-body">
+                            <tr><td colspan="4" class="text-center py-3 text-muted">Cargando…</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-3">
+                    <button class="btn btn-sm btn-outline-primary" onclick="showSection('ventas')">Ver todas las ventas →</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="sam-card" style="height:100%;">
+                <span class="section-title">Distribución de Membresías</span>
+                <div id="dash-memb-bars">
+                    <div class="text-center text-muted py-3 small">Cargando…</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="sam-card">
+        <span class="section-title">Accesos Rápidos</span>
+        <div class="d-flex gap-3 flex-wrap">
+            <button class="btn btn-primary" onclick="showSection('ventas'); setTimeout(()=>document.getElementById('posSearch')?.focus(),100)">
+                💳 Nueva Venta
+            </button>
+            <button class="btn btn-outline-primary" onclick="showSection('socios'); setTimeout(()=>document.getElementById('socioNombre')?.focus(),100)">
+                👤 Nuevo Socio
+            </button>
+            <button class="btn btn-outline-primary" onclick="showSection('compras'); setTimeout(()=>document.getElementById('compraProveedor')?.focus(),100)">
+                🛒 Registrar Compra
+            </button>
+        </div>
+    </div>
+</div>
+
 <!-- ═══════════════════════════════════════════════
      TAB 1 · INVENTARIO
 ═══════════════════════════════════════════════ -->
@@ -846,7 +924,7 @@ function showSection(name) {
 
 function refreshCurrentSection() {
     const map = {
-        dashboard:   () => {},
+        dashboard:   loadDashboard,
         inventario:  () => { loadInventario(); loadInvStats(); },
         socios:      loadSocios,
         promociones: loadPromos,
@@ -890,6 +968,64 @@ async function api(url, data=null) {
     } catch (err) {
         console.error('❌ API Error:', err.message);
         return { success: false, error: err.message };
+    }
+}
+
+// ═══════════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════════
+async function loadDashboard() {
+    // Socios activos + membership breakdown
+    const sociosRes = await api('socios.php?action=list_titulares');
+    if (sociosRes.success) {
+        document.getElementById('dash-socios').textContent = sociosRes.data.length;
+        const counts = { CLASICA: 0, BENEFITS: 0, PLUS: 0 };
+        sociosRes.data.forEach(s => { if (s.tipo_membresia in counts) counts[s.tipo_membresia]++; });
+        const total = sociosRes.data.length || 1;
+        const colors = { CLASICA: '#6B7280', BENEFITS: '#003DA5', PLUS: '#7C3AED' };
+        document.getElementById('dash-memb-bars').innerHTML =
+            Object.entries(counts).map(([tipo, count]) =>
+                `<div class="memb-bar-row">
+                    <span class="memb-bar-label">${tipo}</span>
+                    <div class="memb-bar-track">
+                        <div class="memb-bar-fill" style="width:${Math.round(count/total*100)}%;background:${colors[tipo]};"></div>
+                    </div>
+                    <span class="memb-bar-count">${count}</span>
+                </div>`
+            ).join('');
+    }
+
+    // Sin stock count
+    const invRes = await api('inventario.php?action=stats');
+    if (invRes.success) document.getElementById('dash-sinstock').textContent = invRes.data.sin_stock;
+
+    // Promociones activas count
+    const promoRes = await api('promociones.php?action=list_promos');
+    if (promoRes.success) {
+        document.getElementById('dash-promos').textContent = promoRes.data.filter(p => p.activo === '1').length;
+    }
+
+    // Ventas recientes + ingresos hoy
+    const ventasRes = await api('ventas.php?action=historial');
+    const dashBody = document.getElementById('dash-ventas-body');
+    if (ventasRes.success && ventasRes.data.length) {
+        const todayStr = new Date().toISOString().slice(0, 10);
+        let todayTotal = 0;
+        ventasRes.data.forEach(v => {
+            if (v.fecha && v.fecha.startsWith(todayStr)) todayTotal += parseFloat(v.total || 0);
+        });
+        document.getElementById('dash-ingresos').textContent = fmt(todayTotal);
+        dashBody.innerHTML = ventasRes.data.slice(0, 5).map(v =>
+            `<tr>
+                <td class="text-muted small">#${v.id}</td>
+                <td class="small">${v.fecha ? v.fecha.slice(0,10) : '—'}</td>
+                <td><span class="badge badge-blue">${v.canal || '—'}</span></td>
+                <td class="text-end fw-bold">${fmt(v.total)}</td>
+            </tr>`
+        ).join('');
+    } else {
+        dashBody.innerHTML = '<tr><td colspan="4" class="text-center text-muted py-3">Sin ventas registradas</td></tr>';
+        document.getElementById('dash-ingresos').textContent = fmt(0);
     }
 }
 
@@ -1747,7 +1883,8 @@ let sociosBuscarTimer;
 // INIT
 // ═══════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', () => {
-    showSection('inventario');
+    showSection('dashboard');
+    loadDashboard();
     loadInventario();
     loadInvStats();
     loadProductosPromo();
