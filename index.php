@@ -547,70 +547,40 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
      TAB 3 · PROMOCIONES
 ═══════════════════════════════════════════════ -->
 <div class="sam-section" id="section-promociones">
-    <div style="display: flex; gap: 20px; height: 100%;">
-        <div style="flex: 0 0 40%; min-width: 0;">
-            <div class="sam-form-card">
-                <div class="section-title">➕ Nueva Promoción</div>
+    <div class="d-flex gap-4" style="align-items:flex-start;">
+        <div style="flex:0 0 380px; min-width:0;">
+            <div class="sam-card top-accent">
+                <span class="section-title">Nueva Promoción</span>
+                <div class="mb-3"><label class="form-label">Producto</label><select id="promoProducto" class="form-select"><option value="">Cargando…</option></select></div>
+                <div class="mb-3"><label class="form-label">Nombre de la promoción</label><input type="text" id="promoNombre" class="form-control" placeholder="Ej: Promo Verano"></div>
+                <div class="mb-3"><label class="form-label">Descuento %</label><input type="number" id="promoDescPct" class="form-control" placeholder="0" min="0" max="100" step="0.01"></div>
+                <div class="mb-3"><label class="form-label">Descuento $</label><input type="number" id="promoDescMonto" class="form-control" placeholder="0.00" min="0" step="0.01"></div>
+                <div class="alert alert-info mb-3">Ingresa SOLO descuento por % O por $, no ambos.</div>
+                <div class="mb-3"><label class="form-label">Fecha de inicio</label><input type="date" id="promoFechaIni" class="form-control"></div>
+                <div class="mb-3"><label class="form-label">Fecha de fin</label><input type="date" id="promoFechaFin" class="form-control"></div>
                 <div class="mb-3">
-                    <label class="form-label">Producto</label>
-                    <select id="promoProducto" class="form-select"><option value="">Cargando…</option></select>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Nombre de la promoción</label>
-                    <input type="text" id="promoNombre" class="form-control" placeholder="Ej: Promocion Verano">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Descuento %</label>
-                    <input type="number" id="promoDescPct" class="form-control" placeholder="0" min="0" max="100" step="0.01">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Descuento $</label>
-                    <input type="number" id="promoDescMonto" class="form-control" placeholder="0.00" min="0" step="0.01">
-                </div>
-                <div class="alert alert-info mb-3" style="font-size: 0.85rem; padding: 10px 12px;">
-                    💡 <strong>Ingresa SOLO descuento por % O por $</strong><br>No puedes usar ambos al mismo tiempo.
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Fecha de inicio</label>
-                    <input type="date" id="promoFechaIni" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Fecha de fin</label>
-                    <input type="date" id="promoFechaFin" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">🎫 Elegibilidad por membresía</label>
-                    <div class="todos-check-wrap">
-                        <label style="display:flex;align-items:center;gap:8px;">
+                    <label class="form-label">Elegibilidad por membresía</label>
+                    <div class="mb-2 todos-check-wrap">
+                        <label>
                             <input type="checkbox" id="promoAplicaTodos" onchange="toggleTodosCheck()">
-                            <span>Aplica a <strong>todos</strong> (sin importar membresía)</span>
+                            Aplica a todos (sin importar membresía)
                         </label>
                     </div>
-                    <div id="membresiaChecks" class="membresia-checks"></div>
-                    <div class="mt-2" style="font-size:.8rem;color:var(--sam-text-secondary);">
-                        Si no marcas "todos", solo los tipos seleccionados verán el descuento.
-                    </div>
+                    <div id="membresiaChecks" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+                    <div class="mt-2 small text-muted">Si no marcas "todos", solo los tipos seleccionados verán el descuento.</div>
                 </div>
-                <button class="btn btn-primary w-100 fw-bold mt-2" onclick="crearPromo()">✅ Registrar Promoción</button>
+                <button class="btn btn-primary w-100 mt-2" onclick="crearPromo()">Registrar Promoción</button>
             </div>
         </div>
-        <div style="flex: 1; min-width: 0; display: flex; flex-direction: column;">
-            <div class="d-flex justify-content-between align-items-center mb-2" style="gap: 12px; flex-shrink: 0;">
-                <h3 class="section-title mb-0" style="margin: 0; padding-bottom: 8px; border-bottom: 3px solid #FFC220; flex: 1;">📋 Promociones Registradas</h3>
-                <button class="btn btn-outline-primary btn-sm" style="white-space: nowrap; flex-shrink: 0;" onclick="loadPromos()">↺ Actualizar</button>
+        <div style="flex:1; min-width:0;">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="section-title" style="border:none;padding:0;margin:0;">Promociones Registradas</span>
+                <button class="btn btn-sm btn-outline-primary" onclick="loadPromos()">↺ Actualizar</button>
             </div>
-            <div class="sam-table table-responsive" style="flex: 1; overflow-y: auto; margin: 0;">
+            <div class="sam-table table-responsive">
                 <table class="table table-hover mb-0">
-                    <thead>
-                        <tr>
-                            <th>#</th><th>Producto</th><th>Promoción</th>
-                            <th class="text-end">Desc %</th><th class="text-end">Desc $</th>
-                            <th>Vigencia</th><th>Membresías</th><th>Estado</th><th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="promoBody">
-                        <tr><td colspan="9" class="text-center py-4 text-muted">Cargando…</td></tr>
-                    </tbody>
+                    <thead><tr><th>#</th><th>Producto</th><th>Promoción</th><th class="text-end">Desc %</th><th class="text-end">Desc $</th><th>Vigencia</th><th>Membresías</th><th>Estado</th><th>Acciones</th></tr></thead>
+                    <tbody id="promoBody"><tr><td colspan="9" class="text-center py-4 text-muted">Cargando…</td></tr></tbody>
                 </table>
             </div>
         </div>
@@ -1023,23 +993,22 @@ async function loadTiposMembresia() {
 
 function renderMembresiaChecks() {
     const container = document.getElementById('membresiaChecks');
-    container.innerHTML = tiposMembresia.map(tm => {
-        const cls = tm.nombre;
-        const colorMap = { CLASICA: '#6B7280', BENEFITS: '#003DA5', PLUS: '#7C3AED' };
-        const color = colorMap[cls] || '#6B7280';
-        return `<label class="memb-check-label" id="lbl-memb-${tm.id}" style="border-color:${color}20;" onclick="toggleMembCheck(${tm.id}, '${cls}', '${color}')">
-                    <input type="checkbox" id="chk-memb-${tm.id}" value="${tm.id}">
-                    <span>${cls}</span>
-                </label>`;
-    }).join('');
+    if (!container) return;
+    container.innerHTML = tiposMembresia.map(tm =>
+        `<label class="memb-pill-toggle" id="lbl-memb-${tm.id}" onclick="toggleMembCheck(${Number(tm.id)}, ${JSON.stringify(tm.nombre)})">
+            <input type="checkbox" id="chk-memb-${tm.id}" value="${Number(tm.id)}">
+            <span>${esc(tm.nombre)}</span>
+        </label>`
+    ).join('');
 }
 
-function toggleMembCheck(id, nombre, color) {
+function toggleMembCheck(id, nombre) {
     const chk = document.getElementById(`chk-memb-${id}`);
     const lbl = document.getElementById(`lbl-memb-${id}`);
+    if (!chk || !lbl) return;
     chk.checked = !chk.checked;
-    if (chk.checked) { lbl.classList.add(`checked-${nombre}`); lbl.style.borderColor = color; }
-    else { lbl.classList.remove(`checked-${nombre}`); lbl.style.borderColor = `${color}20`; }
+    if (chk.checked) lbl.classList.add(`active-${nombre}`);
+    else lbl.classList.remove(`active-${nombre}`);
 }
 
 function toggleTodosCheck() {
@@ -1052,7 +1021,7 @@ function toggleTodosCheck() {
             const chk = document.getElementById(`chk-memb-${tm.id}`);
             const lbl = document.getElementById(`lbl-memb-${tm.id}`);
             if (chk) chk.checked = false;
-            if (lbl) lbl.className = 'memb-check-label';
+            if (lbl) lbl.className = 'memb-pill-toggle';
         });
     }
 }
@@ -1071,27 +1040,29 @@ async function loadPromos() {
     if (!res.success) { toast(res.error,'error'); return; }
     body.innerHTML = res.data.length ? '' : '<tr><td colspan="9" class="text-center text-muted py-4">Sin promociones</td></tr>';
     res.data.forEach(r => {
-        const badge = r.activo=='1' ? '<span class="badge bg-success">Activa</span>' : '<span class="badge bg-secondary">Inactiva</span>';
+        const badge = r.activo == 1
+            ? '<span style="display:inline-flex;align-items:center;gap:5px;font-size:.82rem;font-weight:600;color:var(--sam-green);">● Activa</span>'
+            : '<span style="display:inline-flex;align-items:center;gap:5px;font-size:.82rem;font-weight:600;color:var(--sam-muted);">● Inactiva</span>';
         let membTag = '';
         if (r.aplica_a_todos == '1') { membTag = '<span class="badge bg-dark">Todos</span>'; }
         else if (r.membresias_aplicables) {
             membTag = r.membresias_aplicables.split(', ').map(m => {
                 const style = m === 'PLUS' ? 'background:#7C3AED;' : (m === 'BENEFITS' ? 'background:#003DA5;' : 'background:#6B7280;');
-                return `<span class="badge" style="font-size:.7rem;${style}color:#fff;">${m}</span>`;
+                return `<span class="badge" style="font-size:.7rem;${style}color:#fff;">${esc(m)}</span>`;
             }).join(' ');
         } else { membTag = '<span class="text-muted small">—</span>'; }
         body.innerHTML += `<tr>
-            <td class="text-muted small">${r.id}</td>
-            <td><strong>${r.producto_nombre}</strong><br><span class="text-muted small">${r.sku}</span></td>
-            <td>${r.nombre_promo}</td>
-            <td class="text-end">${r.descuento_pct>0?r.descuento_pct+'%':'—'}</td>
-            <td class="text-end">${r.descuento_monto>0?fmt(r.descuento_monto):'—'}</td>
-            <td class="small">${r.fecha_inicio||'—'}<br>al ${r.fecha_fin||'—'}</td>
+            <td class="text-muted small">${Number(r.id)}</td>
+            <td><strong>${esc(r.producto_nombre)}</strong><br><span class="text-muted small">${esc(r.sku)}</span></td>
+            <td>${esc(r.nombre_promo)}</td>
+            <td class="text-end">${Number(r.descuento_pct)>0?Number(r.descuento_pct)+'%':'—'}</td>
+            <td class="text-end">${Number(r.descuento_monto)>0?fmt(r.descuento_monto):'—'}</td>
+            <td class="small">${esc(r.fecha_inicio||'—')}<br>al ${esc(r.fecha_fin||'—')}</td>
             <td>${membTag}</td>
             <td>${badge}</td>
             <td>
-                <button class="btn btn-outline-warning btn-sm me-1" onclick="togglePromo(${r.id})">${r.activo=='1'?'⏸ Desactivar':'▶ Activar'}</button>
-                <button class="btn btn-outline-danger btn-sm" onclick="deletePromo(${r.id})">🗑️</button>
+                <button class="btn btn-outline-warning btn-sm me-1" onclick="togglePromo(${Number(r.id)})">${r.activo=='1'?'⏸ Desactivar':'▶ Activar'}</button>
+                <button class="btn btn-outline-danger btn-sm" onclick="deletePromo(${Number(r.id)})">🗑️</button>
             </td>
         </tr>`;
     });
@@ -1131,7 +1102,7 @@ async function crearPromo() {
             const chk = document.getElementById(`chk-memb-${tm.id}`);
             const lbl = document.getElementById(`lbl-memb-${tm.id}`);
             if (chk) chk.checked = false;
-            if (lbl) lbl.className = 'memb-check-label';
+            if (lbl) lbl.className = 'memb-pill-toggle';
         });
         loadPromos(); loadInvStats();
     } else toast(res.error,'error');
