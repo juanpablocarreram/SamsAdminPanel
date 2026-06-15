@@ -965,6 +965,9 @@ function toast(msg, type='success') {
 function fmt(n) {
     return '$' + parseFloat(n||0).toLocaleString('es-MX', {minimumFractionDigits:2, maximumFractionDigits:2});
 }
+function esc(s) {
+    return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 async function api(url, data=null) {
     try {
         const opts = { method: data ? 'POST' : 'GET', headers: {} };
@@ -1047,22 +1050,23 @@ async function loadInventario(q = '') {
         if (el) q = el.value;
     }
     const body = document.getElementById('invBody');
+    if (!body) return;
     body.innerHTML = '<tr><td colspan="7" class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary"></div></td></tr>';
     const res = await api('inventario.php?action=list&q=' + encodeURIComponent(q));
     if (!res.success) { toast(res.error,'error'); return; }
     const data = res.data;
     body.innerHTML = data.length ? '' : '<tr><td colspan="7" class="text-center text-muted py-4">Sin resultados</td></tr>';
     body.innerHTML += data.map(p => `<tr>
-    <td class="text-muted small">${p.sku}</td>
+    <td class="text-muted small">${esc(p.sku)}</td>
     <td>
-        <span class="fw-600">${p.nombre}</span>
+        <span class="fw-600">${esc(p.nombre)}</span>
         ${p.es_members_mark == 1 ? '<span class="badge badge-gold ms-1">Member\'s Mark</span>' : ''}
     </td>
-    <td class="small text-muted">${p.marca}<br><span class="text-xs">${p.categoria || ''}</span></td>
-    <td class="text-center ${p.stock_piso == 0 ? 'stock-zero fw-bold' : ''}">${p.stock_piso}</td>
-    <td class="text-center text-muted">${p.stock_reserva}</td>
+    <td class="small text-muted">${esc(p.marca)}<br><span class="text-xs">${esc(p.categoria || '')}</span></td>
+    <td class="text-center ${p.stock_piso == 0 ? 'stock-zero fw-bold' : ''}">${Number(p.stock_piso)}</td>
+    <td class="text-center text-muted">${Number(p.stock_reserva)}</td>
     <td class="text-end">${fmt(p.precio_actual)}</td>
-    <td>${p.promo_nombre ? `<span class="badge badge-promo">${p.descuento_pct > 0 ? p.descuento_pct+'%' : '$'+p.descuento_monto} ${p.promo_nombre}</span>` : '<span class="text-muted small">—</span>'}</td>
+    <td>${p.promo_nombre ? `<span class="badge badge-promo">${p.descuento_pct > 0 ? Number(p.descuento_pct)+'%' : '$'+Number(p.descuento_monto)} ${esc(p.promo_nombre)}</span>` : '<span class="text-muted small">—</span>'}</td>
 </tr>`).join('');
     const countEl = document.getElementById('invCount');
     if (countEl) countEl.textContent = data.length + ' producto' + (data.length !== 1 ? 's' : '');
