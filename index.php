@@ -651,117 +651,117 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
      TAB 5 · PUNTO DE VENTA
 ═══════════════════════════════════════════════ -->
 <div class="sam-section" id="section-ventas">
-    <div style="display: flex; gap: 16px; height: calc(100vh - 180px);">
-        <div style="flex: 1; min-width: 0; display: flex; flex-direction: column;">
-            <div style="display: grid; grid-template-columns: 0.6fr 1fr; gap: 12px; margin-bottom: 12px; flex-shrink: 0;">
-                <div>
-                    <label class="form-label d-block mb-2">📱 Canal de venta</label>
-                    <select id="posCanal" class="form-select">
-                        <option value="CAJA">🏦 Caja</option>
-                        <option value="SELF">🤖 Self-checkout</option>
-                        <option value="SCAN_GO">📱 Scan &amp; Go</option>
-                    </select>
-                </div>
-                <div style="position:relative;">
-                    <label class="form-label d-block mb-2">🔍 Buscar producto para agregar</label>
-                    <input type="text" id="posSearch" class="form-control" placeholder="Nombre, SKU o marca…" oninput="buscarProductoPos()">
-                    <div id="searchResults"></div>
-                </div>
+<div class="pos-wrap">
+    <!-- LEFT: Light zone -->
+    <div class="pos-light">
+        <div class="d-flex gap-3" style="flex-shrink:0;">
+            <div style="flex:0 0 180px;">
+                <label class="form-label">Canal de venta</label>
+                <select id="posCanal" class="form-select">
+                    <option value="CAJA">Caja</option>
+                    <option value="SELF">Self-checkout</option>
+                    <option value="SCAN_GO">Scan &amp; Go</option>
+                </select>
             </div>
-            <div class="sam-table table-responsive" style="flex: 1; overflow-y:auto; margin: 0; border: 1px solid var(--sam-border);">
-                <table class="table table-hover mb-0">
-                    <thead>
-                        <tr>
-                            <th>Producto</th><th class="text-end">Precio U.</th>
-                            <th class="text-center" style="width:120px">Cantidad</th>
-                            <th class="text-end">Desc.</th><th class="text-end">Subtotal</th><th style="width: 40px;"></th>
-                        </tr>
-                    </thead>
-                    <tbody id="posCartBody">
-                        <tr><td colspan="6" class="text-center text-muted py-4">Busca un producto para comenzar la venta</td></tr>
-                    </tbody>
-                </table>
+            <div style="flex:1; position:relative;">
+                <label class="form-label">Buscar producto para agregar</label>
+                <input type="text" id="posSearch" class="form-control" placeholder="Nombre, SKU o marca…" oninput="buscarProductoPos()">
+                <div id="searchResults"></div>
             </div>
         </div>
-
-        <div style="flex: 0 0 34%; min-width: 0;">
-            <div class="pos-panel">
-                <div class="pos-panel-header">Resumen de Venta</div>
-                <div class="pos-panel-body">
-                    <div class="socio-block">
-                        <div class="socio-label-title">👤 Asociar Socio (opcional)</div>
-                        <div id="socioInputWrap" style="position:relative;">
-                            <input type="text" id="posSearchSocio" class="form-control form-control-sm"
-                                   placeholder="Buscar por nombre o número de socio…" oninput="buscarSocio()">
-                            <div id="socioResults"></div>
-                        </div>
-                        <div id="socioSeleccionado" class="mt-2 d-none">
-                            <div class="socio-badge-active">
-                                <span>👤</span>
-                                <span id="socioLabel"></span>
-                                <span class="memb-pill" id="socioMembPill"></span>
-                                <button class="quitar-btn" onclick="quitarSocio()" title="Quitar socio">✕</button>
-                            </div>
-                            <div style="font-size:.75rem;color:rgba(255,255,255,.7);margin-top:6px;padding-left:4px;" id="socioMembInfo"></div>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
-                        <span class="text-muted fw-500">Subtotal:</span>
-                        <span class="fw-bold" id="posSubtotal">$0.00</span>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
-                        <span class="text-muted fw-500">Descuentos:</span>
-                        <span class="text-danger fw-bold" id="posDescuentos">-$0.00</span>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
-                        <span class="fw-bold" style="font-size: 1.1rem;">TOTAL A PAGAR:</span>
-                        <span class="pos-total" id="posTotal">$0.00</span>
-                    </div>
-                    <div class="section-title" style="margin-top: 16px; margin-bottom: 12px;">💳 Método de Pago</div>
-                    <div id="pagosContainer" style="max-height: 160px; overflow-y: auto;">
-                        <div class="pago-row d-flex gap-2 mb-2" data-idx="0">
-                            <select class="form-select form-select-sm pago-metodo" onchange="actualizarResumenPago()">
-                                <option value="EFECTIVO">💵 Efectivo</option>
-                                <option value="TARJETA">💳 Tarjeta</option>
-                                <option value="CASHI">📲 Cashi</option>
-                                <option value="INBURSA">🏦 Inbursa</option>
-                                <option value="VALES">🎟️ Vales</option>
-                            </select>
-                            <input type="number" class="form-control form-control-sm pago-monto"
-                                   placeholder="Monto" min="0" step="0.01" oninput="actualizarResumenPago()">
-                        </div>
-                    </div>
-                    <button class="btn btn-outline-secondary btn-sm w-100 mt-2" onclick="agregarPago()">+ Agregar método de pago</button>
-                    <div id="pagoResumen" class="mt-2 d-none">
-                        <span>Pagado: <strong id="pagoTotalIngresado">$0.00</strong></span>
-                        <span id="pagoEstado"></span>
-                    </div>
-                    <div id="cambioInfo" class="mt-2 text-success fw-semibold d-none"></div>
-                </div>
-                <div class="pos-panel-footer">
-                    <button class="btn btn-danger btn-sm w-100 mb-2" onclick="cancelarVenta()">🗑️ Cancelar venta</button>
-                    <button class="btn btn-success w-100 fw-bold" style="padding: 12px;" onclick="procesarVenta()">✅ Cobrar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="mt-3 mb-3">
-        <div class="d-flex justify-content-between align-items-center mb-2" style="gap: 12px;">
-            <div class="section-title mb-0" style="flex-grow: 1;">📋 Ventas Recientes</div>
-            <button class="btn btn-outline-primary btn-sm" style="white-space: nowrap;" onclick="loadHistVentas()">↺ Actualizar</button>
-        </div>
-        <div class="sam-table table-responsive">
-            <table class="table table-sm table-hover mb-0">
+        <div class="pos-cart-wrap sam-table table-responsive">
+            <table class="table table-hover mb-0">
                 <thead>
-                    <tr><th>#</th><th>Fecha</th><th>Socio</th><th>Canal</th><th class="text-end">Artículos</th><th class="text-end">Total</th></tr>
+                    <tr>
+                        <th>Producto</th><th class="text-end">Precio U.</th>
+                        <th class="text-center" style="width:130px;">Cantidad</th>
+                        <th class="text-end">Desc.</th><th class="text-end">Subtotal</th>
+                        <th style="width:40px;"></th>
+                    </tr>
                 </thead>
-                <tbody id="histVentasBody">
-                    <tr><td colspan="6" class="text-center text-muted py-4">Cargando…</td></tr>
+                <tbody id="posCartBody">
+                    <tr><td colspan="6" class="text-center text-muted py-4">Busca un producto para comenzar la venta</td></tr>
                 </tbody>
             </table>
         </div>
     </div>
+
+    <!-- RIGHT: Dark terminal -->
+    <div class="pos-terminal">
+        <div class="pos-terminal-header">
+            <img src="img/sams_logo.png" alt="Sam's">
+            <span>Resumen de Venta</span>
+        </div>
+        <div class="pos-terminal-body">
+            <div>
+                <div class="pos-label">Asociar Socio (opcional)</div>
+                <div class="socio-terminal-block">
+                    <div id="socioInputWrap" style="position:relative;">
+                        <input type="text" id="posSearchSocio" class="input-dark" placeholder="Nombre o número de socio…" oninput="buscarSocio()">
+                        <div id="socioResults"></div>
+                    </div>
+                    <div id="socioSeleccionado" class="mt-2 d-none">
+                        <div class="socio-terminal-active">
+                            <span>👤</span>
+                            <span class="socio-terminal-name" id="socioLabel"></span>
+                            <span class="socio-terminal-pill" id="socioMembPill"></span>
+                            <button class="socio-terminal-remove" onclick="quitarSocio()" title="Quitar">✕</button>
+                        </div>
+                        <div style="font-size:.72rem;color:rgba(255,255,255,.4);margin-top:5px;padding-left:4px;" id="socioMembInfo"></div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="pos-row"><span class="pos-row-label">Subtotal</span><span class="pos-row-value" id="posSubtotal">$0.00</span></div>
+                <div class="pos-row"><span class="pos-row-label">Descuentos</span><span style="color:#F87171;font-weight:600;" id="posDescuentos">−$0.00</span></div>
+            </div>
+            <div>
+                <div class="pos-total-label">TOTAL A PAGAR</div>
+                <div class="pos-total-amount" id="posTotal">$0.00</div>
+            </div>
+            <hr class="pos-divider">
+            <div>
+                <div class="pos-label">Método de Pago</div>
+                <div id="pagosContainer">
+                    <div class="pago-row d-flex gap-2 mb-2" data-idx="0">
+                        <select class="select-dark pago-metodo" onchange="actualizarResumenPago()" style="flex:1;">
+                            <option value="EFECTIVO">Efectivo</option>
+                            <option value="TARJETA">Tarjeta</option>
+                            <option value="CASHI">Cashi</option>
+                            <option value="INBURSA">Inbursa</option>
+                            <option value="VALES">Vales</option>
+                        </select>
+                        <input type="number" class="input-dark pago-monto" placeholder="Monto" min="0" step="0.01" oninput="actualizarResumenPago()" style="width:100px;">
+                    </div>
+                </div>
+                <button style="width:100%;margin-top:6px;padding:8px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.12);border-radius:8px;cursor:pointer;font-size:.82rem;font-weight:600;" onclick="agregarPago()">+ Agregar método de pago</button>
+                <div id="pagoResumen" class="mt-2 d-none">
+                    <span>Pagado: <strong id="pagoTotalIngresado">$0.00</strong></span>
+                    <span id="pagoEstado"></span>
+                </div>
+                <div id="cambioInfo" class="mt-2 d-none"></div>
+            </div>
+        </div>
+        <div class="pos-terminal-footer">
+            <button class="btn btn-outline-danger w-100" onclick="cancelarVenta()">Cancelar venta</button>
+            <button class="btn btn-cobrar w-100" style="padding:13px;" onclick="procesarVenta()">✓ COBRAR</button>
+        </div>
+    </div>
+</div>
+
+<!-- Ventas recientes below POS -->
+<div class="mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <span class="section-title" style="border:none;padding:0;margin:0;">Ventas Recientes</span>
+        <button class="btn btn-sm btn-outline-primary" onclick="loadHistVentas()">↺ Actualizar</button>
+    </div>
+    <div class="sam-table table-responsive">
+        <table class="table table-sm table-hover mb-0">
+            <thead><tr><th>#</th><th>Fecha</th><th>Socio</th><th>Canal</th><th class="text-end">Artículos</th><th class="text-end">Total</th></tr></thead>
+            <tbody id="histVentasBody"><tr><td colspan="6" class="text-center text-muted py-4">Cargando…</td></tr></tbody>
+        </table>
+    </div>
+</div>
 </div>
 
 </main><!-- /sam-main -->
@@ -1363,18 +1363,22 @@ function renderCart() {
         else if (it._desc_info?.promo_bloqueada) { descTag = `<span class="badge-desc-no" title="Requiere: ${it._desc_info.memb_requerida}">🔒 Sin desc.</span>`; }
         const promoTag = it.promo_nombre ? `<span class="badge badge-promo ms-1" style="font-size:.7rem;">${it.promo_nombre}</span>` : '';
         return `<tr>
-            <td><strong>${it.nombre}</strong>${promoTag}<br><span class="text-muted small">${it.sku}</span></td>
+            <td>
+                <strong style="font-size:.88rem;">${esc(it.nombre)}</strong>
+                ${it.promo_nombre ? `<br><span class="badge badge-green" style="font-size:.65rem;">${esc(it.promo_nombre)}</span>` : ''}
+            </td>
             <td class="text-end">${fmt(it.precio)}</td>
             <td class="text-center">
-                <div class="input-group input-group-sm" style="width:100px">
-                    <button class="btn btn-outline-secondary" onclick="changeQty(${idx},-1)">−</button>
-                    <input type="number" class="form-control text-center" value="${it.cantidad}" min="1" onchange="setQty(${idx},this.value)" style="width:45px">
-                    <button class="btn btn-outline-secondary" onclick="changeQty(${idx},1)">+</button>
+                <div class="pos-qty-control" style="justify-content:center;">
+                    <button class="pos-qty-btn" onclick="cambiarCantidadPos(${idx}, -1)">−</button>
+                    <input type="number" class="pos-qty-input" value="${Number(it.cantidad)}" min="1"
+                        onchange="setCantidadPos(${idx}, this.value)" oninput="setCantidadPos(${idx}, this.value)">
+                    <button class="pos-qty-btn" onclick="cambiarCantidadPos(${idx}, 1)">+</button>
                 </div>
             </td>
             <td class="text-end">${descTag}</td>
-            <td class="text-end fw-semibold">${fmt(sub - desc)}</td>
-            <td><button class="btn btn-sm btn-outline-danger" onclick="removeFromCart(${idx})">✕</button></td>
+            <td class="text-end fw-bold">${fmt(sub - desc)}</td>
+            <td><button class="btn btn-sm" style="color:var(--sam-red);padding:4px 8px;" onclick="removeFromCart(${idx})">✕</button></td>
         </tr>`;
     }).join('');
     const total = subtotal - totalDesc;
@@ -1388,6 +1392,8 @@ function renderCart() {
 
 function changeQty(idx, delta) { cart[idx].cantidad = Math.max(1, cart[idx].cantidad + delta); renderCart(); }
 function setQty(idx, val) { cart[idx].cantidad = Math.max(1, parseInt(val)||1); renderCart(); }
+function cambiarCantidadPos(idx, delta) { if (!cart[idx]) return; cart[idx].cantidad = Math.max(1, (cart[idx].cantidad || 1) + delta); recalcularDescuentosCarrito(); }
+function setCantidadPos(idx, val) { if (!cart[idx]) return; cart[idx].cantidad = Math.max(1, parseInt(val) || 1); recalcularDescuentosCarrito(); }
 function removeFromCart(idx) { cart.splice(idx, 1); renderCart(); }
 
 function cancelarVenta() {
@@ -1503,12 +1509,12 @@ async function loadHistVentas() {
     body.innerHTML = res.data.length ? '' : '<tr><td colspan="6" class="text-center text-muted py-3">Sin ventas</td></tr>';
     res.data.forEach(r => {
         body.innerHTML += `<tr>
-            <td class="text-muted small">#${r.id}</td>
-            <td class="small">${r.fecha}</td>
-            <td>${r.socio||'<span class="text-muted">—</span>'}</td>
-            <td><span class="badge bg-secondary">${r.canal}</span></td>
-            <td class="text-end">${r.num_items}</td>
-            <td class="text-end fw-semibold">${fmt(r.total)}</td>
+            <td class="text-muted small">#${Number(r.id)}</td>
+            <td class="small">${esc(r.fecha)}</td>
+            <td>${r.socio ? esc(r.socio) : '<span class="text-muted">—</span>'}</td>
+            <td><span class="badge badge-blue">${esc(r.canal)}</span></td>
+            <td class="text-end">${Number(r.num_items)}</td>
+            <td class="text-end fw-bold">${fmt(r.total)}</td>
         </tr>`;
     });
 }
