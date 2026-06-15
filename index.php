@@ -1603,7 +1603,7 @@ async function loadSocios() {
             <td>
                 <div class="acciones-socio" onclick="event.stopPropagation()">
                     <button class="btn btn-sm btn-outline-warning" title="Desactivar" onclick="desactivarMembresia(${r.socio_membresia_id})">⏸</button>
-                    <button class="btn btn-sm btn-danger" title="Eliminar titular y sus familiares" onclick="eliminarTitular(${r.socio_membresia_id}, '${r.nombre.replace(/'/g,"\\'")}', ${r.num_familiares || 0})">🗑️</button>
+                    <button class="btn btn-sm btn-danger" title="Eliminar titular y sus familiares" onclick="eliminarTitular(${r.socio_membresia_id}, ${JSON.stringify(r.nombre)}, ${r.num_familiares || 0})">🗑️</button>
                 </div>
             </td>
         </tr>`;
@@ -1620,22 +1620,22 @@ async function mostrarDetallesSocio(socio_membresia_id) {
 
     let html = `
         <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
-            <h5 class="mb-3">👤 ${titular.nombre}</h5>
+            <h5 class="mb-3">👤 ${esc(titular.nombre)}</h5>
             <div class="row g-3">
                 <div class="col-6">
-                    <div><strong>Número:</strong> ${titular.numero_socio}</div>
-                    <div><strong>Correo:</strong> ${titular.correo || '—'}</div>
-                    <div><strong>Teléfono:</strong> ${titular.telefono || '—'}</div>
+                    <div><strong>Número:</strong> ${esc(titular.numero_socio)}</div>
+                    <div><strong>Correo:</strong> ${titular.correo ? esc(titular.correo) : '—'}</div>
+                    <div><strong>Teléfono:</strong> ${titular.telefono ? esc(titular.telefono) : '—'}</div>
                 </div>
                 <div class="col-6">
-                    <div><strong>Membresía:</strong> <span class="badge" style="background:${colorMap[titular.tipo_membresia]||'#6B7280'};color:#fff;">${titular.tipo_membresia}</span></div>
-                    <div><strong>Vencimiento:</strong> ${titular.vencimiento}</div>
+                    <div><strong>Membresía:</strong> <span class="badge" style="background:${colorMap[titular.tipo_membresia]||'#6B7280'};color:#fff;">${esc(titular.tipo_membresia)}</span></div>
+                    <div><strong>Vencimiento:</strong> ${esc(titular.vencimiento)}</div>
                     <div><strong>Cashback:</strong> <span style="color: #10B981; font-weight: bold; font-size: 1.1rem;">${fmt(titular.saldo_cashback)}</span></div>
                 </div>
             </div>
             <div class="d-flex gap-2 mt-3">
                 <button class="btn btn-sm btn-primary" onclick="renovarMembresia(${titular.id})">🔄 Renovar Membresía</button>
-                <button class="btn btn-sm btn-danger" onclick="eliminarTitular(${titular.id}, '${titular.nombre.replace(/'/g,"\\'")}', ${familiares.length})">🗑️ Eliminar Titular</button>
+                <button class="btn btn-sm btn-danger" onclick="eliminarTitular(${titular.id}, ${JSON.stringify(titular.nombre)}, ${familiares.length})">🗑️ Eliminar Titular</button>
             </div>
         </div>
     `;
@@ -1647,13 +1647,13 @@ async function mostrarDetallesSocio(socio_membresia_id) {
             <tbody>`;
         familiares.forEach(f => {
             html += `<tr>
-                <td>${f.nombre}</td>
-                <td><small>${f.parentesco}</small></td>
-                <td><span class="badge" style="background:${colorMap[f.tipo_membresia]||'#6B7280'};color:#fff;">${f.tipo_membresia}</span></td>
+                <td>${esc(f.nombre)}</td>
+                <td><small>${esc(f.parentesco)}</small></td>
+                <td><span class="badge" style="background:${colorMap[f.tipo_membresia]||'#6B7280'};color:#fff;">${esc(f.tipo_membresia)}</span></td>
                 <td class="text-center">${f.es_complementaria == 1 ? '<span class="badge bg-success">Gratis</span>' : '<span class="text-muted">—</span>'}</td>
                 <td class="text-end">${fmt(f.saldo_cashback)}</td>
                 <td>
-                    <button class="btn btn-sm btn-danger" onclick="eliminarFamiliar(${f.socio_membresia_id}, '${f.nombre.replace(/'/g,"\\'")}', ${socio_membresia_id})">🗑️ Eliminar</button>
+                    <button class="btn btn-sm btn-danger" onclick="eliminarFamiliar(${f.socio_membresia_id}, ${JSON.stringify(f.nombre)}, ${socio_membresia_id})">🗑️ Eliminar</button>
                 </td>
             </tr>`;
         });
@@ -1666,7 +1666,7 @@ async function mostrarDetallesSocio(socio_membresia_id) {
     }
 
     document.getElementById('socioDetallesContent').innerHTML = html;
-    showSocioTab('detalles', document.querySelector('#section-socios .pill-tab:nth-child(3)'));
+    showSocioTab('detalles', document.querySelector('#section-socios .pill-tab[onclick*="detalles"]'));
 }
 
 function mostrarFormNuevo() {
@@ -1801,16 +1801,16 @@ async function loadFamiliares() {
             ? '<span class="badge bg-success">Gratis</span>'
             : '<span class="text-muted small">—</span>';
         body.innerHTML += `<tr>
-            <td><strong>${f.nombre}</strong></td>
-            <td class="text-muted">${f.numero_socio}</td>
-            <td class="small">${f.parentesco}</td>
-            <td><span class="badge" style="background:${colorMembresia};color:#fff;">${f.tipo_membresia}</span></td>
-            <td><strong>${f.titular_nombre}</strong><br><span class="text-muted small">${f.titular_numero_socio}</span></td>
+            <td><strong>${esc(f.nombre)}</strong></td>
+            <td class="text-muted">${esc(f.numero_socio)}</td>
+            <td class="small">${esc(f.parentesco)}</td>
+            <td><span class="badge" style="background:${colorMembresia};color:#fff;">${esc(f.tipo_membresia)}</span></td>
+            <td><strong>${esc(f.titular_nombre)}</strong><br><span class="text-muted small">${esc(f.titular_numero_socio)}</span></td>
             <td class="text-center">${complementariaTag}</td>
-            <td class="small">${f.vencimiento}</td>
+            <td class="small">${esc(f.vencimiento)}</td>
             <td class="text-end fw-semibold">${fmt(f.saldo_cashback)}</td>
             <td>
-                <button class="btn btn-sm btn-danger" onclick="eliminarFamiliar(${f.socio_membresia_id}, '${f.nombre.replace(/'/g,"\\'")}', ${f.cuenta_titular_id})" title="Eliminar familiar">🗑️</button>
+                <button class="btn btn-sm btn-danger" onclick="eliminarFamiliar(${f.socio_membresia_id}, ${JSON.stringify(f.nombre)}, ${f.cuenta_titular_id})" title="Eliminar familiar">🗑️</button>
             </td>
         </tr>`;
     });
