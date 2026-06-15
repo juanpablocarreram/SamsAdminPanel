@@ -385,15 +385,15 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
                 <div class="sam-table">
                     <table class="table mb-0">
                         <thead>
-                            <tr><th>#</th><th>Fecha</th><th>Canal</th><th class="text-end">Total</th></tr>
+                            <tr><th>#</th><th>Canal</th><th class="text-end">Total</th></tr>
                         </thead>
                         <tbody id="dash-ventas-body">
-                            <tr><td colspan="4" class="text-center py-3 text-muted">Cargando…</td></tr>
+                            <tr><td colspan="3" class="text-center py-3 text-muted">Cargando…</td></tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="mt-3">
-                    <button class="btn btn-sm btn-outline-primary" onclick="showSection('ventas')">Ver todas las ventas →</button>
+                    <a href="#" class="btn btn-sm btn-outline-primary" onclick="showSection('ventas'); return false;">Ver todas las ventas →</a>
                 </div>
             </div>
         </div>
@@ -1018,13 +1018,12 @@ async function loadDashboard() {
         dashBody.innerHTML = ventasRes.data.slice(0, 5).map(v =>
             `<tr>
                 <td class="text-muted small">#${v.id}</td>
-                <td class="small">${v.fecha ? v.fecha.slice(0,10) : '—'}</td>
                 <td><span class="badge badge-blue">${v.canal || '—'}</span></td>
                 <td class="text-end fw-bold">${fmt(v.total)}</td>
             </tr>`
         ).join('');
     } else {
-        dashBody.innerHTML = '<tr><td colspan="4" class="text-center text-muted py-3">Sin ventas registradas</td></tr>';
+        dashBody.innerHTML = '<tr><td colspan="3" class="text-center text-muted py-3">Sin ventas registradas</td></tr>';
         document.getElementById('dash-ingresos').textContent = fmt(0);
     }
 }
