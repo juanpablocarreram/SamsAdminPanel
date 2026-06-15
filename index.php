@@ -466,68 +466,27 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
      TAB 2 · SOCIOS
 ═══════════════════════════════════════════════ -->
 <div class="sam-section" id="section-socios">
-    <div style="display: flex; gap: 20px; height: 100%; align-items: flex-start;">
-        <!-- FORM PANEL -->
-        <div style="flex: 0 0 35%; min-width: 0;">
-            <div class="sam-form-card">
+    <div class="d-flex gap-4" style="align-items:flex-start;">
+        <div style="flex:0 0 340px; min-width:0;">
+            <div class="sam-card top-accent">
                 <div id="socioFormNuevo">
-                    <div class="section-title">👤 Nuevo Socio Titular</div>
-                    <div class="mb-3">
-                        <label class="form-label">Nombre completo</label>
-                        <input type="text" id="socioNombre" class="form-control" placeholder="Ej: Juan Pérez">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Correo electrónico</label>
-                        <input type="email" id="socioCorreo" class="form-control" placeholder="correo@ejemplo.com">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Teléfono</label>
-                        <input type="tel" id="socioTelefono" class="form-control" placeholder="+52 222 123 4567">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">🎫 Tipo de membresía</label>
-                        <select id="socioTipoMembresia" class="form-select">
-                            <option value="">Seleccionar tipo…</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">📅 Fecha de vencimiento</label>
-                        <input type="date" id="socioFechaFin" class="form-control">
-                    </div>
-                    <button class="btn btn-primary w-100 fw-bold" onclick="crearSocioTitular()">
-                        ✅ Registrar Socio Titular
-                    </button>
-                    <button class="btn btn-outline-secondary w-100 mt-2" onclick="mostrarFormFamiliar()">
-                        👨‍👩‍👧 Vincular Familiar
-                    </button>
+                    <span class="section-title">Nuevo Socio Titular</span>
+                    <div class="mb-3"><label class="form-label">Nombre completo</label><input type="text" id="socioNombre" class="form-control" placeholder="Ej: Juan Pérez"></div>
+                    <div class="mb-3"><label class="form-label">Correo electrónico</label><input type="email" id="socioCorreo" class="form-control" placeholder="correo@ejemplo.com"></div>
+                    <div class="mb-3"><label class="form-label">Teléfono</label><input type="tel" id="socioTelefono" class="form-control" placeholder="+52 222 123 4567"></div>
+                    <div class="mb-3"><label class="form-label">Tipo de membresía</label><select id="socioTipoMembresia" class="form-select"><option value="">Seleccionar tipo…</option></select></div>
+                    <div class="mb-3"><label class="form-label">Fecha de vencimiento</label><input type="date" id="socioFechaFin" class="form-control"></div>
+                    <button class="btn btn-primary w-100 mb-2" onclick="crearSocioTitular()">Registrar Socio Titular</button>
+                    <button class="btn btn-outline-secondary w-100" onclick="mostrarFormFamiliar()">Vincular Familiar</button>
                 </div>
-
-                <!-- FORM FAMILIAR -->
-                <div id="socioFormFamiliar" style="display: none;">
-                    <div class="section-title">👨‍👩‍👧 Vincular Familiar</div>
-                    <div class="mb-3">
-                        <label class="form-label">Socio Titular</label>
-                        <select id="socioTitularSel" class="form-select">
-                            <option value="">Seleccionar titular…</option>
-                        </select>
-                    </div>
-                    <div class="alert alert-info" style="font-size:.82rem; padding:10px 12px;">
-                        ℹ️ El familiar heredará automáticamente el <strong>tipo de membresía</strong> y la <strong>fecha de vencimiento</strong> del titular.
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Nombre del familiar</label>
-                        <input type="text" id="familiarNombre" class="form-control" placeholder="Nombre completo">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Correo electrónico</label>
-                        <input type="email" id="familiarCorreo" class="form-control" placeholder="correo@ejemplo.com">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Teléfono</label>
-                        <input type="tel" id="familiarTelefono" class="form-control" placeholder="+52 222 123 4567">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">👨‍👩‍👧 Parentesco</label>
+                <div id="socioFormFamiliar" style="display:none;">
+                    <span class="section-title">Vincular Familiar</span>
+                    <div class="mb-3"><label class="form-label">Socio Titular</label><select id="socioTitularSel" class="form-select"><option value="">Seleccionar titular…</option></select></div>
+                    <div class="alert alert-info mb-3">El familiar heredará el tipo de membresía y fecha de vencimiento del titular.</div>
+                    <div class="mb-3"><label class="form-label">Nombre del familiar</label><input type="text" id="familiarNombre" class="form-control" placeholder="Nombre completo"></div>
+                    <div class="mb-3"><label class="form-label">Correo electrónico</label><input type="email" id="familiarCorreo" class="form-control" placeholder="correo@ejemplo.com"></div>
+                    <div class="mb-3"><label class="form-label">Teléfono</label><input type="tel" id="familiarTelefono" class="form-control" placeholder="+52 222 123 4567"></div>
+                    <div class="mb-3"><label class="form-label">Parentesco</label>
                         <select id="familiarParentesco" class="form-select">
                             <option value="CONYUGE">Cónyuge</option>
                             <option value="HIJO">Hijo/a</option>
@@ -537,91 +496,48 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                            <input type="checkbox" id="familiarComplementaria">
-                            <span>¿Tarjeta complementaria gratis?</span>
+                        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:.85rem;font-weight:600;">
+                            <input type="checkbox" id="familiarComplementaria"> ¿Tarjeta complementaria gratis?
                         </label>
                         <small class="text-muted">Solo 1 complementaria gratis por titular.</small>
                     </div>
-                    <button class="btn btn-success w-100 fw-bold" onclick="crearSocioFamiliar()">
-                        ✅ Vincular Familiar
-                    </button>
-                    <button class="btn btn-outline-secondary w-100 mt-2" onclick="mostrarFormNuevo()">
-                        ↩️ Volver
-                    </button>
+                    <button class="btn btn-success w-100 mb-2" onclick="crearSocioFamiliar()">Vincular Familiar</button>
+                    <button class="btn btn-outline-secondary w-100" onclick="mostrarFormNuevo()">← Volver</button>
                 </div>
             </div>
         </div>
-
-        <!-- LISTADO Y DETALLES -->
-        <div style="flex: 1; min-width: 0; display: flex; flex-direction: column;">
-            <div class="d-flex justify-content-between align-items-center mb-2" style="gap: 12px; flex-shrink: 0;">
-                <h3 class="section-title mb-0" style="margin: 0; padding-bottom: 8px; border-bottom: 3px solid #FFC220; flex: 1;">👥 Socios Registrados</h3>
-                <div style="display: flex; gap: 6px;">
-                    <input type="text" id="sociosBuscar" class="form-control form-control-sm" placeholder="🔍 Buscar…" style="width: 200px;">
-                    <button class="btn btn-outline-primary btn-sm" onclick="loadSocios()">↺</button>
+        <div style="flex:1; min-width:0;">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <input type="text" id="sociosBuscar" class="form-control" placeholder="Buscar socio…" style="max-width:260px;">
+                <button class="btn btn-sm btn-outline-primary" onclick="loadSocios(); loadFamiliares();">↺ Actualizar</button>
+            </div>
+            <div class="pill-tabs">
+                <div class="pill-tab active" onclick="showSocioTab('listado', this)">Titulares</div>
+                <div class="pill-tab" onclick="showSocioTab('familiares', this)">Familiares</div>
+                <div class="pill-tab" onclick="showSocioTab('detalles', this)">Detalles</div>
+            </div>
+            <div id="socios-listado">
+                <div class="sam-table table-responsive">
+                    <table class="table table-sm table-hover mb-0">
+                        <thead><tr><th>#</th><th>Número</th><th>Nombre</th><th>Membresía</th><th class="text-center">Familiares</th><th>Vencimiento</th><th class="text-end">Cashback</th><th>Acciones</th></tr></thead>
+                        <tbody id="sociosBody"><tr><td colspan="8" class="text-center text-muted py-4">Cargando socios…</td></tr></tbody>
+                    </table>
                 </div>
             </div>
-
-            <ul class="nav nav-tabs mb-2" id="sociosTab" role="tablist" style="flex-shrink: 0;">
-                <li class="nav-item">
-                    <a class="nav-link active" id="tab-socios-list" data-bs-toggle="tab" href="#socios-listado" role="tab">📋 Titulares</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="tab-socios-familiares" data-bs-toggle="tab" href="#socios-familiares" role="tab">👨‍👩‍👧 Familiares</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="tab-socios-detalles" data-bs-toggle="tab" href="#socios-detalles" role="tab">👤 Detalles</a>
-                </li>
-            </ul>
-
-            <div class="tab-content" style="flex: 1; overflow-y: auto;">
-                <!-- Listado de titulares -->
-                <div class="tab-pane fade show active" id="socios-listado" role="tabpanel">
-                    <div class="sam-table table-responsive">
-                        <table class="table table-sm table-hover mb-0">
-                            <thead>
-                                <tr>
-                                    <th>#</th><th>Número</th><th>Nombre</th><th>Membresía</th>
-                                    <th class="text-center">Familiares</th><th>Vencimiento</th>
-                                    <th class="text-end">Cashback</th><th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody id="sociosBody">
-                                <tr><td colspan="8" class="text-center text-muted py-4">Cargando socios…</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
+            <div id="socios-familiares" style="display:none;">
+                <div class="d-flex gap-2 mb-3">
+                    <input type="text" id="familiarBuscar" class="form-control" placeholder="Buscar familiar…" style="max-width:300px;">
+                    <button class="btn btn-sm btn-outline-primary" onclick="loadFamiliares()">↺</button>
                 </div>
-
-                <!-- Listado de familiares -->
-                <div class="tab-pane fade" id="socios-familiares" role="tabpanel">
-                    <div class="d-flex gap-2 mb-3">
-                        <input type="text" id="familiarBuscar" class="form-control form-control-sm" placeholder="🔍 Buscar familiar…" style="max-width: 300px;">
-                        <button class="btn btn-outline-primary btn-sm" onclick="loadFamiliares()">↺</button>
-                    </div>
-                    <div class="sam-table table-responsive">
-                        <table class="table table-sm table-hover mb-0">
-                            <thead>
-                                <tr>
-                                    <th>Familiar</th><th>Número</th><th>Parentesco</th><th>Membresía</th>
-                                    <th>Titular</th><th class="text-center">Complem.</th>
-                                    <th>Vencimiento</th><th class="text-end">Cashback</th><th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody id="familiaresBody">
-                                <tr><td colspan="9" class="text-center text-muted py-4">Cargando familiares…</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="sam-table table-responsive">
+                    <table class="table table-sm table-hover mb-0">
+                        <thead><tr><th>Familiar</th><th>Número</th><th>Parentesco</th><th>Membresía</th><th>Titular</th><th class="text-center">Complem.</th><th>Vencimiento</th><th class="text-end">Cashback</th><th>Acciones</th></tr></thead>
+                        <tbody id="familiaresBody"><tr><td colspan="9" class="text-center text-muted py-4">Cargando familiares…</td></tr></tbody>
+                    </table>
                 </div>
-
-                <!-- Detalles de socio -->
-                <div class="tab-pane fade" id="socios-detalles" role="tabpanel">
-                    <div id="socioDetallesContent" class="text-center text-muted py-4">
-                        Selecciona un socio para ver los detalles
-                    </div>
-                </div>
+            </div>
+            <div id="socios-detalles" style="display:none;">
+                <div id="socioDetallesContent" class="text-center text-muted py-4">Selecciona un socio para ver los detalles</div>
             </div>
         </div>
     </div>
@@ -926,6 +842,17 @@ function showSection(name) {
     if (navItem) navItem.classList.add('active');
     document.getElementById('page-title').textContent = sectionTitles[name] || name;
     currentSection = name;
+}
+
+function showSocioTab(name, el) {
+    ['listado', 'familiares', 'detalles'].forEach(t => {
+        const pane = document.getElementById('socios-' + t);
+        if (pane) pane.style.display = 'none';
+    });
+    document.querySelectorAll('#section-socios .pill-tab').forEach(t => t.classList.remove('active'));
+    const pane = document.getElementById('socios-' + name);
+    if (pane) pane.style.display = 'block';
+    if (el) el.classList.add('active');
 }
 
 function refreshCurrentSection() {
@@ -1664,14 +1591,14 @@ async function loadSocios() {
     sociosData = res.data;
     body.innerHTML = res.data.length ? '' : '<tr><td colspan="8" class="text-center text-muted py-4">Sin socios registrados</td></tr>';
     res.data.forEach(r => {
-        const colorMembresia = {'CLASICA': '#6B7280', 'BENEFITS': '#003DA5', 'PLUS': '#7C3AED'}[r.tipo_membresia] || '#6B7280';
+        const membClass = r.tipo_membresia === 'PLUS' ? 'badge-purple' : r.tipo_membresia === 'BENEFITS' ? 'badge-blue' : 'badge-gray';
         body.innerHTML += `<tr style="cursor:pointer;" onclick="mostrarDetallesSocio(${r.socio_membresia_id})">
             <td class="text-muted small">#${r.socio_membresia_id}</td>
-            <td class="fw-semibold">${r.numero_socio}</td>
-            <td><strong>${r.nombre}</strong></td>
-            <td><span class="badge" style="background:${colorMembresia};color:#fff;">${r.tipo_membresia}</span></td>
+            <td class="fw-semibold">${esc(r.numero_socio)}</td>
+            <td><strong>${esc(r.nombre)}</strong></td>
+            <td><span class="badge ${membClass}">${esc(r.tipo_membresia)}</span></td>
             <td class="text-center"><strong>${r.num_familiares || 0}</strong></td>
-            <td class="small">${r.vencimiento}</td>
+            <td class="small">${esc(r.vencimiento)}</td>
             <td class="text-end fw-semibold">${fmt(r.saldo_cashback)}</td>
             <td>
                 <div class="acciones-socio" onclick="event.stopPropagation()">
@@ -1739,8 +1666,7 @@ async function mostrarDetallesSocio(socio_membresia_id) {
     }
 
     document.getElementById('socioDetallesContent').innerHTML = html;
-    const tab = new bootstrap.Tab(document.getElementById('tab-socios-detalles'));
-    tab.show();
+    showSocioTab('detalles', document.querySelector('#section-socios .pill-tab:nth-child(3)'));
 }
 
 function mostrarFormNuevo() {
