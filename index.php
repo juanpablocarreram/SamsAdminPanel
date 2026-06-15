@@ -152,7 +152,8 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
 .badge-yellow { background: #FEF3C7; color: #92400E; }
 .badge-gray   { background: #F3F4F6; color: #374151; }
 .badge-purple { background: #F5F3FF; color: var(--sam-purple); }
-.badge-gold   { background: var(--sam-yellow); color: var(--sam-dark); }
+.badge-gold   { background: var(--sam-yellow); color: var(--sam-dark); border-radius: 20px; font-size: .7rem; padding: 2px 8px; font-weight: 700; }
+.badge-promo  { background: #D1FAE5; color: #065F46; border-radius: 20px; font-size: .7rem; padding: 2px 8px; font-weight: 600; }
 .badge-tipo   { font-size: .72rem; padding: 3px 9px; }
 
 /* ── MEMBERSHIP PILL TOGGLES ── */
@@ -278,7 +279,11 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
 .text-center { text-align: center !important; }
 .fw-bold { font-weight: 700 !important; }
 .fw-semibold { font-weight: 600 !important; }
+.fw-600 { font-weight: 600; }
 .small { font-size: .82rem; }
+.text-xs { font-size: .72rem; }
+.text-nowrap { white-space: nowrap; }
+.sam-input { border: 1.5px solid var(--sam-border); border-radius: 8px; padding: 10px 13px; font-size: .9rem; }
 .d-flex { display: flex; }
 .d-none { display: none !important; }
 .align-items-center { align-items: center; }
@@ -427,32 +432,32 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
      TAB 1 · INVENTARIO
 ═══════════════════════════════════════════════ -->
 <div class="sam-section" id="section-inventario">
-    <div class="row g-3 mb-4" id="invStats">
-        <div class="col-6 col-md-3"><div class="stat-card"><h3 id="st-total">—</h3><p>Total productos</p></div></div>
-        <div class="col-6 col-md-3"><div class="stat-card green"><h3 id="st-stock">—</h3><p>Con existencia</p></div></div>
-        <div class="col-6 col-md-3"><div class="stat-card red"><h3 id="st-sin">—</h3><p>Sin existencia</p></div></div>
-        <div class="col-6 col-md-3"><div class="stat-card yellow"><h3 id="st-promo">—</h3><p>Con promoción activa</p></div></div>
-    </div>
-    <div class="d-flex align-items-center gap-3 mb-4">
-        <div style="flex: 1; max-width: 400px;">
-            <input id="invSearch" type="text" class="form-control" placeholder="🔍  Buscar por nombre, SKU o marca…">
+    <div class="sam-card mb-3">
+        <div class="d-flex align-items-center gap-3">
+            <input type="text" id="invSearch" class="form-control sam-input" placeholder="🔍  Buscar por nombre, SKU o marca…" oninput="clearTimeout(invTimer);invTimer=setTimeout(()=>loadInventario(this.value),350)">
+            <div class="text-nowrap text-muted small" id="invCount"></div>
         </div>
-        <button class="btn btn-primary fw-bold" onclick="loadInventario()">↺ Actualizar</button>
     </div>
-    <div class="sam-table table-responsive">
-        <table class="table table-hover mb-0" id="invTable">
-            <thead>
-                <tr>
-                    <th>SKU</th><th>Nombre</th><th>Marca</th><th>Tipo</th>
-                    <th>Categoría</th><th class="text-end">Precio</th>
-                    <th class="text-end">Stock Piso</th><th class="text-end">Stock Reserva</th>
-                    <th>Promoción</th>
-                </tr>
-            </thead>
-            <tbody id="invBody">
-                <tr><td colspan="9" class="text-center py-4 text-muted">Cargando inventario…</td></tr>
-            </tbody>
-        </table>
+
+    <div class="sam-card">
+        <div class="sam-table">
+            <table class="table mb-0" id="invTable">
+                <thead>
+                    <tr>
+                        <th>SKU</th>
+                        <th>Nombre</th>
+                        <th>Marca / Cat.</th>
+                        <th class="text-center">Stock Piso</th>
+                        <th class="text-center">Stock Reserva</th>
+                        <th class="text-end">Precio</th>
+                        <th>Promo</th>
+                    </tr>
+                </thead>
+                <tbody id="invBody">
+                    <tr><td colspan="7" class="text-center py-4 text-muted">Cargando…</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
@@ -925,7 +930,7 @@ function showSection(name) {
 function refreshCurrentSection() {
     const map = {
         dashboard:   loadDashboard,
-        inventario:  () => { loadInventario(); loadInvStats(); },
+        inventario:  () => { loadInventario(); },
         socios:      loadSocios,
         promociones: loadPromos,
         compras:     loadHistCompra,
@@ -1035,41 +1040,42 @@ async function loadDashboard() {
 // ═══════════════════════════════════════════
 // TAB 1 · INVENTARIO
 // ═══════════════════════════════════════════
-async function loadInventario() {
-    const q = document.getElementById('invSearch').value;
+async function loadInventario(q = '') {
+    if (q === '' || q === undefined) {
+        const el = document.getElementById('invSearch');
+        if (el) q = el.value;
+    }
     const body = document.getElementById('invBody');
-    body.innerHTML = '<tr><td colspan="9" class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary"></div></td></tr>';
+    body.innerHTML = '<tr><td colspan="7" class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary"></div></td></tr>';
     const res = await api('inventario.php?action=list&q=' + encodeURIComponent(q));
     if (!res.success) { toast(res.error,'error'); return; }
-    body.innerHTML = res.data.length ? '' : '<tr><td colspan="9" class="text-center text-muted py-4">Sin resultados</td></tr>';
-    res.data.forEach(r => {
-        const tipoColor = {BULK:'secondary',PERECEDERO:'warning',CONGELADO:'info',ROPA:'light',ELECTRONICA:'dark',SERVICIO:'success'}[r.tipo]||'secondary';
-        const promo = r.promo_nombre ? `<span class="badge badge-promo">${r.promo_nombre}${r.descuento_pct>0?' -'+r.descuento_pct+'%':''}</span>` : '<span class="text-muted small">—</span>';
-        const mm = r.es_members_mark=='1'?'<span class="badge badge-members ms-1">MM</span>':'';
-        const stockClass = r.stock_total==0?'text-danger fw-bold':'';
-        body.innerHTML += `<tr>
-            <td class="text-muted small">${r.sku}</td>
-            <td><strong>${r.nombre}</strong>${mm}</td>
-            <td>${r.marca||'—'}</td>
-            <td><span class="badge text-bg-${tipoColor} badge-tipo">${r.tipo}</span></td>
-            <td class="small">${r.categoria||'—'}</td>
-            <td class="text-end fw-semibold">${fmt(r.precio_actual)}</td>
-            <td class="text-end ${stockClass}">${parseFloat(r.stock_piso).toFixed(0)}</td>
-            <td class="text-end">${parseFloat(r.stock_reserva).toFixed(0)}</td>
-            <td>${promo}</td>
-        </tr>`;
-    });
+    const data = res.data;
+    body.innerHTML = data.length ? '' : '<tr><td colspan="7" class="text-center text-muted py-4">Sin resultados</td></tr>';
+    body.innerHTML += data.map(p => `<tr>
+    <td class="text-muted small">${p.sku}</td>
+    <td>
+        <span class="fw-600">${p.nombre}</span>
+        ${p.es_members_mark == 1 ? '<span class="badge badge-gold ms-1">Member\'s Mark</span>' : ''}
+    </td>
+    <td class="small text-muted">${p.marca}<br><span class="text-xs">${p.categoria || ''}</span></td>
+    <td class="text-center ${p.stock_piso == 0 ? 'text-danger fw-bold' : ''}">${p.stock_piso}</td>
+    <td class="text-center text-muted">${p.stock_reserva}</td>
+    <td class="text-end">${fmt(p.precio_actual)}</td>
+    <td>${p.promo_nombre ? `<span class="badge badge-promo">${p.descuento_pct > 0 ? p.descuento_pct+'%' : '$'+p.descuento_monto} ${p.promo_nombre}</span>` : '<span class="text-muted small">—</span>'}</td>
+</tr>`).join('');
+    const countEl = document.getElementById('invCount');
+    if (countEl) countEl.textContent = data.length + ' producto' + (data.length !== 1 ? 's' : '');
 }
 async function loadInvStats() {
     const res = await api('inventario.php?action=stats');
     if (!res.success) return;
-    document.getElementById('st-total').textContent = res.data.total_productos;
-    document.getElementById('st-stock').textContent = res.data.con_stock;
-    document.getElementById('st-sin').textContent   = res.data.sin_stock;
-    document.getElementById('st-promo').textContent = res.data.con_promo;
+    const el = (id) => document.getElementById(id);
+    if (el('st-total')) el('st-total').textContent = res.data.total_productos;
+    if (el('st-stock')) el('st-stock').textContent = res.data.con_stock;
+    if (el('st-sin'))   el('st-sin').textContent   = res.data.sin_stock;
+    if (el('st-promo')) el('st-promo').textContent = res.data.con_promo;
 }
 let invTimer;
-document.getElementById('invSearch').addEventListener('input', () => { clearTimeout(invTimer); invTimer = setTimeout(loadInventario, 350); });
 
 // ═══════════════════════════════════════════
 // TAB 2 · PROMOCIONES
@@ -1889,7 +1895,6 @@ document.addEventListener('DOMContentLoaded', () => {
     showSection('dashboard');
     loadDashboard();
     loadInventario();
-    loadInvStats();
     loadProductosPromo();
     loadPromos();
     loadTiposMembresia();
