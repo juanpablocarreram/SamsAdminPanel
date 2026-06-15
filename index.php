@@ -104,7 +104,7 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
 .sam-table { background: var(--sam-card); border-radius: 12px; overflow: hidden; border: 1px solid var(--sam-border); }
 .sam-table .table { margin-bottom: 0; }
 .sam-table thead th {
-    background: var(--sam-dark); color: #fff; font-size: .75rem;
+    background: var(--sam-dark); color: #fff; font-size: .78rem;
     letter-spacing: .5px; text-transform: uppercase; border: none; padding: 13px 16px; font-weight: 700;
 }
 .sam-table tbody tr { border-bottom: 1px solid var(--sam-border); transition: background .15s ease; }
@@ -112,6 +112,7 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
 .sam-table tbody tr:hover { background: var(--sam-hover); }
 .sam-table td { vertical-align: middle; font-size: .9rem; padding: 14px 16px; color: #374151; border: none; }
 .sam-table td strong { color: var(--sam-dark); font-weight: 600; }
+.stock-zero { color: var(--sam-red); }
 
 /* ── FORMS ── */
 .form-label { font-size: .85rem; font-weight: 600; color: var(--sam-dark); margin-bottom: 6px; display: block; }
@@ -1058,7 +1059,7 @@ async function loadInventario(q = '') {
         ${p.es_members_mark == 1 ? '<span class="badge badge-gold ms-1">Member\'s Mark</span>' : ''}
     </td>
     <td class="small text-muted">${p.marca}<br><span class="text-xs">${p.categoria || ''}</span></td>
-    <td class="text-center ${p.stock_piso == 0 ? 'text-danger fw-bold' : ''}">${p.stock_piso}</td>
+    <td class="text-center ${p.stock_piso == 0 ? 'stock-zero fw-bold' : ''}">${p.stock_piso}</td>
     <td class="text-center text-muted">${p.stock_reserva}</td>
     <td class="text-end">${fmt(p.precio_actual)}</td>
     <td>${p.promo_nombre ? `<span class="badge badge-promo">${p.descuento_pct > 0 ? p.descuento_pct+'%' : '$'+p.descuento_monto} ${p.promo_nombre}</span>` : '<span class="text-muted small">—</span>'}</td>
