@@ -466,7 +466,7 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
      TAB 2 · SOCIOS
 ═══════════════════════════════════════════════ -->
 <div class="sam-section" id="section-socios">
-    <div class="d-flex gap-4" style="align-items:flex-start;">
+    <div class="d-flex gap-4" style="align-items:flex-start;gap:24px;">
         <div style="flex:0 0 340px; min-width:0;">
             <div class="sam-card top-accent">
                 <div id="socioFormNuevo">
