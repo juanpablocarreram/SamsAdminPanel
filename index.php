@@ -591,52 +591,36 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
      TAB 4 · COMPRAS
 ═══════════════════════════════════════════════ -->
 <div class="sam-section" id="section-compras">
-    <div style="display: flex; gap: 20px; align-items: flex-start;">
-        <div style="flex: 1; min-width: 0;">
-            <div class="sam-form-card">
-                <div class="section-title">Registrar Recepción de Mercancía</div>
-                <div class="mb-3">
-                    <label class="form-label">Proveedor</label>
-                    <select id="compraProveedor" class="form-select"><option value="">Seleccionar proveedor…</option></select>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Zona de destino</label>
-                    <select id="compraZona" class="form-select"><option value="">Seleccionar zona…</option></select>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">¿Es reserva?</label>
+    <div class="d-flex gap-4" style="align-items:flex-start;">
+        <div style="flex:1; min-width:0;">
+            <div class="sam-card top-accent">
+                <span class="section-title">Registrar Recepción de Mercancía</span>
+                <div class="mb-3"><label class="form-label">Proveedor</label><select id="compraProveedor" class="form-select"><option value="">Seleccionar proveedor…</option></select></div>
+                <div class="mb-3"><label class="form-label">Zona de destino</label><select id="compraZona" class="form-select"><option value="">Seleccionar zona…</option></select></div>
+                <div class="mb-3"><label class="form-label">¿Es reserva?</label>
                     <select id="compraEsReserva" class="form-select">
                         <option value="0">No (Piso de venta)</option>
                         <option value="1">Sí (Bodega / Reserva)</option>
                     </select>
                 </div>
-                <hr class="my-2">
-                <div class="section-title" style="margin-bottom: 12px; font-size: 0.95rem;">Agregar Productos</div>
-                <div class="mb-3">
-                    <label class="form-label">Producto</label>
-                    <select id="compraProductoSel" class="form-select"><option value="">Seleccionar producto…</option></select>
+                <hr style="border-color:var(--sam-border);margin:16px 0;">
+                <span class="section-title">Agregar Productos</span>
+                <div class="mb-3"><label class="form-label">Producto</label><select id="compraProductoSel" class="form-select"><option value="">Seleccionar producto…</option></select></div>
+                <div class="d-flex gap-3 mb-3">
+                    <div style="flex:1;"><label class="form-label">Cantidad</label><input type="number" id="compraCantidad" class="form-control" placeholder="1" min="1"></div>
+                    <div style="flex:1;"><label class="form-label">Precio costo</label><input type="number" id="compraPrecio" class="form-control" placeholder="0.00" step="0.01" min="0"></div>
                 </div>
-                <div style="display: flex; gap: 12px; margin-bottom: 12px;">
-                    <div style="flex: 1;">
-                        <label class="form-label">Cantidad</label>
-                        <input type="number" id="compraCantidad" class="form-control" placeholder="1" min="1">
-                    </div>
-                    <div style="flex: 1;">
-                        <label class="form-label">Precio costo</label>
-                        <input type="number" id="compraPrecio" class="form-control" placeholder="0.00" step="0.01" min="0">
-                    </div>
-                </div>
-                <button class="btn btn-success w-100 mb-3" onclick="agregarItemCompra()">➕ Agregar a lista</button>
-                <div class="section-title" style="margin-bottom: 12px;">Items Agregados</div>
-                <div style="margin-bottom: 12px; border-radius: 8px; border: 1px solid var(--sam-border); overflow: hidden;">
-                    <table class="table table-sm mb-0 compra-items-table">
+                <button class="btn btn-success w-100 mb-3" onclick="agregarItemCompra()">+ Agregar a lista</button>
+                <span class="section-title">Items Agregados</span>
+                <div class="compra-items-sub">
+                    <table class="table table-sm mb-0">
                         <thead>
-                            <tr>
-                                <th>Producto</th>
-                                <th style="width: 90px;" class="text-center">Cantidad</th>
-                                <th style="width: 110px;" class="text-center">Precio costo</th>
-                                <th style="width: 90px;" class="text-end">Total</th>
-                                <th style="width: 38px;"></th>
+                            <tr style="background:var(--sam-dark);">
+                                <th style="color:#fff;font-size:.72rem;padding:10px 12px;text-transform:uppercase;border:none;">Producto</th>
+                                <th style="color:#fff;font-size:.72rem;padding:10px 12px;text-transform:uppercase;border:none;width:90px;" class="text-center">Cant.</th>
+                                <th style="color:#fff;font-size:.72rem;padding:10px 12px;text-transform:uppercase;border:none;width:110px;" class="text-center">Precio costo</th>
+                                <th style="color:#fff;font-size:.72rem;padding:10px 12px;text-transform:uppercase;border:none;width:90px;" class="text-end">Total</th>
+                                <th style="color:#fff;border:none;width:38px;"></th>
                             </tr>
                         </thead>
                         <tbody id="compraItemsBody">
@@ -644,25 +628,19 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
                         </tbody>
                     </table>
                 </div>
-                <div class="mb-3 p-3 bg-light border rounded">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="fw-semibold text-dark" id="compraTotalUnidades">Total: 0 unidades</span>
-                        <span class="fw-bold text-primary" id="compraTotalCosto" style="font-size:1rem;">$0.00</span>
-                    </div>
+                <div class="compra-total-row">
+                    <span style="font-weight:600;" id="compraTotalUnidades">Total: 0 unidades</span>
+                    <span style="font-size:1.1rem;font-weight:700;color:var(--sam-blue);" id="compraTotalCosto">$0.00</span>
                 </div>
-                <button class="btn btn-primary w-100 fw-bold" onclick="procesarCompra()">✅ Registrar Compra</button>
+                <button class="btn btn-primary w-100" onclick="procesarCompra()">Registrar Compra</button>
             </div>
         </div>
-        <div style="flex: 0 0 35%; min-width: 0;">
-            <h3 class="section-title mb-2" style="margin-top: 0;">📋 Recepciones Recientes</h3>
+        <div style="flex:0 0 340px; min-width:0;">
+            <span class="section-title">Recepciones Recientes</span>
             <div class="sam-table table-responsive">
                 <table class="table table-sm table-hover mb-0">
-                    <thead>
-                        <tr><th>Fecha</th><th>Producto</th><th class="text-end">Cant.</th><th>Proveedor</th></tr>
-                    </thead>
-                    <tbody id="histCompraBody">
-                        <tr><td colspan="4" class="text-center text-muted py-3">Cargando…</td></tr>
-                    </tbody>
+                    <thead><tr><th>Fecha</th><th>Producto</th><th class="text-end">Cant.</th><th>Proveedor</th></tr></thead>
+                    <tbody id="histCompraBody"><tr><td colspan="4" class="text-center text-muted py-3">Cargando…</td></tr></tbody>
                 </table>
             </div>
         </div>
@@ -1173,12 +1151,12 @@ function renderCompraItems() {
     }
     body.innerHTML = compraItems.map((it, i) => {
         const sub = (it.cantidad || 0) * (it.precio_costo || 0);
-        return `<tr class="compra-item-row">
-            <td><strong style="font-size:.85rem">[${it.sku}]</strong><span style="font-size:.85rem"> ${it.nombre}</span></td>
-            <td class="text-center"><input type="number" value="${it.cantidad}" min="1" step="1" style="width:75px;" onchange="updateCompraItem(${i},'cantidad',this.value)" oninput="updateCompraItem(${i},'cantidad',this.value)"></td>
-            <td class="text-center"><input type="number" value="${it.precio_costo || ''}" min="0" step="0.01" placeholder="0.00" style="width:90px;" onchange="updateCompraItem(${i},'precio_costo',this.value)" oninput="updateCompraItem(${i},'precio_costo',this.value)"></td>
-            <td class="text-end subtotal-cell" id="sub-compra-${i}">${sub > 0 ? fmt(sub) : '—'}</td>
-            <td class="text-center"><button class="btn btn-sm btn-outline-danger" style="padding:3px 8px;" onclick="removeCompraItem(${i})">✕</button></td>
+        return `<tr>
+            <td><strong style="font-size:.85rem;">${esc(it.sku ? '['+it.sku+'] ' : '')}${esc(it.nombre)}</strong></td>
+            <td class="text-center"><input type="number" class="compra-item-input" value="${Number(it.cantidad)}" min="1" step="1" style="width:70px;" onchange="updateCompraItem(${i},'cantidad',this.value)" oninput="updateCompraItem(${i},'cantidad',this.value)"></td>
+            <td class="text-center"><input type="number" class="compra-item-input" value="${it.precio_costo || ''}" min="0" step="0.01" placeholder="0.00" style="width:85px;" onchange="updateCompraItem(${i},'precio_costo',this.value)" oninput="updateCompraItem(${i},'precio_costo',this.value)"></td>
+            <td class="text-end" style="font-weight:700;color:var(--sam-blue);" id="sub-compra-${i}">${sub > 0 ? fmt(sub) : '—'}</td>
+            <td class="text-center"><button class="btn btn-sm" style="color:var(--sam-red);padding:3px 8px;" onclick="removeCompraItem(${i})">✕</button></td>
         </tr>`;
     }).join('');
     actualizarTotalesCompra();
@@ -1219,8 +1197,8 @@ async function loadHistCompra() {
     body.innerHTML = res.data.length ? '' : '<tr><td colspan="4" class="text-center text-muted py-3">Sin registros</td></tr>';
     res.data.forEach(r => {
         body.innerHTML += `<tr>
-            <td class="small">${r.fecha}</td><td><strong>${r.producto}</strong></td>
-            <td class="text-end">${r.cantidad}</td><td class="small">${r.proveedor||'—'}</td>
+            <td class="small">${esc(r.fecha)}</td><td><strong>${esc(r.producto)}</strong></td>
+            <td class="text-end">${Number(r.cantidad)}</td><td class="small">${esc(r.proveedor||'—')}</td>
         </tr>`;
     });
 }
