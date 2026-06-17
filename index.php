@@ -269,6 +269,17 @@ input[type=number].form-control::-webkit-inner-spin-button { opacity: .4; }
     transition: all .15s; display: flex; align-items: center; justify-content: center; gap: 6px;
 }
 .btn-add:hover { border-color: var(--sam-blue); color: var(--sam-blue); background: rgba(77,139,255,.06); }
+.btn-add-dark {
+    background: rgba(255,255,255,.04) !important;
+    border-color: rgba(255,255,255,.1) !important;
+    color: rgba(255,255,255,.45) !important;
+    margin-top: 8px;
+}
+.btn-add-dark:hover {
+    border-color: rgba(255,194,32,.4) !important;
+    color: var(--sam-yellow) !important;
+    background: rgba(255,194,32,.05) !important;
+}
 
 /* ── BUTTONS ── */
 .btn { font-weight: 600; padding: 9px 17px; border-radius: 8px; transition: all .15s ease; font-size: .83rem; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 5px; }
@@ -344,19 +355,22 @@ input[type=number].form-control::-webkit-inner-spin-button { opacity: .4; }
 .pos-terminal-body { flex: 1; overflow-y: auto; padding: 16px 18px; display: flex; flex-direction: column; gap: 14px; }
 .pos-terminal-footer { padding: 15px 18px; border-top: 1px solid rgba(255,255,255,.07); display: flex; flex-direction: column; gap: 8px; }
 .input-dark {
-    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+    background-color: #0D1117 !important; border: 1px solid rgba(255,255,255,.12);
     border-radius: 7px; color: #fff; padding: 0 11px; font-size: .84rem; width: 100%;
-    height: 36px; min-height: 36px; line-height: 36px;
+    height: 36px; min-height: 36px; line-height: 36px; appearance: none;
 }
-.input-dark::placeholder { color: rgba(255,255,255,.22); }
-.input-dark:focus { outline: none; border-color: rgba(255,194,32,.5); background: rgba(255,255,255,.07); }
+.input-dark::placeholder { color: rgba(255,255,255,.3); }
+.input-dark:focus { outline: none; border-color: rgba(255,194,32,.55); box-shadow: 0 0 0 2px rgba(255,194,32,.1); }
 .select-dark {
-    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
-    border-radius: 7px; color: #fff; padding: 0 11px; font-size: .84rem; width: 100%;
+    background-color: #0D1117 !important; border: 1px solid rgba(255,255,255,.12);
+    border-radius: 7px; color: #fff; padding: 0 30px 0 11px; font-size: .84rem; width: 100%;
     height: 36px; min-height: 36px; line-height: 36px;
+    appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23848D97' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important; background-position: right 10px center !important; background-size: 9px !important;
 }
 .select-dark option { background: #0D1117; color: #fff; }
-.select-dark:focus { outline: none; border-color: rgba(255,194,32,.5); }
+.select-dark:focus { outline: none; border-color: rgba(255,194,32,.55); box-shadow: 0 0 0 2px rgba(255,194,32,.1); }
 .pos-label { font-size: .66rem; font-weight: 700; color: rgba(255,255,255,.32); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 8px; }
 .pos-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,.05); }
 .pos-row:last-child { border-bottom: none; }
@@ -458,6 +472,40 @@ input[type=number].form-control::-webkit-inner-spin-button { opacity: .4; }
 .acciones-socio { display: flex; gap: 6px; flex-wrap: nowrap; }
 #cambioInfo { font-size: .82rem; font-weight: 600; color: var(--sam-green); margin-top: 4px; }
 .todos-check-wrap label { font-size: .82rem; font-weight: 600; color: var(--sam-muted); cursor: pointer; display: flex; align-items: center; gap: 8px; }
+/* ── ICON ACTION BUTTONS ── */
+.btn-icon {
+    width: 30px; height: 30px; border-radius: 7px; border: 1px solid;
+    background: transparent; cursor: pointer; display: inline-flex;
+    align-items: center; justify-content: center; font-size: .8rem;
+    transition: all .15s; flex-shrink: 0; line-height: 1;
+}
+.btn-icon-warn     { border-color: rgba(255,194,32,.3); color: var(--sam-yellow); }
+.btn-icon-warn:hover { background: rgba(255,194,32,.12); border-color: rgba(255,194,32,.6); }
+.btn-icon-danger   { border-color: rgba(255,107,107,.3); color: var(--sam-red); }
+.btn-icon-danger:hover { background: rgba(255,107,107,.12); border-color: rgba(255,107,107,.6); }
+.btn-icon-primary  { border-color: rgba(77,139,255,.3); color: var(--sam-blue); }
+.btn-icon-primary:hover { background: rgba(77,139,255,.12); border-color: rgba(77,139,255,.6); }
+.btn-icon-success  { border-color: rgba(63,185,80,.3); color: var(--sam-green); }
+.btn-icon-success:hover { background: rgba(63,185,80,.12); border-color: rgba(63,185,80,.6); }
+
+/* ── CELL HELPERS ── */
+.badges-cell { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.cell-actions { display: flex; gap: 5px; align-items: center; flex-wrap: nowrap; }
+.sam-table td.td-action { width: 1px; white-space: nowrap; padding-right: 16px; }
+
+/* ── SOCIO DETAIL PANEL ── */
+.socio-detail-card { background: #13181F; padding: 20px 22px; border-radius: 10px; margin-bottom: 20px; border: 1px solid var(--sam-border); }
+.socio-detail-name { font-size: 1.05rem; font-weight: 700; color: var(--sam-text); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--sam-border); }
+.socio-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 28px; }
+.socio-detail-item-label { color: var(--sam-muted); font-size: .67rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; display: block; margin-bottom: 3px; }
+.socio-detail-item-val { font-size: .865rem; color: var(--sam-text); font-weight: 500; }
+.socio-detail-cashback { color: var(--sam-green); font-weight: 700; font-size: 1.1rem; }
+.socio-detail-actions { display: flex; gap: 8px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--sam-border); }
+
+/* ── PAGO ROW (POS payment) ── */
+.pago-row { display: flex; gap: 8px; align-items: center; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,.05); }
+.pago-row:last-child { border-bottom: none; }
+
 @media (max-width: 900px) { .sam-main { margin-left: 0; padding: 13px; } .sam-sidebar { display: none; } .pos-terminal { flex: 0 0 260px; } }
     </style>
 </head>
@@ -977,7 +1025,7 @@ input[type=number].form-control::-webkit-inner-spin-button { opacity: .4; }
             <div>
                 <div class="pos-label">Método de Pago</div>
                 <div id="pagosContainer"></div>
-                <button class="btn-add" style="margin-top:6px;border-color:rgba(255,255,255,.12);color:rgba(255,255,255,.5);" onmouseover="this.style.borderColor='rgba(255,194,32,.4)';this.style.color='#FFC220';this.style.background='rgba(255,194,32,.05)';" onmouseout="this.style.borderColor='rgba(255,255,255,.12)';this.style.color='rgba(255,255,255,.5)';this.style.background='';" onclick="agregarPago()">+ Agregar método de pago</button>
+                <button class="btn-add btn-add-dark" onclick="agregarPago()">+ Agregar método de pago</button>
                 <div id="pagoResumen" class="mt-2 d-none">
                     <span>Pagado: <strong id="pagoTotalIngresado">$0.00</strong></span>
                     <span id="pagoEstado"></span>
@@ -1261,29 +1309,44 @@ async function loadPromos() {
     if (!res.success) { toast(res.error,'error'); return; }
     body.innerHTML = res.data.length ? '' : '<tr><td colspan="9" class="text-center text-muted py-4">Sin promociones</td></tr>';
     res.data.forEach(r => {
-        const badge = r.activo == 1
-            ? '<span style="display:inline-flex;align-items:center;gap:5px;font-size:.82rem;font-weight:600;color:var(--sam-green);">● Activa</span>'
-            : '<span style="display:inline-flex;align-items:center;gap:5px;font-size:.82rem;font-weight:600;color:var(--sam-muted);">● Inactiva</span>';
+        const isActivo = r.activo == 1;
+        const statusBadge = isActivo
+            ? '<span class="badge badge-green" style="gap:5px;display:inline-flex;align-items:center;"><span style="width:5px;height:5px;border-radius:50%;background:currentColor;display:inline-block;"></span>Activa</span>'
+            : '<span class="badge badge-gray" style="gap:5px;display:inline-flex;align-items:center;"><span style="width:5px;height:5px;border-radius:50%;background:currentColor;display:inline-block;"></span>Inactiva</span>';
         let membTag = '';
-        if (r.aplica_a_todos == '1') { membTag = '<span class="badge badge-gray">Todos</span>'; }
-        else if (r.membresias_aplicables) {
-            membTag = r.membresias_aplicables.split(', ').map(m => {
-                const style = m === 'PLUS' ? 'background:#7C3AED;' : (m === 'BENEFITS' ? 'background:#003DA5;' : 'background:#6B7280;');
-                return `<span class="badge" style="font-size:.7rem;${style}color:#fff;">${esc(m)}</span>`;
-            }).join(' ');
-        } else { membTag = '<span class="text-muted small">—</span>'; }
+        if (r.aplica_a_todos == '1') {
+            membTag = '<span class="badge badge-blue">Todos</span>';
+        } else if (r.membresias_aplicables) {
+            const badges = r.membresias_aplicables.split(', ').map(m => {
+                const cls = m === 'PLUS' ? 'badge-purple' : (m === 'BENEFITS' ? 'badge-blue' : 'badge-gray');
+                return `<span class="badge ${cls}">${esc(m)}</span>`;
+            }).join('');
+            membTag = `<div class="badges-cell">${badges}</div>`;
+        } else {
+            membTag = '<span class="text-muted">—</span>';
+        }
+        const descPct   = Number(r.descuento_pct)   > 0 ? `<span class="badge badge-yellow">${Number(r.descuento_pct)}%</span>`    : '<span class="text-muted">—</span>';
+        const descMonto = Number(r.descuento_monto)  > 0 ? `<span class="badge badge-green">${fmt(r.descuento_monto)}</span>` : '<span class="text-muted">—</span>';
         body.innerHTML += `<tr>
-            <td class="text-muted small">${Number(r.id)}</td>
-            <td><strong>${esc(r.producto_nombre)}</strong><br><span class="text-muted small">${esc(r.sku)}</span></td>
-            <td>${esc(r.nombre_promo)}</td>
-            <td class="text-end">${Number(r.descuento_pct)>0?Number(r.descuento_pct)+'%':'—'}</td>
-            <td class="text-end">${Number(r.descuento_monto)>0?fmt(r.descuento_monto):'—'}</td>
-            <td class="small">${esc(r.fecha_inicio||'—')}<br>al ${esc(r.fecha_fin||'—')}</td>
-            <td>${membTag}</td>
-            <td>${badge}</td>
+            <td class="td-num">${Number(r.id)}</td>
             <td>
-                <button class="btn btn-outline-warning btn-sm me-1" onclick="togglePromo(${Number(r.id)})">${r.activo=='1'?'⏸ Desactivar':'▶ Activar'}</button>
-                <button class="btn btn-outline-danger btn-sm" onclick="deletePromo(${Number(r.id)})">Eliminar</button>
+                <span class="fw-semibold">${esc(r.producto_nombre)}</span><br>
+                <span class="text-muted text-xs">${esc(r.sku)}</span>
+            </td>
+            <td>${esc(r.nombre_promo)}</td>
+            <td class="text-end">${descPct}</td>
+            <td class="text-end">${descMonto}</td>
+            <td class="text-muted small">
+                ${esc(r.fecha_inicio||'—')}<br>
+                <span style="color:var(--sam-muted);font-size:.68rem;">hasta</span> ${esc(r.fecha_fin||'—')}
+            </td>
+            <td>${membTag}</td>
+            <td>${statusBadge}</td>
+            <td class="td-action">
+                <div class="cell-actions">
+                    <button class="btn-icon ${isActivo ? 'btn-icon-warn' : 'btn-icon-success'}" title="${isActivo ? 'Desactivar' : 'Activar'}" onclick="togglePromo(${Number(r.id)})">${isActivo ? '⏸' : '▶'}</button>
+                    <button class="btn-icon btn-icon-danger" title="Eliminar promoción" onclick="deletePromo(${Number(r.id)})">✕</button>
+                </div>
             </td>
         </tr>`;
     });
@@ -1652,16 +1715,16 @@ function cancelarVenta() {
 function agregarPago() {
     const c = document.getElementById('pagosContainer');
     const d = document.createElement('div');
-    d.className = 'pago-row d-flex gap-2 mb-2';
-    d.innerHTML = `<select class="select-dark pago-metodo" onchange="actualizarResumenPago()" style="flex:1;">
+    d.className = 'pago-row';
+    d.innerHTML = `<select class="select-dark pago-metodo" onchange="actualizarResumenPago()" style="flex:1;min-width:0;">
         <option value="EFECTIVO">Efectivo</option>
         <option value="TARJETA">Tarjeta</option>
         <option value="CASHI">Cashi</option>
         <option value="INBURSA">Inbursa</option>
         <option value="VALES">Vales</option>
     </select>
-    <input type="number" class="input-dark pago-monto" placeholder="Monto" min="0" step="0.01" oninput="actualizarResumenPago()" style="width:88px;flex-shrink:0;">
-    <button class="socio-terminal-remove" style="flex-shrink:0;" onclick="this.closest('.pago-row').remove(); actualizarResumenPago();">✕</button>`;
+    <input type="number" class="input-dark pago-monto" placeholder="$0.00" min="0" step="0.01" oninput="actualizarResumenPago()" style="width:86px;flex-shrink:0;">
+    <button class="socio-terminal-remove" style="flex-shrink:0;" onclick="this.closest('.pago-row').remove(); actualizarResumenPago();" title="Quitar">✕</button>`;
     c.appendChild(d);
 }
 
@@ -1678,11 +1741,11 @@ async function buscarSocio() {
         res.data.forEach(s => {
             const d = document.createElement('div');
             d.style.cssText = 'padding:9px 13px;cursor:pointer;border-bottom:1px solid #30363D;font-size:.85rem';
-            const membColors = { CLASICA:'#6B7280', BENEFITS:'#1D4ED8', PLUS:'#7C3AED' };
-            const color = membColors[s.membresia] || '#6B7280';
-            d.innerHTML = `<strong>${s.nombre}</strong> — <span class="text-muted">#${s.numero_socio}</span><br>
-                           <span class="badge" style="background:${color};color:#fff;">${s.membresia}</span>
-                           <span class="text-muted" style="font-size:.8rem;"> Cashback: ${fmt(s.saldo_cashback)}</span>`;
+            const membCls = { CLASICA:'badge-gray', BENEFITS:'badge-blue', PLUS:'badge-purple' };
+            const cls = membCls[s.membresia] || 'badge-gray';
+            d.innerHTML = `<div style="font-weight:600;margin-bottom:3px;">${esc(s.nombre)} <span class="text-muted" style="font-weight:400;font-size:.82rem;">#${s.numero_socio}</span></div>
+                           <span class="badge ${cls}">${s.membresia}</span>
+                           <span class="text-muted" style="font-size:.77rem;margin-left:5px;">Cashback: ${fmt(s.saldo_cashback)}</span>`;
             d.onmouseover = () => d.style.background = '#21262D';
             d.onmouseout  = () => d.style.background = '';
             d.onclick = () => {
@@ -1789,17 +1852,17 @@ async function loadSocios() {
     res.data.forEach(r => {
         const membClass = r.tipo_membresia === 'PLUS' ? 'badge-purple' : r.tipo_membresia === 'BENEFITS' ? 'badge-blue' : 'badge-gray';
         body.innerHTML += `<tr style="cursor:pointer;" onclick="mostrarDetallesSocio(${r.socio_membresia_id})">
-            <td class="text-muted small">#${r.socio_membresia_id}</td>
-            <td class="fw-semibold">${esc(r.numero_socio)}</td>
+            <td class="td-num">#${r.socio_membresia_id}</td>
+            <td class="fw-semibold" style="font-variant-numeric:tabular-nums;">${esc(r.numero_socio)}</td>
             <td><strong>${esc(r.nombre)}</strong></td>
             <td><span class="badge ${membClass}">${esc(r.tipo_membresia)}</span></td>
-            <td class="text-center"><strong>${r.num_familiares || 0}</strong></td>
-            <td class="small">${esc(r.vencimiento)}</td>
-            <td class="text-end fw-semibold">${fmt(r.saldo_cashback)}</td>
-            <td>
-                <div class="acciones-socio" onclick="event.stopPropagation()">
-                    <button class="btn btn-sm btn-outline-warning" title="Desactivar" onclick="desactivarMembresia(${r.socio_membresia_id})">⏸</button>
-                    <button class="btn btn-sm btn-danger" title="Eliminar titular y sus familiares" onclick="eliminarTitular(${r.socio_membresia_id}, ${JSON.stringify(r.nombre)}, ${r.num_familiares || 0})">Eliminar</button>
+            <td class="text-center"><span class="badge badge-gray">${r.num_familiares || 0}</span></td>
+            <td class="small text-muted">${esc(r.vencimiento)}</td>
+            <td class="text-end fw-semibold" style="color:var(--sam-green);">${fmt(r.saldo_cashback)}</td>
+            <td class="td-action" onclick="event.stopPropagation()">
+                <div class="cell-actions">
+                    <button class="btn-icon btn-icon-warn" title="Desactivar membresía" onclick="desactivarMembresia(${r.socio_membresia_id})">⏸</button>
+                    <button class="btn-icon btn-icon-danger" title="Eliminar titular y familiares" onclick="eliminarTitular(${r.socio_membresia_id}, ${JSON.stringify(r.nombre)}, ${r.num_familiares || 0})">✕</button>
                 </div>
             </td>
         </tr>`;
@@ -1812,44 +1875,58 @@ async function mostrarDetallesSocio(socio_membresia_id) {
     if (!res.success) { toast(res.error,'error'); return; }
     const titular = res.titular;
     const familiares = res.familiares || [];
-    const colorMap = {'CLASICA':'#6B7280','BENEFITS':'#1D4ED8','PLUS':'#7C3AED'};
+    const membClass = (t) => t === 'PLUS' ? 'badge-purple' : t === 'BENEFITS' ? 'badge-blue' : 'badge-gray';
 
     let html = `
-        <div style="background:#1C2128;padding:18px;border-radius:10px;margin-bottom:18px;border:1px solid #30363D;">
-            <h5 class="mb-3" style="color:var(--sam-text);font-size:1rem;font-weight:700;">${esc(titular.nombre)}</h5>
-            <div class="row g-3">
-                <div class="col-6">
-                    <div><strong>Número:</strong> ${esc(titular.numero_socio)}</div>
-                    <div><strong>Correo:</strong> ${titular.correo ? esc(titular.correo) : '—'}</div>
-                    <div><strong>Teléfono:</strong> ${titular.telefono ? esc(titular.telefono) : '—'}</div>
+        <div class="socio-detail-card">
+            <div class="socio-detail-name">${esc(titular.nombre)}</div>
+            <div class="socio-detail-grid">
+                <div>
+                    <span class="socio-detail-item-label">Número de socio</span>
+                    <span class="socio-detail-item-val fw-semibold">${esc(titular.numero_socio)}</span>
                 </div>
-                <div class="col-6">
-                    <div><strong>Membresía:</strong> <span class="badge" style="background:${colorMap[titular.tipo_membresia]||'#6B7280'};color:#fff;">${esc(titular.tipo_membresia)}</span></div>
-                    <div><strong>Vencimiento:</strong> ${esc(titular.vencimiento)}</div>
-                    <div><strong>Cashback:</strong> <span style="color:var(--sam-green);font-weight:700;font-size:1rem;">${fmt(titular.saldo_cashback)}</span></div>
+                <div>
+                    <span class="socio-detail-item-label">Membresía</span>
+                    <span class="badge ${membClass(titular.tipo_membresia)}">${esc(titular.tipo_membresia)}</span>
+                </div>
+                <div>
+                    <span class="socio-detail-item-label">Correo</span>
+                    <span class="socio-detail-item-val">${titular.correo ? esc(titular.correo) : '<span class="text-muted">—</span>'}</span>
+                </div>
+                <div>
+                    <span class="socio-detail-item-label">Vencimiento</span>
+                    <span class="socio-detail-item-val">${esc(titular.vencimiento)}</span>
+                </div>
+                <div>
+                    <span class="socio-detail-item-label">Teléfono</span>
+                    <span class="socio-detail-item-val">${titular.telefono ? esc(titular.telefono) : '<span class="text-muted">—</span>'}</span>
+                </div>
+                <div>
+                    <span class="socio-detail-item-label">Cashback acumulado</span>
+                    <span class="socio-detail-cashback">${fmt(titular.saldo_cashback)}</span>
                 </div>
             </div>
-            <div class="d-flex gap-2 mt-3">
+            <div class="socio-detail-actions">
                 <button class="btn btn-sm btn-primary" onclick="renovarMembresia(${titular.id})">Renovar Membresía</button>
-                <button class="btn btn-sm btn-danger" onclick="eliminarTitular(${titular.id}, ${JSON.stringify(titular.nombre)}, ${familiares.length})">Eliminar Titular</button>
+                <button class="btn btn-sm btn-outline-danger" onclick="eliminarTitular(${titular.id}, ${JSON.stringify(titular.nombre)}, ${familiares.length})">Eliminar Titular</button>
             </div>
         </div>
     `;
 
     if (familiares.length > 0) {
-        html += '<h6 class="mt-4 mb-2">Familiares Vinculados</h6>';
+        html += `<div class="section-title" style="display:block;">Familiares Vinculados <span class="count-badge" style="margin-left:8px;">${familiares.length}</span></div>`;
         html += `<div class="sam-table table-responsive"><table class="table table-sm mb-0">
-            <thead><tr><th>Nombre</th><th>Parentesco</th><th>Membresía</th><th class="text-center">Complem.</th><th class="text-end">Cashback</th><th>Acciones</th></tr></thead>
+            <thead><tr><th>Nombre</th><th>Parentesco</th><th>Membresía</th><th class="text-center">Complem.</th><th class="text-end">Cashback</th><th class="td-action">Acciones</th></tr></thead>
             <tbody>`;
         familiares.forEach(f => {
             html += `<tr>
-                <td>${esc(f.nombre)}</td>
-                <td><small>${esc(f.parentesco)}</small></td>
-                <td><span class="badge" style="background:${colorMap[f.tipo_membresia]||'#6B7280'};color:#fff;">${esc(f.tipo_membresia)}</span></td>
-                <td class="text-center">${f.es_complementaria == 1 ? '<span class="badge bg-success">Gratis</span>' : '<span class="text-muted">—</span>'}</td>
-                <td class="text-end">${fmt(f.saldo_cashback)}</td>
-                <td>
-                    <button class="btn btn-sm btn-danger" onclick="eliminarFamiliar(${f.socio_membresia_id}, ${JSON.stringify(f.nombre)}, ${socio_membresia_id})">Eliminar</button>
+                <td class="fw-semibold">${esc(f.nombre)}</td>
+                <td><span class="badge badge-gray" style="font-size:.67rem;">${esc(f.parentesco)}</span></td>
+                <td><span class="badge ${membClass(f.tipo_membresia)}">${esc(f.tipo_membresia)}</span></td>
+                <td class="text-center">${f.es_complementaria == 1 ? '<span class="badge badge-green">Gratis</span>' : '<span class="text-muted">—</span>'}</td>
+                <td class="text-end" style="color:var(--sam-green);font-weight:600;">${fmt(f.saldo_cashback)}</td>
+                <td class="td-action">
+                    <button class="btn-icon btn-icon-danger" title="Eliminar familiar" onclick="eliminarFamiliar(${f.socio_membresia_id}, ${JSON.stringify(f.nombre)}, ${socio_membresia_id})">✕</button>
                 </td>
             </tr>`;
         });
@@ -1990,23 +2067,27 @@ async function loadFamiliares() {
         );
     }
     body.innerHTML = datos.length ? '' : '<tr><td colspan="9" class="text-center text-muted py-4">Sin familiares registrados</td></tr>';
-    const colorMap = {'CLASICA': '#6B7280', 'BENEFITS': '#003DA5', 'PLUS': '#7C3AED'};
     datos.forEach(f => {
-        const colorMembresia = colorMap[f.tipo_membresia] || '#6B7280';
+        const membClass = f.tipo_membresia === 'PLUS' ? 'badge-purple' : f.tipo_membresia === 'BENEFITS' ? 'badge-blue' : 'badge-gray';
         const complementariaTag = f.es_complementaria == 1
-            ? '<span class="badge bg-success">Gratis</span>'
-            : '<span class="text-muted small">—</span>';
+            ? '<span class="badge badge-green">Gratis</span>'
+            : '<span class="text-muted">—</span>';
         body.innerHTML += `<tr>
             <td><strong>${esc(f.nombre)}</strong></td>
-            <td class="text-muted">${esc(f.numero_socio)}</td>
-            <td class="small">${esc(f.parentesco)}</td>
-            <td><span class="badge" style="background:${colorMembresia};color:#fff;">${esc(f.tipo_membresia)}</span></td>
-            <td><strong>${esc(f.titular_nombre)}</strong><br><span class="text-muted small">${esc(f.titular_numero_socio)}</span></td>
-            <td class="text-center">${complementariaTag}</td>
-            <td class="small">${esc(f.vencimiento)}</td>
-            <td class="text-end fw-semibold">${fmt(f.saldo_cashback)}</td>
+            <td class="td-num">${esc(f.numero_socio)}</td>
+            <td><span class="badge badge-gray" style="font-size:.67rem;text-transform:uppercase;">${esc(f.parentesco)}</span></td>
+            <td><span class="badge ${membClass}">${esc(f.tipo_membresia)}</span></td>
             <td>
-                <button class="btn btn-sm btn-danger" onclick="eliminarFamiliar(${f.socio_membresia_id}, ${JSON.stringify(f.nombre)}, ${f.cuenta_titular_id})" title="Eliminar familiar">Eliminar</button>
+                <span class="fw-semibold">${esc(f.titular_nombre)}</span><br>
+                <span class="text-muted text-xs">${esc(f.titular_numero_socio)}</span>
+            </td>
+            <td class="text-center">${complementariaTag}</td>
+            <td class="text-muted small">${esc(f.vencimiento)}</td>
+            <td class="text-end fw-semibold" style="color:var(--sam-green);">${fmt(f.saldo_cashback)}</td>
+            <td class="td-action">
+                <div class="cell-actions">
+                    <button class="btn-icon btn-icon-danger" onclick="eliminarFamiliar(${f.socio_membresia_id}, ${JSON.stringify(f.nombre)}, ${f.cuenta_titular_id})" title="Eliminar familiar">✕</button>
+                </div>
             </td>
         </tr>`;
     });
