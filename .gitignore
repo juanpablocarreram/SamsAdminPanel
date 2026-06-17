@@ -1,3 +1,4 @@
 SQL/setup.sql
 /vendor/
 .env
+/SQL/setup.sql

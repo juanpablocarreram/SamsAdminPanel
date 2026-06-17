@@ -8,19 +8,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
 :root {
-    --sam-blue:    #003DA5;
+    --sam-blue:    #4D8BFF;
     --sam-yellow:  #FFC220;
-    --sam-red:     #C8102E;
-    --sam-dark:    #0A1628;
-    --sam-light:   #F5F7FA;
-    --sam-card:    #FFFFFF;
-    --sam-border:  #E5E9F0;
-    --sam-hover:   #F0F4FF;
-    --sam-text:    #1F2937;
-    --sam-muted:   #6B7280;
-    --sam-green:   #10B981;
-    --sam-purple:  #7C3AED;
-    --sidebar-w:   260px;
+    --sam-red:     #FF6B6B;
+    --sam-dark:    #010409;
+    --sam-light:   #0D1117;
+    --sam-card:    #161B22;
+    --sam-border:  #30363D;
+    --sam-hover:   #21262D;
+    --sam-text:    #E6EDF3;
+    --sam-muted:   #848D97;
+    --sam-green:   #3FB950;
+    --sam-purple:  #BC8CFF;
+    --sidebar-w:   220px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: var(--sam-text); }
@@ -30,46 +30,48 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
     position: fixed; left: 0; top: 0; width: var(--sidebar-w);
     height: 100vh; background: var(--sam-dark); display: flex;
     flex-direction: column; z-index: 1000; overflow-y: auto;
+    border-right: 1px solid rgba(255,255,255,.05);
 }
 .sam-sidebar-brand {
-    display: flex; align-items: center; gap: 12px;
-    padding: 22px 20px 18px; border-bottom: 2px solid var(--sam-yellow);
+    display: flex; align-items: center; gap: 11px;
+    padding: 18px 16px 14px; border-bottom: 1px solid rgba(255,194,32,.2);
 }
-.sam-sidebar-brand img { width: 36px; object-fit: contain; filter: brightness(1.1); }
-.sam-sidebar-brand-text { font-size: .95rem; font-weight: 800; color: #fff; letter-spacing: .3px; }
-.sam-sidebar-brand-sub { font-size: .65rem; color: rgba(255,255,255,.4); font-weight: 500; text-transform: uppercase; letter-spacing: 1px; }
-.sam-nav { flex: 1; padding: 12px 0; }
+.sam-sidebar-brand img { width: 30px; object-fit: contain; }
+.sam-sidebar-brand-text { font-size: .88rem; font-weight: 800; color: #fff; letter-spacing: .2px; }
+.sam-sidebar-brand-sub { font-size: .58rem; color: rgba(255,255,255,.3); font-weight: 500; text-transform: uppercase; letter-spacing: 1px; }
+.sam-nav { flex: 1; padding: 6px 0; }
 .sam-nav-item {
-    display: flex; align-items: center; gap: 13px; padding: 13px 20px;
-    cursor: pointer; border-left: 3px solid transparent;
-    color: rgba(255,255,255,.55); font-size: .88rem; font-weight: 500;
-    transition: all .18s ease; user-select: none;
+    display: flex; align-items: center; gap: 10px; padding: 10px 16px;
+    cursor: pointer; border-left: 2px solid transparent;
+    color: rgba(255,255,255,.4); font-size: .82rem; font-weight: 500;
+    transition: all .15s ease; user-select: none;
 }
-.sam-nav-item:hover { color: #fff; background: rgba(255,255,255,.06); border-left-color: rgba(255,204,32,.35); }
-.sam-nav-item.active { color: #fff; background: rgba(255,255,255,.08); border-left-color: var(--sam-yellow); font-weight: 600; }
-.sam-nav-item .nav-icon { font-size: 1.1rem; width: 22px; text-align: center; flex-shrink: 0; }
+.sam-nav-item:hover { color: rgba(255,255,255,.8); background: rgba(255,255,255,.04); border-left-color: rgba(255,194,32,.3); }
+.sam-nav-item.active { color: #fff; background: rgba(255,194,32,.07); border-left-color: var(--sam-yellow); font-weight: 600; }
+.sam-nav-item .nav-icon { font-size: .88rem; width: 16px; text-align: center; flex-shrink: 0; opacity: .7; }
+.sam-nav-item.active .nav-icon { opacity: 1; }
 .sam-sidebar-footer {
-    padding: 16px 20px; border-top: 1px solid rgba(255,255,255,.08);
+    padding: 13px 16px; border-top: 1px solid rgba(255,255,255,.05);
     display: flex; align-items: center; gap: 8px;
-    font-size: .72rem; color: rgba(255,255,255,.4); font-weight: 500; text-transform: uppercase; letter-spacing: .6px;
+    font-size: .65rem; color: rgba(255,255,255,.28); font-weight: 500; text-transform: uppercase; letter-spacing: .6px;
 }
 .sam-status-dot {
-    width: 7px; height: 7px; background: var(--sam-green); border-radius: 50%;
-    box-shadow: 0 0 0 2px rgba(16,185,129,.3); flex-shrink: 0;
+    width: 6px; height: 6px; background: var(--sam-green); border-radius: 50%;
+    box-shadow: 0 0 0 2px rgba(63,185,80,.25); flex-shrink: 0;
     animation: pulse-dot 2s ease-in-out infinite;
 }
-@keyframes pulse-dot { 0%,100% { box-shadow: 0 0 0 2px rgba(16,185,129,.3); } 50% { box-shadow: 0 0 0 5px rgba(16,185,129,.1); } }
+@keyframes pulse-dot { 0%,100% { box-shadow: 0 0 0 2px rgba(63,185,80,.25); } 50% { box-shadow: 0 0 0 5px rgba(63,185,80,.08); } }
 
 /* ── MAIN AREA ── */
-.sam-main { margin-left: var(--sidebar-w); min-height: 100vh; padding: 28px 32px; }
+.sam-main { margin-left: var(--sidebar-w); min-height: 100vh; padding: 22px 26px; }
 .sam-page-header {
     display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 28px; padding-bottom: 16px; border-bottom: 1px solid var(--sam-border);
+    margin-bottom: 22px; padding-bottom: 14px; border-bottom: 1px solid var(--sam-border);
 }
-.sam-page-title { font-size: 1.4rem; font-weight: 800; color: var(--sam-dark); position: relative; padding-bottom: 6px; }
-.sam-page-title::after { content: ''; position: absolute; bottom: 0; left: 0; width: 40px; height: 3px; background: var(--sam-yellow); border-radius: 2px; }
-.sam-page-meta { display: flex; align-items: center; gap: 10px; }
-.sam-date-chip { font-size: .78rem; font-weight: 600; color: var(--sam-muted); background: var(--sam-card); border: 1px solid var(--sam-border); border-radius: 20px; padding: 5px 12px; }
+.sam-page-title { font-size: 1.2rem; font-weight: 700; color: var(--sam-text); position: relative; padding-bottom: 6px; }
+.sam-page-title::after { content: ''; position: absolute; bottom: 0; left: 0; width: 28px; height: 2px; background: var(--sam-yellow); border-radius: 2px; }
+.sam-page-meta { display: flex; align-items: center; gap: 8px; }
+.sam-date-chip { font-size: .73rem; font-weight: 600; color: var(--sam-muted); background: var(--sam-card); border: 1px solid var(--sam-border); border-radius: 20px; padding: 4px 11px; }
 
 /* ── SECTIONS ── */
 .sam-section { display: none; }
@@ -77,201 +79,212 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
 
 /* ── STAT CARDS ── */
 .stat-card {
-    background: var(--sam-card); border-radius: 12px; padding: 22px 24px;
-    border: 1px solid var(--sam-border); border-left-width: 5px;
-    transition: transform .2s ease, box-shadow .2s ease; position: relative; overflow: hidden;
+    background: var(--sam-card); border-radius: 10px; padding: 18px 20px;
+    border: 1px solid var(--sam-border); border-left-width: 3px;
+    transition: transform .18s ease, box-shadow .18s ease; position: relative; overflow: hidden;
 }
-.stat-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.09); }
-.stat-card-icon { position: absolute; top: 16px; right: 18px; font-size: 1.6rem; opacity: .18; }
-.stat-card h3 { font-size: 2.2rem; font-weight: 800; color: var(--sam-dark); letter-spacing: -1px; line-height: 1; }
-.stat-card p { margin-top: 8px; color: var(--sam-muted); font-size: .85rem; font-weight: 500; }
+.stat-card:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,.4); }
+.stat-card-icon { position: absolute; top: 14px; right: 16px; font-size: 1.3rem; opacity: .1; }
+.stat-card h3 { font-size: 1.9rem; font-weight: 800; color: var(--sam-text); letter-spacing: -1px; line-height: 1; }
+.stat-card p { margin-top: 6px; color: var(--sam-muted); font-size: .78rem; font-weight: 500; }
 .stat-card.blue   { border-left-color: var(--sam-blue); }
 .stat-card.green  { border-left-color: var(--sam-green); }
 .stat-card.red    { border-left-color: var(--sam-red); }
 .stat-card.yellow { border-left-color: var(--sam-yellow); }
 
 /* ── CARDS ── */
-.sam-card { background: var(--sam-card); border-radius: 12px; border: 1px solid var(--sam-border); padding: 24px; }
-.sam-card.top-accent { border-top: 4px solid var(--sam-blue); }
+.sam-card { background: var(--sam-card); border-radius: 10px; border: 1px solid var(--sam-border); padding: 18px; }
+.sam-card.top-accent { border-top: 3px solid var(--sam-blue); }
 
 /* ── SECTION TITLE ── */
 .section-title {
-    font-weight: 800; color: var(--sam-dark); font-size: .95rem;
-    border-bottom: 3px solid var(--sam-yellow); padding-bottom: 8px; margin-bottom: 16px; display: block;
+    font-weight: 700; color: var(--sam-text); font-size: .85rem;
+    letter-spacing: .2px;
+    border-bottom: 2px solid var(--sam-yellow); padding-bottom: 6px; margin-bottom: 14px; display: block;
 }
 
 /* ── TABLES ── */
-.sam-table { background: var(--sam-card); border-radius: 12px; overflow: hidden; border: 1px solid var(--sam-border); }
+.sam-table { background: var(--sam-card); border-radius: 10px; overflow: hidden; border: 1px solid var(--sam-border); }
 .sam-table .table { margin-bottom: 0; }
 .sam-table thead th {
-    background: var(--sam-dark); color: #fff; font-size: .78rem;
-    letter-spacing: .5px; text-transform: uppercase; border: none; padding: 13px 16px; font-weight: 700;
+    background: #1C2128; color: var(--sam-muted); font-size: .68rem;
+    letter-spacing: .7px; text-transform: uppercase; border: none; padding: 10px 14px; font-weight: 700;
+    border-bottom: 1px solid var(--sam-border);
 }
-.sam-table tbody tr { border-bottom: 1px solid var(--sam-border); transition: background .15s ease; }
+.sam-table tbody tr { border-bottom: 1px solid var(--sam-border); transition: background .12s ease; }
 .sam-table tbody tr:last-child { border-bottom: none; }
 .sam-table tbody tr:hover { background: var(--sam-hover); }
-.sam-table td { vertical-align: middle; font-size: .9rem; padding: 14px 16px; color: #374151; border: none; }
-.sam-table td strong { color: var(--sam-dark); font-weight: 600; }
-.stock-zero { color: var(--sam-red); }
+.sam-table td { vertical-align: middle; font-size: .865rem; padding: 11px 14px; color: var(--sam-text); border: none; }
+.sam-table td strong { color: var(--sam-text); font-weight: 600; }
+.stock-zero { color: var(--sam-red) !important; font-weight: 700; }
 
 /* ── FORMS ── */
-.form-label { font-size: .85rem; font-weight: 600; color: var(--sam-dark); margin-bottom: 6px; display: block; }
+.form-label { font-size: .75rem; font-weight: 600; color: var(--sam-muted); margin-bottom: 5px; display: block; text-transform: uppercase; letter-spacing: .4px; }
 .form-control, .form-select {
-    font-size: .9rem; padding: 10px 13px; border: 1.5px solid var(--sam-border);
-    border-radius: 8px; background: var(--sam-card); color: var(--sam-text);
-    transition: border-color .2s, box-shadow .2s; min-height: 42px; width: 100%;
+    font-size: .865rem; padding: 9px 12px; border: 1px solid var(--sam-border);
+    border-radius: 7px; background: #0D1117; color: var(--sam-text);
+    transition: border-color .15s, box-shadow .15s; min-height: 38px; width: 100%;
 }
 .form-control:focus, .form-select:focus {
-    border-color: var(--sam-blue); box-shadow: 0 0 0 3px rgba(0,61,165,.1); outline: none;
+    border-color: var(--sam-blue); box-shadow: 0 0 0 3px rgba(77,139,255,.15); outline: none;
 }
-.form-control::placeholder { color: #9CA3AF; }
+.form-control::placeholder { color: rgba(255,255,255,.18); }
+.form-select option { background: #161B22; color: var(--sam-text); }
 
 /* ── BUTTONS ── */
-.btn { font-weight: 600; padding: 10px 18px; border-radius: 8px; transition: all .18s ease; font-size: .88rem; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.btn { font-weight: 600; padding: 8px 15px; border-radius: 7px; transition: all .15s ease; font-size: .82rem; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 5px; }
 .btn-primary   { background: var(--sam-blue); color: #fff; }
-.btn-primary:hover { background: #002E85; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0,61,165,.28); color: #fff; }
-.btn-success   { background: var(--sam-green); color: #fff; }
-.btn-success:hover { background: #059669; color: #fff; }
+.btn-primary:hover { background: #3A75E8; box-shadow: 0 3px 12px rgba(77,139,255,.35); color: #fff; }
+.btn-success   { background: var(--sam-green); color: #0D1117; }
+.btn-success:hover { background: #2EA043; color: #0D1117; }
 .btn-danger    { background: var(--sam-red); color: #fff; }
-.btn-danger:hover { background: #B50A23; color: #fff; }
-.btn-outline-primary { background: transparent; color: var(--sam-blue); border: 1.5px solid var(--sam-blue); }
-.btn-outline-primary:hover { background: var(--sam-blue); color: #fff; }
-.btn-outline-danger { background: transparent; color: var(--sam-red); border: 1.5px solid var(--sam-red); }
-.btn-outline-danger:hover { background: var(--sam-red); color: #fff; }
-.btn-outline-secondary { background: transparent; color: var(--sam-text); border: 1.5px solid var(--sam-border); }
-.btn-outline-secondary:hover { background: var(--sam-light); }
-.btn-sm { padding: 6px 12px; font-size: .8rem; }
-.btn-cobrar { background: var(--sam-yellow) !important; color: var(--sam-dark) !important; font-weight: 800 !important; font-size: 1rem !important; letter-spacing: .3px; }
-.btn-cobrar:hover { background: #e6ae00 !important; box-shadow: 0 4px 16px rgba(255,194,32,.4); }
+.btn-danger:hover { background: #E05555; color: #fff; }
+.btn-outline-primary { background: transparent; color: var(--sam-blue); border: 1px solid rgba(77,139,255,.4); }
+.btn-outline-primary:hover { background: rgba(77,139,255,.12); color: var(--sam-blue); border-color: var(--sam-blue); }
+.btn-outline-danger { background: transparent; color: var(--sam-red); border: 1px solid rgba(255,107,107,.3); }
+.btn-outline-danger:hover { background: rgba(255,107,107,.1); color: var(--sam-red); }
+.btn-outline-secondary { background: transparent; color: var(--sam-muted); border: 1px solid var(--sam-border); }
+.btn-outline-secondary:hover { background: var(--sam-hover); color: var(--sam-text); }
+.btn-outline-warning { background: transparent; color: var(--sam-yellow); border: 1px solid rgba(255,194,32,.3); }
+.btn-outline-warning:hover { background: rgba(255,194,32,.1); color: var(--sam-yellow); }
+.btn-sm { padding: 4px 10px; font-size: .76rem; }
+.btn-cobrar { background: var(--sam-yellow) !important; color: #0D1117 !important; font-weight: 800 !important; font-size: .95rem !important; letter-spacing: .3px; }
+.btn-cobrar:hover { background: #E6AE00 !important; box-shadow: 0 4px 16px rgba(255,194,32,.35); }
+.btn-link { background: none; border: none; color: var(--sam-blue); text-decoration: underline; padding: 0; cursor: pointer; }
 .w-100 { width: 100%; }
 
 /* ── BADGES ── */
-.badge { padding: 4px 10px; font-size: .72rem; font-weight: 700; border-radius: 20px; display: inline-block; }
-.badge-blue   { background: #EFF6FF; color: var(--sam-blue); }
-.badge-green  { background: #D1FAE5; color: #065F46; }
-.badge-red    { background: #FEE2E2; color: #991B1B; }
-.badge-yellow { background: #FEF3C7; color: #92400E; }
-.badge-gray   { background: #F3F4F6; color: #374151; }
-.badge-purple { background: #F5F3FF; color: var(--sam-purple); }
-.badge-gold   { background: var(--sam-yellow); color: var(--sam-dark); border-radius: 20px; font-size: .7rem; padding: 2px 8px; font-weight: 700; }
-.badge-promo  { background: #D1FAE5; color: #065F46; border-radius: 20px; font-size: .7rem; padding: 2px 8px; font-weight: 600; }
-.badge-tipo   { font-size: .72rem; padding: 3px 9px; }
+.badge { padding: 3px 9px; font-size: .68rem; font-weight: 700; border-radius: 20px; display: inline-block; }
+.badge-blue   { background: rgba(77,139,255,.15); color: #7DAAFF; border: 1px solid rgba(77,139,255,.2); }
+.badge-green  { background: rgba(63,185,80,.15); color: #56D364; border: 1px solid rgba(63,185,80,.2); }
+.badge-red    { background: rgba(255,107,107,.15); color: #FF8080; border: 1px solid rgba(255,107,107,.2); }
+.badge-yellow { background: rgba(255,194,32,.15); color: #FFC220; border: 1px solid rgba(255,194,32,.2); }
+.badge-gray   { background: rgba(255,255,255,.07); color: var(--sam-muted); border: 1px solid var(--sam-border); }
+.badge-purple { background: rgba(188,140,255,.15); color: #BC8CFF; border: 1px solid rgba(188,140,255,.2); }
+.badge-gold   { background: rgba(255,194,32,.2); color: var(--sam-yellow); border-radius: 20px; font-size: .68rem; padding: 2px 8px; font-weight: 700; border: 1px solid rgba(255,194,32,.25); }
+.badge-promo  { background: rgba(63,185,80,.15); color: #56D364; border-radius: 20px; font-size: .68rem; padding: 2px 8px; font-weight: 600; border: 1px solid rgba(63,185,80,.2); }
+.badge-tipo   { font-size: .68rem; padding: 3px 9px; }
+.bg-success   { background: rgba(63,185,80,.15) !important; color: #56D364 !important; }
+.badge-desc-ok  { color: var(--sam-green); font-size: .76rem; font-weight: 700; }
+.badge-desc-no  { color: var(--sam-muted); font-size: .76rem; }
 
 /* ── MEMBERSHIP PILL TOGGLES ── */
 .memb-pill-toggle {
-    display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px;
-    border-radius: 20px; cursor: pointer; border: 1.5px solid var(--sam-border);
-    font-size: .82rem; font-weight: 600; transition: all .18s; user-select: none;
+    display: inline-flex; align-items: center; gap: 6px; padding: 6px 13px;
+    border-radius: 20px; cursor: pointer; border: 1px solid var(--sam-border);
+    font-size: .79rem; font-weight: 600; transition: all .15s; user-select: none;
     color: var(--sam-muted); background: var(--sam-card);
 }
-.memb-pill-toggle:hover { border-color: var(--sam-blue); }
+.memb-pill-toggle:hover { border-color: var(--sam-blue); color: var(--sam-text); }
 .memb-pill-toggle input { display: none; }
-.memb-pill-toggle.active-CLASICA  { background: #F3F4F6; border-color: #6B7280; color: #374151; }
-.memb-pill-toggle.active-BENEFITS { background: #EFF6FF; border-color: var(--sam-blue); color: var(--sam-blue); }
-.memb-pill-toggle.active-PLUS     { background: #F5F3FF; border-color: var(--sam-purple); color: var(--sam-purple); }
+.memb-pill-toggle.active-CLASICA  { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.18); color: var(--sam-text); }
+.memb-pill-toggle.active-BENEFITS { background: rgba(77,139,255,.12); border-color: rgba(77,139,255,.35); color: #7DAAFF; }
+.memb-pill-toggle.active-PLUS     { background: rgba(188,140,255,.12); border-color: rgba(188,140,255,.35); color: var(--sam-purple); }
 
 /* ── PILL SUB-TABS (Socios) ── */
-.pill-tabs { display: flex; gap: 6px; margin-bottom: 16px; }
+.pill-tabs { display: flex; gap: 5px; margin-bottom: 14px; }
 .pill-tab {
-    padding: 7px 18px; border-radius: 20px; cursor: pointer; font-size: .82rem;
-    font-weight: 600; border: 1.5px solid var(--sam-border); background: var(--sam-card);
-    color: var(--sam-muted); transition: all .18s;
+    padding: 6px 15px; border-radius: 20px; cursor: pointer; font-size: .79rem;
+    font-weight: 600; border: 1px solid var(--sam-border); background: var(--sam-card);
+    color: var(--sam-muted); transition: all .15s;
 }
 .pill-tab:hover { border-color: var(--sam-blue); color: var(--sam-blue); }
 .pill-tab.active { background: var(--sam-blue); border-color: var(--sam-blue); color: #fff; }
 
 /* ── POS ── */
-.pos-wrap { display: flex; gap: 20px; height: calc(100vh - 200px); min-height: 520px; }
-.pos-light { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+.pos-wrap { display: flex; gap: 14px; height: calc(100vh - 175px); min-height: 520px; }
+.pos-light { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
 .pos-terminal {
-    flex: 0 0 320px; background: var(--sam-dark); border-radius: 12px;
+    flex: 0 0 290px; background: var(--sam-dark); border-radius: 10px;
+    border: 1px solid rgba(255,255,255,.07);
     display: flex; flex-direction: column; overflow: hidden;
 }
-.pos-terminal-header { padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,.08); display: flex; align-items: center; gap: 10px; }
-.pos-terminal-header img { width: 28px; filter: brightness(1.2); }
-.pos-terminal-header span { font-size: .78rem; font-weight: 700; color: rgba(255,255,255,.5); text-transform: uppercase; letter-spacing: 1px; }
-.pos-terminal-body { flex: 1; overflow-y: auto; padding: 16px 20px; display: flex; flex-direction: column; gap: 14px; }
-.pos-terminal-footer { padding: 16px 20px; border-top: 1px solid rgba(255,255,255,.08); display: flex; flex-direction: column; gap: 8px; }
+.pos-terminal-header { padding: 13px 16px; border-bottom: 1px solid rgba(255,255,255,.07); display: flex; align-items: center; gap: 10px; }
+.pos-terminal-header img { width: 24px; }
+.pos-terminal-header span { font-size: .7rem; font-weight: 700; color: rgba(255,255,255,.4); text-transform: uppercase; letter-spacing: 1px; }
+.pos-terminal-body { flex: 1; overflow-y: auto; padding: 13px 16px; display: flex; flex-direction: column; gap: 12px; }
+.pos-terminal-footer { padding: 13px 16px; border-top: 1px solid rgba(255,255,255,.07); display: flex; flex-direction: column; gap: 7px; }
 .input-dark {
-    background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.15);
-    border-radius: 8px; color: #fff; padding: 9px 12px; font-size: .88rem; width: 100%;
+    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+    border-radius: 7px; color: #fff; padding: 8px 11px; font-size: .84rem; width: 100%;
 }
-.input-dark::placeholder { color: rgba(255,255,255,.35); }
-.input-dark:focus { outline: none; border-color: var(--sam-yellow); background: rgba(255,255,255,.1); }
+.input-dark::placeholder { color: rgba(255,255,255,.22); }
+.input-dark:focus { outline: none; border-color: rgba(255,194,32,.5); background: rgba(255,255,255,.07); }
 .select-dark {
-    background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.15);
-    border-radius: 8px; color: #fff; padding: 9px 12px; font-size: .88rem; width: 100%;
+    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+    border-radius: 7px; color: #fff; padding: 8px 11px; font-size: .84rem; width: 100%;
     appearance: none; -webkit-appearance: none;
 }
-.select-dark option { background: var(--sam-dark); color: #fff; }
-.select-dark:focus { outline: none; border-color: var(--sam-yellow); }
-.pos-label { font-size: .7rem; font-weight: 700; color: rgba(255,255,255,.4); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 6px; }
-.pos-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,.06); }
+.select-dark option { background: #0D1117; color: #fff; }
+.select-dark:focus { outline: none; border-color: rgba(255,194,32,.5); }
+.pos-label { font-size: .66rem; font-weight: 700; color: rgba(255,255,255,.32); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 5px; }
+.pos-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,.05); }
 .pos-row:last-child { border-bottom: none; }
-.pos-row-label { font-size: .85rem; color: rgba(255,255,255,.55); font-weight: 500; }
-.pos-row-value { font-size: .9rem; color: #fff; font-weight: 600; }
-.pos-total-amount { font-size: 2.4rem; font-weight: 800; color: var(--sam-yellow); letter-spacing: -1px; text-align: right; line-height: 1; }
-.pos-total-label { font-size: .7rem; font-weight: 700; color: rgba(255,255,255,.35); text-transform: uppercase; letter-spacing: 1px; text-align: right; margin-bottom: 4px; }
-.pos-divider { border: none; border-top: 1px solid rgba(255,255,255,.08); margin: 4px 0; }
-.socio-terminal-block { background: rgba(255,255,255,.06); border-radius: 8px; padding: 10px 12px; border: 1px solid rgba(255,255,255,.1); }
+.pos-row-label { font-size: .82rem; color: rgba(255,255,255,.42); font-weight: 500; }
+.pos-row-value { font-size: .87rem; color: #fff; font-weight: 600; }
+.pos-total-amount { font-size: 2.1rem; font-weight: 800; color: var(--sam-yellow); letter-spacing: -1px; text-align: right; line-height: 1; }
+.pos-total-label { font-size: .66rem; font-weight: 700; color: rgba(255,255,255,.3); text-transform: uppercase; letter-spacing: 1px; text-align: right; margin-bottom: 4px; }
+.pos-divider { border: none; border-top: 1px solid rgba(255,255,255,.06); margin: 3px 0; }
+.socio-terminal-block { background: rgba(255,255,255,.04); border-radius: 7px; padding: 9px 11px; border: 1px solid rgba(255,255,255,.08); }
 .socio-terminal-active { display: flex; align-items: center; gap: 8px; }
-.socio-terminal-name { flex: 1; font-size: .88rem; font-weight: 600; color: #fff; }
-.socio-terminal-pill { font-size: .65rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; background: rgba(255,204,32,.2); color: var(--sam-yellow); }
-.socio-terminal-remove { background: rgba(255,255,255,.12); border: none; color: rgba(255,255,255,.6); border-radius: 50%; width: 22px; height: 22px; cursor: pointer; font-size: .8rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.socio-terminal-remove:hover { background: rgba(255,255,255,.22); }
+.socio-terminal-name { flex: 1; font-size: .84rem; font-weight: 600; color: #fff; }
+.socio-terminal-pill { font-size: .62rem; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255,194,32,.15); color: var(--sam-yellow); border: 1px solid rgba(255,194,32,.25); }
+.socio-terminal-remove { background: rgba(255,255,255,.08); border: none; color: rgba(255,255,255,.5); border-radius: 50%; width: 20px; height: 20px; cursor: pointer; font-size: .75rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background .15s; }
+.socio-terminal-remove:hover { background: rgba(255,255,255,.16); color: #fff; }
 .pos-cart-wrap { flex: 1; overflow-y: auto; }
-.pos-qty-control { display: flex; align-items: center; gap: 4px; }
-.pos-qty-btn { width: 26px; height: 26px; border: 1.5px solid var(--sam-border); background: var(--sam-card); border-radius: 6px; cursor: pointer; font-size: .9rem; display: flex; align-items: center; justify-content: center; color: var(--sam-dark); transition: all .15s; }
-.pos-qty-btn:hover { border-color: var(--sam-blue); color: var(--sam-blue); }
-.pos-qty-input { width: 42px; text-align: center; border: 1.5px solid var(--sam-border); border-radius: 6px; padding: 3px 4px; font-size: .85rem; font-weight: 600; }
+.pos-qty-control { display: flex; align-items: center; gap: 3px; }
+.pos-qty-btn { width: 24px; height: 24px; border: 1px solid var(--sam-border); background: var(--sam-card); border-radius: 5px; cursor: pointer; font-size: .85rem; display: flex; align-items: center; justify-content: center; color: var(--sam-text); transition: all .12s; }
+.pos-qty-btn:hover { border-color: var(--sam-blue); color: var(--sam-blue); background: rgba(77,139,255,.08); }
+.pos-qty-input { width: 38px; text-align: center; border: 1px solid var(--sam-border); border-radius: 5px; padding: 2px 4px; font-size: .82rem; font-weight: 600; background: #0D1117; color: var(--sam-text); }
 
 /* ── SEARCH DROPDOWNS ── */
 #searchResults, #socioResults {
-    position: absolute; z-index: 1050; width: 100%; background: var(--sam-card);
-    border: 1.5px solid var(--sam-border); border-top: none; border-radius: 0 0 10px 10px;
-    max-height: 280px; overflow-y: auto; box-shadow: 0 8px 20px rgba(0,0,0,.1);
+    position: absolute; z-index: 1050; width: 100%; background: #1C2128;
+    border: 1px solid var(--sam-border); border-top: none; border-radius: 0 0 8px 8px;
+    max-height: 280px; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,.5);
 }
 #searchResults .res-item, #socioResults > div {
-    padding: 11px 14px; cursor: pointer; border-bottom: 1px solid var(--sam-border); font-size: .88rem; transition: background .15s;
+    padding: 10px 13px; cursor: pointer; border-bottom: 1px solid var(--sam-border); font-size: .85rem; transition: background .12s; color: var(--sam-text);
 }
 #searchResults .res-item:hover, #socioResults > div:hover { background: var(--sam-hover); }
 #searchResults .res-item:last-child, #socioResults > div:last-child { border-bottom: none; }
-#searchResults .res-sku { color: var(--sam-muted); font-size: .75rem; margin-top: 2px; }
-.res-memb-tag { font-size: .68rem; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: #EFF6FF; color: var(--sam-blue); }
+#searchResults .res-sku { color: var(--sam-muted); font-size: .73rem; margin-top: 2px; }
+.res-memb-tag { font-size: .66rem; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(77,139,255,.15); color: #7DAAFF; }
 
 /* ── DASHBOARD BARS ── */
-.memb-bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-.memb-bar-label { font-size: .8rem; font-weight: 600; color: var(--sam-text); width: 72px; flex-shrink: 0; }
-.memb-bar-track { flex: 1; height: 10px; background: var(--sam-light); border-radius: 10px; overflow: hidden; }
-.memb-bar-fill { height: 100%; border-radius: 10px; transition: width .6s ease; }
-.memb-bar-count { font-size: .8rem; font-weight: 700; color: var(--sam-muted); width: 32px; text-align: right; flex-shrink: 0; }
+.memb-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.memb-bar-label { font-size: .77rem; font-weight: 600; color: var(--sam-text); width: 72px; flex-shrink: 0; }
+.memb-bar-track { flex: 1; height: 7px; background: rgba(255,255,255,.06); border-radius: 8px; overflow: hidden; }
+.memb-bar-fill { height: 100%; border-radius: 8px; transition: width .6s ease; }
+.memb-bar-count { font-size: .77rem; font-weight: 700; color: var(--sam-muted); width: 28px; text-align: right; flex-shrink: 0; }
 
 /* ── COMPRAS ── */
-.compra-items-sub { border-radius: 8px; border: 1px solid var(--sam-border); overflow: hidden; margin-bottom: 12px; }
-.compra-total-row { border-left: 4px solid var(--sam-blue); padding: 12px 16px; background: var(--sam-card); display: flex; justify-content: space-between; align-items: center; border-radius: 0 8px 8px 0; margin-bottom: 16px; }
-.compra-item-input { font-size: .85rem; padding: 4px 8px; border: 1.5px solid var(--sam-border); border-radius: 6px; color: var(--sam-text); background: var(--sam-card); }
+.compra-items-sub { border-radius: 8px; border: 1px solid var(--sam-border); overflow: hidden; margin-bottom: 10px; background: var(--sam-card); }
+.compra-total-row { border-left: 3px solid var(--sam-blue); padding: 10px 14px; background: rgba(77,139,255,.06); display: flex; justify-content: space-between; align-items: center; border-radius: 0 7px 7px 0; margin-bottom: 14px; border: 1px solid rgba(77,139,255,.15); }
+.compra-item-input { font-size: .82rem; padding: 4px 8px; border: 1px solid var(--sam-border); border-radius: 5px; color: var(--sam-text); background: #0D1117; }
 .compra-item-input:focus { border-color: var(--sam-blue); outline: none; }
 
 /* ── TOAST ── */
-#toastArea { position: fixed; bottom: 24px; right: 24px; z-index: 9999; pointer-events: none; }
+#toastArea { position: fixed; bottom: 22px; right: 22px; z-index: 9999; pointer-events: none; }
 .sam-toast {
-    padding: 14px 18px; border-radius: 10px; color: #fff; font-weight: 600;
-    margin-top: 8px; box-shadow: 0 8px 24px rgba(0,0,0,.18);
-    animation: toastIn .3s ease; min-width: 280px; font-size: .9rem; pointer-events: all;
+    padding: 11px 15px; border-radius: 8px; font-weight: 600;
+    margin-top: 7px; box-shadow: 0 8px 32px rgba(0,0,0,.6);
+    animation: toastIn .22s ease; min-width: 250px; font-size: .855rem; pointer-events: all;
+    border: 1px solid transparent;
 }
-.sam-toast.success { background: linear-gradient(135deg, var(--sam-green), #059669); }
-.sam-toast.error   { background: linear-gradient(135deg, var(--sam-red), #B50A23); }
-.sam-toast.warn    { background: linear-gradient(135deg, #F59E0B, #D97706); }
-@keyframes toastIn { from { transform: translateX(80px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+.sam-toast.success { background: #1A3D22; border-color: rgba(63,185,80,.3); color: #56D364; }
+.sam-toast.error   { background: #3D1A1A; border-color: rgba(255,107,107,.3); color: #FF8080; }
+.sam-toast.warn    { background: #3D2E0A; border-color: rgba(255,194,32,.3); color: #FFC220; }
+@keyframes toastIn { from { transform: translateX(50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
 /* ── UTILITIES ── */
-.spinner-sam { display: inline-block; width: 16px; height: 16px; border: 2.5px solid rgba(0,61,165,.2); border-top-color: var(--sam-blue); border-radius: 50%; animation: spin .6s linear infinite; }
-.spinner-border-sm { display: inline-block; width: 15px; height: 15px; border: 2px solid rgba(255,255,255,.3); border-top-color: #fff; border-radius: 50%; animation: spin .6s linear infinite; }
+.spinner-sam { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(77,139,255,.2); border-top-color: var(--sam-blue); border-radius: 50%; animation: spin .6s linear infinite; }
+.spinner-border-sm { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.2); border-top-color: #fff; border-radius: 50%; animation: spin .6s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.alert { border-radius: 8px; padding: 12px 16px; font-size: .85rem; border: 1px solid; }
-.alert-info { background: #EFF6FF; color: #1E40AF; border-color: #BFDBFE; }
-.mb-2 { margin-bottom: 10px; }
-.mb-3 { margin-bottom: 16px; }
+.alert { border-radius: 7px; padding: 10px 13px; font-size: .82rem; border: 1px solid; }
+.alert-info { background: rgba(77,139,255,.1); color: #7DAAFF; border-color: rgba(77,139,255,.2); }
+.mb-2 { margin-bottom: 8px; }
+.mb-3 { margin-bottom: 14px; }
 .mt-2 { margin-top: 8px; }
 .mt-3 { margin-top: 14px; }
 .mt-4 { margin-top: 20px; }
@@ -281,10 +294,10 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
 .fw-bold { font-weight: 700 !important; }
 .fw-semibold { font-weight: 600 !important; }
 .fw-600 { font-weight: 600; }
-.small { font-size: .82rem; }
-.text-xs { font-size: .72rem; }
+.small { font-size: .79rem; }
+.text-xs { font-size: .7rem; }
 .text-nowrap { white-space: nowrap; }
-.sam-input { border: 1.5px solid var(--sam-border); border-radius: 8px; padding: 10px 13px; font-size: .9rem; }
+.sam-input { border: 1px solid var(--sam-border); border-radius: 7px; padding: 9px 12px; font-size: .865rem; background: #0D1117; color: var(--sam-text); }
 .d-flex { display: flex; }
 .d-none { display: none !important; }
 .align-items-center { align-items: center; }
@@ -293,15 +306,15 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
 .gap-3 { gap: 12px; }
 .gap-4 { gap: 20px; }
 .flex-wrap { flex-wrap: wrap; }
-.py-3 { padding-top: 14px; padding-bottom: 14px; }
-.py-4 { padding-top: 20px; padding-bottom: 20px; }
-#pagoResumen { font-size: .82rem; margin-top: 6px; display: flex; justify-content: space-between; color: rgba(255,255,255,.55); }
-#pagoResumen .pago-faltante { color: #F87171; font-weight: 700; }
+.py-3 { padding-top: 13px; padding-bottom: 13px; }
+.py-4 { padding-top: 18px; padding-bottom: 18px; }
+#pagoResumen { font-size: .79rem; margin-top: 5px; display: flex; justify-content: space-between; color: rgba(255,255,255,.42); }
+#pagoResumen .pago-faltante { color: #FF8080; font-weight: 700; }
 #pagoResumen .pago-ok { color: var(--sam-green); font-weight: 700; }
 .acciones-socio { display: flex; gap: 4px; flex-wrap: nowrap; }
-#cambioInfo { font-size: .85rem; font-weight: 600; color: var(--sam-green); margin-top: 4px; }
-.todos-check-wrap label { font-size: .85rem; font-weight: 600; color: var(--sam-muted); cursor: pointer; display: flex; align-items: center; gap: 8px; }
-@media (max-width: 900px) { .sam-main { margin-left: 0; padding: 16px; } .sam-sidebar { display: none; } .pos-terminal { flex: 0 0 280px; } }
+#cambioInfo { font-size: .82rem; font-weight: 600; color: var(--sam-green); margin-top: 4px; }
+.todos-check-wrap label { font-size: .82rem; font-weight: 600; color: var(--sam-muted); cursor: pointer; display: flex; align-items: center; gap: 8px; }
+@media (max-width: 900px) { .sam-main { margin-left: 0; padding: 13px; } .sam-sidebar { display: none; } .pos-terminal { flex: 0 0 260px; } }
     </style>
 </head>
 <body>
@@ -317,22 +330,22 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
     </div>
     <nav class="sam-nav">
         <div class="sam-nav-item active" data-section="dashboard" onclick="showSection('dashboard')">
-            <span class="nav-icon">⊞</span> Dashboard
+            <span class="nav-icon">▣</span> Dashboard
         </div>
         <div class="sam-nav-item" data-section="inventario" onclick="showSection('inventario')">
-            <span class="nav-icon">📦</span> Inventario
+            <span class="nav-icon">▦</span> Inventario
         </div>
         <div class="sam-nav-item" data-section="socios" onclick="showSection('socios')">
-            <span class="nav-icon">👥</span> Socios
+            <span class="nav-icon">◉</span> Socios
         </div>
         <div class="sam-nav-item" data-section="promociones" onclick="showSection('promociones')">
-            <span class="nav-icon">🏷️</span> Promociones
+            <span class="nav-icon">◈</span> Promociones
         </div>
         <div class="sam-nav-item" data-section="compras" onclick="showSection('compras')">
-            <span class="nav-icon">🛒</span> Compras
+            <span class="nav-icon">◆</span> Compras
         </div>
         <div class="sam-nav-item" data-section="ventas" onclick="showSection('ventas')">
-            <span class="nav-icon">💳</span> Punto de Venta
+            <span class="nav-icon">▷</span> Punto de Venta
         </div>
     </nav>
     <div class="sam-sidebar-footer">
@@ -356,28 +369,28 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
     <div class="row g-3 mb-4">
         <div class="col-6 col-md-3">
             <div class="stat-card blue">
-                <span class="stat-card-icon">👥</span>
+                <span class="stat-card-icon"></span>
                 <h3 id="dash-socios">—</h3>
                 <p>Socios activos</p>
             </div>
         </div>
         <div class="col-6 col-md-3">
             <div class="stat-card green">
-                <span class="stat-card-icon">💰</span>
+                <span class="stat-card-icon"></span>
                 <h3 id="dash-ingresos">—</h3>
                 <p>Ingresos hoy</p>
             </div>
         </div>
         <div class="col-6 col-md-3">
             <div class="stat-card red">
-                <span class="stat-card-icon">📦</span>
+                <span class="stat-card-icon"></span>
                 <h3 id="dash-sinstock">—</h3>
                 <p>Sin existencia</p>
             </div>
         </div>
         <div class="col-6 col-md-3">
             <div class="stat-card yellow">
-                <span class="stat-card-icon">🏷️</span>
+                <span class="stat-card-icon"></span>
                 <h3 id="dash-promos">—</h3>
                 <p>Promociones activas</p>
             </div>
@@ -417,13 +430,13 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
         <span class="section-title">Accesos Rápidos</span>
         <div class="d-flex gap-3 flex-wrap">
             <button class="btn btn-primary" onclick="showSection('ventas'); setTimeout(()=>document.getElementById('posSearch')?.focus(),100)">
-                💳 Nueva Venta
+                Nueva Venta
             </button>
             <button class="btn btn-outline-primary" onclick="showSection('socios'); setTimeout(()=>document.getElementById('socioNombre')?.focus(),100)">
-                👤 Nuevo Socio
+                Nuevo Socio
             </button>
             <button class="btn btn-outline-primary" onclick="showSection('compras'); setTimeout(()=>document.getElementById('compraProveedor')?.focus(),100)">
-                🛒 Registrar Compra
+                Registrar Compra
             </button>
         </div>
     </div>
@@ -435,7 +448,7 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
 <div class="sam-section" id="section-inventario">
     <div class="sam-card mb-3">
         <div class="d-flex align-items-center gap-3">
-            <input type="text" id="invSearch" class="form-control sam-input" placeholder="🔍  Buscar por nombre, SKU o marca…" oninput="clearTimeout(invTimer);invTimer=setTimeout(()=>loadInventario(this.value),350)">
+            <input type="text" id="invSearch" class="form-control sam-input" placeholder="Buscar por nombre, SKU o marca…" oninput="clearTimeout(invTimer);invTimer=setTimeout(()=>loadInventario(this.value),350)">
             <div class="text-nowrap text-muted small" id="invCount"></div>
         </div>
     </div>
@@ -702,7 +715,7 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
                     </div>
                     <div id="socioSeleccionado" class="mt-2 d-none">
                         <div class="socio-terminal-active">
-                            <span>👤</span>
+                            <span></span>
                             <span class="socio-terminal-name" id="socioLabel"></span>
                             <span class="socio-terminal-pill" id="socioMembPill"></span>
                             <button class="socio-terminal-remove" onclick="quitarSocio()" title="Quitar">✕</button>
@@ -821,8 +834,8 @@ document.getElementById('page-date').textContent = new Date().toLocaleDateString
 </script>
 
 <script>
-window.addEventListener('error', (e) => { console.error('❌ ERROR:', e.error); toast('Error: ' + (e.error?.message || 'Desconocido'), 'error'); });
-window.addEventListener('unhandledrejection', (e) => { console.error('❌ PROMISE:', e.reason); toast('Error: ' + (e.reason?.message || 'Desconocido'), 'error'); });
+window.addEventListener('error', (e) => { console.error('ERROR:', e.error); toast('Error: ' + (e.error?.message || 'Desconocido'), 'error'); });
+window.addEventListener('unhandledrejection', (e) => { console.error('PROMISE:', e.reason); toast('Error: ' + (e.reason?.message || 'Desconocido'), 'error'); });
 </script>
 
 <script>
@@ -850,7 +863,7 @@ async function api(url, data=null) {
         const r = await fetch(url, opts);
         return await r.json();
     } catch (err) {
-        console.error('❌ API Error:', err.message);
+        console.error('API Error:', err.message);
         return { success: false, error: err.message };
     }
 }
@@ -1022,7 +1035,7 @@ async function loadPromos() {
             ? '<span style="display:inline-flex;align-items:center;gap:5px;font-size:.82rem;font-weight:600;color:var(--sam-green);">● Activa</span>'
             : '<span style="display:inline-flex;align-items:center;gap:5px;font-size:.82rem;font-weight:600;color:var(--sam-muted);">● Inactiva</span>';
         let membTag = '';
-        if (r.aplica_a_todos == '1') { membTag = '<span class="badge bg-dark">Todos</span>'; }
+        if (r.aplica_a_todos == '1') { membTag = '<span class="badge badge-gray">Todos</span>'; }
         else if (r.membresias_aplicables) {
             membTag = r.membresias_aplicables.split(', ').map(m => {
                 const style = m === 'PLUS' ? 'background:#7C3AED;' : (m === 'BENEFITS' ? 'background:#003DA5;' : 'background:#6B7280;');
@@ -1040,7 +1053,7 @@ async function loadPromos() {
             <td>${badge}</td>
             <td>
                 <button class="btn btn-outline-warning btn-sm me-1" onclick="togglePromo(${Number(r.id)})">${r.activo=='1'?'⏸ Desactivar':'▶ Activar'}</button>
-                <button class="btn btn-outline-danger btn-sm" onclick="deletePromo(${Number(r.id)})">🗑️</button>
+                <button class="btn btn-outline-danger btn-sm" onclick="deletePromo(${Number(r.id)})">Eliminar</button>
             </td>
         </tr>`;
     });
@@ -1056,7 +1069,7 @@ async function crearPromo() {
     const aplicaTodos = document.getElementById('promoAplicaTodos').checked ? '1' : '0';
 
     if (!prod_id || !nombre) { toast('Selecciona producto y nombre de la promoción','error'); return; }
-    if ((pct > 0 && monto > 0) || (pct === 0 && monto === 0)) { toast('⚠️ Ingresa SOLO descuento por % O por $, no ambos ni ninguno','error'); return; }
+    if ((pct > 0 && monto > 0) || (pct === 0 && monto === 0)) { toast('Ingresa SOLO descuento por % O por $, no ambos ni ninguno','error'); return; }
 
     const tiposSeleccionados = tiposMembresia
         .filter(tm => document.getElementById(`chk-memb-${tm.id}`)?.checked)
@@ -1312,7 +1325,7 @@ async function buscarProductoPos() {
                 if (resultado.aplico) {
                     promoTag = ` <span class="badge badge-promo">${resultado.promo_nombre} −${resultado.descuento > 0 ? fmt(resultado.descuento) : ''}</span>`;
                 } else if (resultado.promo_bloqueada) {
-                    promoTag = ` <span class="res-memb-tag" title="Requiere: ${resultado.memb_requerida}">🔒 ${resultado.promo_bloqueada}</span>`;
+                    promoTag = ` <span class="res-memb-tag" title="Requiere: ${resultado.memb_requerida}">${resultado.promo_bloqueada}</span>`;
                 }
             }
             d.innerHTML = `<strong>${p.nombre}</strong>${promoTag}<br>
@@ -1337,7 +1350,7 @@ function addToCart(p) {
             _desc_info: resultado, _producto_raw: p, stock_max: parseFloat(p.stock)
         });
         if (!resultado.aplico && resultado.promo_bloqueada) {
-            toast(`⚠️ "${p.nombre}" tiene promo para ${resultado.memb_requerida} — precio regular aplicado`, 'warn');
+            toast(`"${p.nombre}" tiene promo para ${resultado.memb_requerida} — precio regular aplicado`, 'warn');
         }
     }
     renderCart();
@@ -1360,7 +1373,7 @@ function renderCart() {
         subtotal += sub; totalDesc += desc;
         let descTag = '—';
         if (desc > 0) { descTag = `<span class="badge-desc-ok">−${fmt(desc)} ✓</span>`; }
-        else if (it._desc_info?.promo_bloqueada) { descTag = `<span class="badge-desc-no" title="Requiere: ${it._desc_info.memb_requerida}">🔒 Sin desc.</span>`; }
+        else if (it._desc_info?.promo_bloqueada) { descTag = `<span class="badge-desc-no" title="Requiere: ${it._desc_info.memb_requerida}">Sin desc.</span>`; }
         const promoTag = it.promo_nombre ? `<span class="badge badge-promo ms-1" style="font-size:.7rem;">${it.promo_nombre}</span>` : '';
         return `<tr>
             <td>
@@ -1413,11 +1426,11 @@ function agregarPago() {
     const d = document.createElement('div');
     d.className = 'pago-row d-flex gap-2 mb-2';
     d.innerHTML = `<select class="form-select form-select-sm pago-metodo" onchange="actualizarResumenPago()">
-        <option value="EFECTIVO">💵 Efectivo</option>
-        <option value="TARJETA">💳 Tarjeta</option>
-        <option value="CASHI">📲 Cashi</option>
-        <option value="INBURSA">🏦 Inbursa</option>
-        <option value="VALES">🎟️ Vales</option>
+        <option value="EFECTIVO">Efectivo</option>
+        <option value="TARJETA">Tarjeta</option>
+        <option value="CASHI">Cashi</option>
+        <option value="INBURSA">Inbursa</option>
+        <option value="VALES">Vales</option>
     </select>
     <input type="number" class="form-control form-control-sm pago-monto" placeholder="Monto" min="0" step="0.01" oninput="actualizarResumenPago()">
     <button class="btn btn-outline-danger btn-sm" onclick="this.parentElement.remove(); actualizarResumenPago();">✕</button>`;
@@ -1436,13 +1449,13 @@ async function buscarSocio() {
         if (!res.success || !res.data.length) { cont.style.display = 'none'; return; }
         res.data.forEach(s => {
             const d = document.createElement('div');
-            d.style.cssText = 'padding:9px 14px;cursor:pointer;border-bottom:1px solid #f0f0f0;font-size:.85rem';
-            const membColors = { CLASICA:'#6B7280', BENEFITS:'#003DA5', PLUS:'#7C3AED' };
-            const color = membColors[s.membresia] || '#333';
+            d.style.cssText = 'padding:9px 13px;cursor:pointer;border-bottom:1px solid #30363D;font-size:.85rem';
+            const membColors = { CLASICA:'#6B7280', BENEFITS:'#1D4ED8', PLUS:'#7C3AED' };
+            const color = membColors[s.membresia] || '#6B7280';
             d.innerHTML = `<strong>${s.nombre}</strong> — <span class="text-muted">#${s.numero_socio}</span><br>
                            <span class="badge" style="background:${color};color:#fff;">${s.membresia}</span>
                            <span class="text-muted" style="font-size:.8rem;"> Cashback: ${fmt(s.saldo_cashback)}</span>`;
-            d.onmouseover = () => d.style.background = '#f0f4ff';
+            d.onmouseover = () => d.style.background = '#21262D';
             d.onmouseout  = () => d.style.background = '';
             d.onclick = () => {
                 selectedSocio = s;
@@ -1558,7 +1571,7 @@ async function loadSocios() {
             <td>
                 <div class="acciones-socio" onclick="event.stopPropagation()">
                     <button class="btn btn-sm btn-outline-warning" title="Desactivar" onclick="desactivarMembresia(${r.socio_membresia_id})">⏸</button>
-                    <button class="btn btn-sm btn-danger" title="Eliminar titular y sus familiares" onclick="eliminarTitular(${r.socio_membresia_id}, ${JSON.stringify(r.nombre)}, ${r.num_familiares || 0})">🗑️</button>
+                    <button class="btn btn-sm btn-danger" title="Eliminar titular y sus familiares" onclick="eliminarTitular(${r.socio_membresia_id}, ${JSON.stringify(r.nombre)}, ${r.num_familiares || 0})">Eliminar</button>
                 </div>
             </td>
         </tr>`;
@@ -1571,11 +1584,11 @@ async function mostrarDetallesSocio(socio_membresia_id) {
     if (!res.success) { toast(res.error,'error'); return; }
     const titular = res.titular;
     const familiares = res.familiares || [];
-    const colorMap = {'CLASICA':'#6B7280','BENEFITS':'#003DA5','PLUS':'#7C3AED'};
+    const colorMap = {'CLASICA':'#6B7280','BENEFITS':'#1D4ED8','PLUS':'#7C3AED'};
 
     let html = `
-        <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
-            <h5 class="mb-3">👤 ${esc(titular.nombre)}</h5>
+        <div style="background:#1C2128;padding:18px;border-radius:10px;margin-bottom:18px;border:1px solid #30363D;">
+            <h5 class="mb-3" style="color:var(--sam-text);font-size:1rem;font-weight:700;">${esc(titular.nombre)}</h5>
             <div class="row g-3">
                 <div class="col-6">
                     <div><strong>Número:</strong> ${esc(titular.numero_socio)}</div>
@@ -1585,18 +1598,18 @@ async function mostrarDetallesSocio(socio_membresia_id) {
                 <div class="col-6">
                     <div><strong>Membresía:</strong> <span class="badge" style="background:${colorMap[titular.tipo_membresia]||'#6B7280'};color:#fff;">${esc(titular.tipo_membresia)}</span></div>
                     <div><strong>Vencimiento:</strong> ${esc(titular.vencimiento)}</div>
-                    <div><strong>Cashback:</strong> <span style="color: #10B981; font-weight: bold; font-size: 1.1rem;">${fmt(titular.saldo_cashback)}</span></div>
+                    <div><strong>Cashback:</strong> <span style="color:var(--sam-green);font-weight:700;font-size:1rem;">${fmt(titular.saldo_cashback)}</span></div>
                 </div>
             </div>
             <div class="d-flex gap-2 mt-3">
-                <button class="btn btn-sm btn-primary" onclick="renovarMembresia(${titular.id})">🔄 Renovar Membresía</button>
-                <button class="btn btn-sm btn-danger" onclick="eliminarTitular(${titular.id}, ${JSON.stringify(titular.nombre)}, ${familiares.length})">🗑️ Eliminar Titular</button>
+                <button class="btn btn-sm btn-primary" onclick="renovarMembresia(${titular.id})">Renovar Membresía</button>
+                <button class="btn btn-sm btn-danger" onclick="eliminarTitular(${titular.id}, ${JSON.stringify(titular.nombre)}, ${familiares.length})">Eliminar Titular</button>
             </div>
         </div>
     `;
 
     if (familiares.length > 0) {
-        html += '<h6 class="mt-4 mb-2">👨‍👩‍👧 Familiares Vinculados</h6>';
+        html += '<h6 class="mt-4 mb-2">Familiares Vinculados</h6>';
         html += `<div class="sam-table table-responsive"><table class="table table-sm mb-0">
             <thead><tr><th>Nombre</th><th>Parentesco</th><th>Membresía</th><th class="text-center">Complem.</th><th class="text-end">Cashback</th><th>Acciones</th></tr></thead>
             <tbody>`;
@@ -1608,14 +1621,14 @@ async function mostrarDetallesSocio(socio_membresia_id) {
                 <td class="text-center">${f.es_complementaria == 1 ? '<span class="badge bg-success">Gratis</span>' : '<span class="text-muted">—</span>'}</td>
                 <td class="text-end">${fmt(f.saldo_cashback)}</td>
                 <td>
-                    <button class="btn btn-sm btn-danger" onclick="eliminarFamiliar(${f.socio_membresia_id}, ${JSON.stringify(f.nombre)}, ${socio_membresia_id})">🗑️ Eliminar</button>
+                    <button class="btn btn-sm btn-danger" onclick="eliminarFamiliar(${f.socio_membresia_id}, ${JSON.stringify(f.nombre)}, ${socio_membresia_id})">Eliminar</button>
                 </td>
             </tr>`;
         });
         html += '</tbody></table></div>';
     } else {
         html += `<div class="alert alert-info mt-3 mb-0">
-            📌 Este socio no tiene familiares vinculados aún.
+            Este socio no tiene familiares vinculados aún.
             <button class="btn btn-sm btn-link p-0" onclick="mostrarFormFamiliar()">Vincular un familiar</button>
         </div>`;
     }
@@ -1667,7 +1680,7 @@ async function crearSocioTitular() {
     const fecha_fin = document.getElementById('socioFechaFin').value;
     if (!nombre || !tipo_membresia_id || !fecha_fin) { toast('Por favor completa todos los campos requeridos', 'error'); return; }
     const res = await api('socios.php', { action: 'crear_socio_titular', nombre, correo, telefono, tipo_membresia_id, fecha_fin });
-    if (res.success) { toast('✅ ' + res.message); limpiarFormNuevo(); loadSocios(); }
+    if (res.success) { toast(res.message); limpiarFormNuevo(); loadSocios(); }
     else toast(res.error, 'error');
 }
 
@@ -1681,7 +1694,7 @@ async function crearSocioFamiliar() {
     if (!cuenta_titular_id || !nombre || !parentesco) { toast('Por favor completa todos los campos requeridos', 'error'); return; }
     const res = await api('socios.php', { action: 'crear_socio_familiar', cuenta_titular_id, nombre, correo, telefono, parentesco, es_complementaria });
     if (res.success) {
-        toast('✅ ' + res.message + ' · Número: ' + res.numero_socio);
+        toast(res.message + ' · Número: ' + res.numero_socio);
         limpiarFormFamiliar(); loadSocios(); mostrarFormNuevo();
     } else toast(res.error, 'error');
 }
@@ -1689,7 +1702,7 @@ async function crearSocioFamiliar() {
 async function desactivarMembresia(socio_membresia_id) {
     if (!confirm('¿Desactivar esta membresía? El socio dejará de aparecer activo.')) return;
     const res = await api('socios.php', { action: 'desactivar_membresia', socio_membresia_id });
-    if (res.success) { toast('✅ ' + res.message); loadSocios(); }
+    if (res.success) { toast(res.message); loadSocios(); }
     else toast(res.error, 'error');
 }
 
@@ -1701,7 +1714,7 @@ async function eliminarTitular(socio_membresia_id, nombre, numFamiliares) {
     if (!confirm(msg)) return;
     const res = await api('socios.php', { action: 'eliminar_socio_titular', socio_membresia_id });
     if (res.success) {
-        toast('🗑️ ' + res.message);
+        toast(res.message);
         loadSocios();
         loadFamiliares();
         // Limpiar panel de detalles si estaba mostrando este socio
@@ -1717,7 +1730,7 @@ async function eliminarFamiliar(socio_membresia_id, nombre, titular_id) {
     if (!confirm(`¿Eliminar permanentemente al familiar "${nombre}"? Esta acción NO se puede deshacer.`)) return;
     const res = await api('socios.php', { action: 'eliminar_familiar', socio_membresia_id });
     if (res.success) {
-        toast('🗑️ ' + res.message);
+        toast(res.message);
         loadFamiliares();
         // Refrescar detalles del titular si está abierto
         if (titular_id) mostrarDetallesSocio(titular_id);
@@ -1729,7 +1742,7 @@ async function renovarMembresia(socio_membresia_id) {
     const nuevaFecha = prompt('Ingresa la nueva fecha de vencimiento (YYYY-MM-DD):');
     if (!nuevaFecha) return;
     const res = await api('socios.php', { action: 'renovar_membresia', socio_membresia_id, nueva_fecha_fin: nuevaFecha });
-    if (res.success) { toast('✅ ' + res.message); mostrarDetallesSocio(socio_membresia_id); loadSocios(); }
+    if (res.success) { toast(res.message); mostrarDetallesSocio(socio_membresia_id); loadSocios(); }
     else toast(res.error, 'error');
 }
 
@@ -1765,7 +1778,7 @@ async function loadFamiliares() {
             <td class="small">${esc(f.vencimiento)}</td>
             <td class="text-end fw-semibold">${fmt(f.saldo_cashback)}</td>
             <td>
-                <button class="btn btn-sm btn-danger" onclick="eliminarFamiliar(${f.socio_membresia_id}, ${JSON.stringify(f.nombre)}, ${f.cuenta_titular_id})" title="Eliminar familiar">🗑️</button>
+                <button class="btn btn-sm btn-danger" onclick="eliminarFamiliar(${f.socio_membresia_id}, ${JSON.stringify(f.nombre)}, ${f.cuenta_titular_id})" title="Eliminar familiar">Eliminar</button>
             </td>
         </tr>`;
     });
