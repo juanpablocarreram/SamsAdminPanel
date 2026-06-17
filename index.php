@@ -15,7 +15,7 @@
     --sam-light:   #0D1117;
     --sam-card:    #161B22;
     --sam-border:  #30363D;
-    --sam-hover:   #21262D;
+    --sam-hover:   #2D333B;
     --sam-text:    #E6EDF3;
     --sam-muted:   #848D97;
     --sam-green:   #3FB950;
@@ -113,23 +113,103 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
 }
 .sam-table tbody tr { border-bottom: 1px solid var(--sam-border); transition: background .12s ease; }
 .sam-table tbody tr:last-child { border-bottom: none; }
-.sam-table tbody tr:hover { background: var(--sam-hover); }
+.sam-table tbody tr:hover { background: #2D333B; }
+.sam-table tbody tr:hover > td { color: var(--sam-text) !important; background: transparent !important; }
 .sam-table td { vertical-align: middle; font-size: .865rem; padding: 11px 14px; color: var(--sam-text); border: none; }
 .sam-table td strong { color: var(--sam-text); font-weight: 600; }
 .stock-zero { color: var(--sam-red) !important; font-weight: 700; }
 
 /* ── FORMS ── */
-.form-label { font-size: .75rem; font-weight: 600; color: var(--sam-muted); margin-bottom: 5px; display: block; text-transform: uppercase; letter-spacing: .4px; }
+.form-label { font-size: .68rem; font-weight: 700; color: var(--sam-muted); margin-bottom: 6px; display: block; text-transform: uppercase; letter-spacing: .6px; }
 .form-control, .form-select {
-    font-size: .865rem; padding: 9px 12px; border: 1px solid var(--sam-border);
-    border-radius: 7px; background: #0D1117; color: var(--sam-text);
-    transition: border-color .15s, box-shadow .15s; min-height: 38px; width: 100%;
+    font-size: .875rem; padding: 10px 13px; border: 1px solid var(--sam-border);
+    border-radius: 7px; background: #0A0E17; color: var(--sam-text);
+    transition: border-color .15s, box-shadow .15s, background .15s; min-height: 40px; width: 100%;
 }
+.form-control:hover:not(:focus) { border-color: #3D4452; }
 .form-control:focus, .form-select:focus {
-    border-color: var(--sam-blue); box-shadow: 0 0 0 3px rgba(77,139,255,.15); outline: none;
+    border-color: var(--sam-blue); box-shadow: 0 0 0 3px rgba(77,139,255,.13); outline: none; background: #090D14;
 }
-.form-control::placeholder { color: rgba(255,255,255,.18); }
+.form-control::placeholder { color: rgba(255,255,255,.22); }
 .form-select option { background: #161B22; color: var(--sam-text); }
+.form-hint { font-size: .72rem; color: var(--sam-muted); margin-top: 5px; line-height: 1.45; }
+
+/* ── SEARCH WRAP (search icon via CSS) ── */
+.search-wrap { position: relative; }
+.search-wrap .form-control,
+.search-wrap .sam-input { padding-left: 37px; }
+.search-wrap::before {
+    content: '';
+    position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+    width: 15px; height: 15px; pointer-events: none; z-index: 1;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 16 16'%3E%3Ccircle cx='6.5' cy='6.5' r='4' stroke='%23848D97' stroke-width='1.5'/%3E%3Cpath d='M10 10L13.5 13.5' stroke='%23848D97' stroke-width='1.5' stroke-linecap='round'/%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat; background-position: center; background-size: contain;
+}
+
+/* ── PREFIX / SUFFIX INPUTS ── */
+.pfx-group, .sfx-group { position: relative; display: block; }
+.pfx-group .form-control { padding-left: 23px; }
+.pfx-group .pfx {
+    position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+    color: var(--sam-muted); font-weight: 700; font-size: .8rem; pointer-events: none; z-index: 1;
+}
+.sfx-group .form-control { padding-right: 30px; }
+.sfx-group .sfx {
+    position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+    color: var(--sam-muted); font-weight: 700; font-size: .8rem; pointer-events: none;
+}
+
+/* ── STYLED CHECKBOX CARD ── */
+.check-card {
+    display: flex; align-items: flex-start; gap: 10px; padding: 10px 13px;
+    border-radius: 7px; border: 1px solid var(--sam-border); background: #0A0E17;
+    cursor: pointer; transition: border-color .15s, background .15s; user-select: none;
+}
+.check-card:hover { border-color: var(--sam-blue); background: #090D14; }
+.check-card input[type=checkbox] {
+    width: 15px; height: 15px; accent-color: var(--sam-blue);
+    flex-shrink: 0; margin-top: 1px; cursor: pointer;
+}
+.check-card-body { display: flex; flex-direction: column; gap: 2px; }
+.check-card-text { font-size: .82rem; font-weight: 600; color: var(--sam-text); }
+.check-card-hint { font-size: .7rem; color: var(--sam-muted); line-height: 1.4; }
+
+/* ── FORM DIVIDER ── */
+.form-divider {
+    display: flex; align-items: center; gap: 10px; margin: 18px 0;
+    font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--sam-muted);
+}
+.form-divider::before, .form-divider::after { content: ''; flex: 1; height: 1px; background: var(--sam-border); }
+
+/* ── SECTION SUBTITLE ── */
+.section-subtitle { font-size: .79rem; color: var(--sam-muted); margin-top: -8px; margin-bottom: 16px; line-height: 1.5; }
+
+/* ── COUNT BADGE ── */
+.count-badge {
+    flex-shrink: 0; display: inline-flex; align-items: center; padding: 3px 10px;
+    border-radius: 20px; font-size: .71rem; font-weight: 700;
+    background: rgba(255,255,255,.05); color: var(--sam-muted); border: 1px solid var(--sam-border); white-space: nowrap;
+}
+
+/* ── EMPTY STATE ── */
+.empty-state { text-align: center; padding: 36px 16px; }
+.empty-state p { font-size: .82rem; color: var(--sam-muted); margin: 0; line-height: 1.5; }
+.empty-state strong { display: block; font-size: .88rem; color: var(--sam-text); margin-bottom: 4px; }
+
+/* ── DATE INPUT ── */
+input[type=date].form-control { color-scheme: dark; }
+
+/* ── NUMBER INPUT ── */
+input[type=number].form-control::-webkit-inner-spin-button { opacity: .4; }
+
+/* ── ADD BUTTON (inline in forms) ── */
+.btn-add {
+    width: 100%; padding: 9px; background: rgba(255,255,255,.05);
+    color: var(--sam-muted); border: 1px dashed var(--sam-border);
+    border-radius: 7px; cursor: pointer; font-size: .82rem; font-weight: 600;
+    transition: all .15s; display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.btn-add:hover { border-color: var(--sam-blue); color: var(--sam-blue); background: rgba(77,139,255,.06); }
 
 /* ── BUTTONS ── */
 .btn { font-weight: 600; padding: 8px 15px; border-radius: 7px; transition: all .15s ease; font-size: .82rem; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 5px; }
@@ -206,14 +286,15 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
 .pos-terminal-footer { padding: 13px 16px; border-top: 1px solid rgba(255,255,255,.07); display: flex; flex-direction: column; gap: 7px; }
 .input-dark {
     background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
-    border-radius: 7px; color: #fff; padding: 8px 11px; font-size: .84rem; width: 100%;
+    border-radius: 7px; color: #fff; padding: 0 11px; font-size: .84rem; width: 100%;
+    height: 36px; min-height: 36px; line-height: 36px;
 }
 .input-dark::placeholder { color: rgba(255,255,255,.22); }
 .input-dark:focus { outline: none; border-color: rgba(255,194,32,.5); background: rgba(255,255,255,.07); }
 .select-dark {
     background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
-    border-radius: 7px; color: #fff; padding: 8px 11px; font-size: .84rem; width: 100%;
-    appearance: none; -webkit-appearance: none;
+    border-radius: 7px; color: #fff; padding: 0 11px; font-size: .84rem; width: 100%;
+    height: 36px; min-height: 36px; line-height: 36px;
 }
 .select-dark option { background: #0D1117; color: #fff; }
 .select-dark:focus { outline: none; border-color: rgba(255,194,32,.5); }
@@ -448,8 +529,10 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
 <div class="sam-section" id="section-inventario">
     <div class="sam-card mb-3">
         <div class="d-flex align-items-center gap-3">
-            <input type="text" id="invSearch" class="form-control sam-input" placeholder="Buscar por nombre, SKU o marca…" oninput="clearTimeout(invTimer);invTimer=setTimeout(()=>loadInventario(this.value),350)">
-            <div class="text-nowrap text-muted small" id="invCount"></div>
+            <div class="search-wrap" style="flex:1;">
+                <input type="text" id="invSearch" class="form-control" placeholder="Buscar por nombre, SKU o marca…" oninput="clearTimeout(invTimer);invTimer=setTimeout(()=>loadInventario(this.value),350)">
+            </div>
+            <span class="count-badge" id="invCount" style="display:none;"></span>
         </div>
     </div>
 
@@ -480,26 +563,57 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
 ═══════════════════════════════════════════════ -->
 <div class="sam-section" id="section-socios">
     <div class="d-flex gap-4" style="align-items:flex-start;gap:24px;">
-        <div style="flex:0 0 340px; min-width:0;">
+        <div style="flex:0 0 320px; min-width:0;">
             <div class="sam-card top-accent">
                 <div id="socioFormNuevo">
                     <span class="section-title">Nuevo Socio Titular</span>
-                    <div class="mb-3"><label class="form-label">Nombre completo</label><input type="text" id="socioNombre" class="form-control" placeholder="Ej: Juan Pérez"></div>
-                    <div class="mb-3"><label class="form-label">Correo electrónico</label><input type="email" id="socioCorreo" class="form-control" placeholder="correo@ejemplo.com"></div>
-                    <div class="mb-3"><label class="form-label">Teléfono</label><input type="tel" id="socioTelefono" class="form-control" placeholder="+52 222 123 4567"></div>
-                    <div class="mb-3"><label class="form-label">Tipo de membresía</label><select id="socioTipoMembresia" class="form-select"><option value="">Seleccionar tipo…</option></select></div>
-                    <div class="mb-3"><label class="form-label">Fecha de vencimiento</label><input type="date" id="socioFechaFin" class="form-control"></div>
+                    <p class="section-subtitle">Completa los datos para registrar una nueva membresía.</p>
+                    <div class="mb-3">
+                        <label class="form-label">Nombre completo</label>
+                        <input type="text" id="socioNombre" class="form-control" placeholder="Ej: Juan Pérez García" autocomplete="off">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Correo electrónico <span style="color:var(--sam-muted);font-weight:400;text-transform:none;letter-spacing:0;">(opcional)</span></label>
+                        <input type="email" id="socioCorreo" class="form-control" placeholder="correo@ejemplo.com">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Teléfono <span style="color:var(--sam-muted);font-weight:400;text-transform:none;letter-spacing:0;">(opcional)</span></label>
+                        <input type="tel" id="socioTelefono" class="form-control" placeholder="55 1234 5678">
+                    </div>
+                    <div class="form-divider">Membresía</div>
+                    <div class="mb-3">
+                        <label class="form-label">Tipo de membresía</label>
+                        <select id="socioTipoMembresia" class="form-select"><option value="">Seleccionar tipo…</option></select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Fecha de vencimiento</label>
+                        <input type="date" id="socioFechaFin" class="form-control">
+                    </div>
                     <button class="btn btn-primary w-100 mb-2" onclick="crearSocioTitular()">Registrar Socio Titular</button>
-                    <button class="btn btn-outline-secondary w-100" onclick="mostrarFormFamiliar()">Vincular Familiar</button>
+                    <button class="btn btn-outline-secondary w-100" onclick="mostrarFormFamiliar()">Vincular un familiar existente</button>
                 </div>
                 <div id="socioFormFamiliar" style="display:none;">
                     <span class="section-title">Vincular Familiar</span>
-                    <div class="mb-3"><label class="form-label">Socio Titular</label><select id="socioTitularSel" class="form-select"><option value="">Seleccionar titular…</option></select></div>
-                    <div class="alert alert-info mb-3">El familiar heredará el tipo de membresía y fecha de vencimiento del titular.</div>
-                    <div class="mb-3"><label class="form-label">Nombre del familiar</label><input type="text" id="familiarNombre" class="form-control" placeholder="Nombre completo"></div>
-                    <div class="mb-3"><label class="form-label">Correo electrónico</label><input type="email" id="familiarCorreo" class="form-control" placeholder="correo@ejemplo.com"></div>
-                    <div class="mb-3"><label class="form-label">Teléfono</label><input type="tel" id="familiarTelefono" class="form-control" placeholder="+52 222 123 4567"></div>
-                    <div class="mb-3"><label class="form-label">Parentesco</label>
+                    <p class="section-subtitle">El familiar hereda membresía y vencimiento del titular.</p>
+                    <div class="mb-3">
+                        <label class="form-label">Socio Titular</label>
+                        <select id="socioTitularSel" class="form-select"><option value="">Seleccionar titular…</option></select>
+                    </div>
+                    <div class="form-divider">Datos del Familiar</div>
+                    <div class="mb-3">
+                        <label class="form-label">Nombre completo</label>
+                        <input type="text" id="familiarNombre" class="form-control" placeholder="Nombre completo">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Correo <span style="color:var(--sam-muted);font-weight:400;text-transform:none;letter-spacing:0;">(opcional)</span></label>
+                        <input type="email" id="familiarCorreo" class="form-control" placeholder="correo@ejemplo.com">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Teléfono <span style="color:var(--sam-muted);font-weight:400;text-transform:none;letter-spacing:0;">(opcional)</span></label>
+                        <input type="tel" id="familiarTelefono" class="form-control" placeholder="55 1234 5678">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Parentesco</label>
                         <select id="familiarParentesco" class="form-select">
                             <option value="CONYUGE">Cónyuge</option>
                             <option value="HIJO">Hijo/a</option>
@@ -509,10 +623,13 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:.85rem;font-weight:600;">
-                            <input type="checkbox" id="familiarComplementaria"> ¿Tarjeta complementaria gratis?
+                        <label class="check-card" for="familiarComplementaria">
+                            <input type="checkbox" id="familiarComplementaria">
+                            <div class="check-card-body">
+                                <span class="check-card-text">Tarjeta complementaria gratis</span>
+                                <span class="check-card-hint">Solo se permite 1 por titular</span>
+                            </div>
                         </label>
-                        <small class="text-muted">Solo 1 complementaria gratis por titular.</small>
                     </div>
                     <button class="btn btn-success w-100 mb-2" onclick="crearSocioFamiliar()">Vincular Familiar</button>
                     <button class="btn btn-outline-secondary w-100" onclick="mostrarFormNuevo()">← Volver</button>
@@ -521,7 +638,9 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
         </div>
         <div style="flex:1; min-width:0;">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <input type="text" id="sociosBuscar" class="form-control" placeholder="Buscar socio…" style="max-width:260px;">
+                <div class="search-wrap" style="max-width:280px;flex:1;">
+                    <input type="text" id="sociosBuscar" class="form-control" placeholder="Buscar socio por nombre o número…">
+                </div>
                 <button class="btn btn-sm btn-outline-primary" onclick="loadSocios(); loadFamiliares();">↺ Actualizar</button>
             </div>
             <div class="pill-tabs">
@@ -531,7 +650,7 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
             </div>
             <div id="socios-listado">
                 <div class="sam-table table-responsive">
-                    <table class="table table-sm table-hover mb-0">
+                    <table class="table table-sm mb-0">
                         <thead><tr><th>#</th><th>Número</th><th>Nombre</th><th>Membresía</th><th class="text-center">Familiares</th><th>Vencimiento</th><th class="text-end">Cashback</th><th>Acciones</th></tr></thead>
                         <tbody id="sociosBody"><tr><td colspan="8" class="text-center text-muted py-4">Cargando socios…</td></tr></tbody>
                     </table>
@@ -539,11 +658,13 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
             </div>
             <div id="socios-familiares" style="display:none;">
                 <div class="d-flex gap-2 mb-3">
-                    <input type="text" id="familiarBuscar" class="form-control" placeholder="Buscar familiar…" style="max-width:300px;">
+                    <div class="search-wrap" style="max-width:300px;flex:1;">
+                        <input type="text" id="familiarBuscar" class="form-control" placeholder="Buscar familiar…">
+                    </div>
                     <button class="btn btn-sm btn-outline-primary" onclick="loadFamiliares()">↺</button>
                 </div>
                 <div class="sam-table table-responsive">
-                    <table class="table table-sm table-hover mb-0">
+                    <table class="table table-sm mb-0">
                         <thead><tr><th>Familiar</th><th>Número</th><th>Parentesco</th><th>Membresía</th><th>Titular</th><th class="text-center">Complem.</th><th>Vencimiento</th><th class="text-end">Cashback</th><th>Acciones</th></tr></thead>
                         <tbody id="familiaresBody"><tr><td colspan="9" class="text-center text-muted py-4">Cargando familiares…</td></tr></tbody>
                     </table>
@@ -561,28 +682,59 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
 ═══════════════════════════════════════════════ -->
 <div class="sam-section" id="section-promociones">
     <div class="d-flex gap-4" style="align-items:flex-start;">
-        <div style="flex:0 0 380px; min-width:0;">
+        <div style="flex:0 0 360px; min-width:0;">
             <div class="sam-card top-accent">
                 <span class="section-title">Nueva Promoción</span>
-                <div class="mb-3"><label class="form-label">Producto</label><select id="promoProducto" class="form-select"><option value="">Cargando…</option></select></div>
-                <div class="mb-3"><label class="form-label">Nombre de la promoción</label><input type="text" id="promoNombre" class="form-control" placeholder="Ej: Promo Verano"></div>
-                <div class="mb-3"><label class="form-label">Descuento %</label><input type="number" id="promoDescPct" class="form-control" placeholder="0" min="0" max="100" step="0.01"></div>
-                <div class="mb-3"><label class="form-label">Descuento $</label><input type="number" id="promoDescMonto" class="form-control" placeholder="0.00" min="0" step="0.01"></div>
-                <div class="alert alert-info mb-3">Ingresa SOLO descuento por % O por $, no ambos.</div>
-                <div class="mb-3"><label class="form-label">Fecha de inicio</label><input type="date" id="promoFechaIni" class="form-control"></div>
-                <div class="mb-3"><label class="form-label">Fecha de fin</label><input type="date" id="promoFechaFin" class="form-control"></div>
+                <p class="section-subtitle">Elige el producto, define el descuento y a quién aplica.</p>
                 <div class="mb-3">
-                    <label class="form-label">Elegibilidad por membresía</label>
-                    <div class="mb-2 todos-check-wrap">
-                        <label>
-                            <input type="checkbox" id="promoAplicaTodos" onchange="toggleTodosCheck()">
-                            Aplica a todos (sin importar membresía)
-                        </label>
-                    </div>
-                    <div id="membresiaChecks" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
-                    <div class="mt-2 small text-muted">Si no marcas "todos", solo los tipos seleccionados verán el descuento.</div>
+                    <label class="form-label">Producto</label>
+                    <select id="promoProducto" class="form-select"><option value="">Cargando…</option></select>
                 </div>
-                <button class="btn btn-primary w-100 mt-2" onclick="crearPromo()">Registrar Promoción</button>
+                <div class="mb-3">
+                    <label class="form-label">Nombre de la promoción</label>
+                    <input type="text" id="promoNombre" class="form-control" placeholder="Ej: Promo Verano 2026">
+                </div>
+                <div class="form-divider">Tipo de descuento — elige uno</div>
+                <div class="d-flex gap-3 mb-3">
+                    <div style="flex:1;">
+                        <label class="form-label">Descuento porcentual</label>
+                        <div class="sfx-group">
+                            <input type="number" id="promoDescPct" class="form-control" placeholder="0" min="0" max="100" step="0.01">
+                            <span class="sfx">%</span>
+                        </div>
+                    </div>
+                    <div style="flex:1;">
+                        <label class="form-label">Descuento en pesos</label>
+                        <div class="pfx-group">
+                            <span class="pfx">$</span>
+                            <input type="number" id="promoDescMonto" class="form-control" placeholder="0.00" min="0" step="0.01">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-divider">Vigencia</div>
+                <div class="d-flex gap-3 mb-3">
+                    <div style="flex:1;">
+                        <label class="form-label">Inicio</label>
+                        <input type="date" id="promoFechaIni" class="form-control">
+                    </div>
+                    <div style="flex:1;">
+                        <label class="form-label">Fin</label>
+                        <input type="date" id="promoFechaFin" class="form-control">
+                    </div>
+                </div>
+                <div class="form-divider">Elegibilidad</div>
+                <div class="mb-3">
+                    <label class="check-card" for="promoAplicaTodos" style="margin-bottom:8px;">
+                        <input type="checkbox" id="promoAplicaTodos" onchange="toggleTodosCheck()">
+                        <div class="check-card-body">
+                            <span class="check-card-text">Aplica a todos los socios</span>
+                            <span class="check-card-hint">Sin importar el tipo de membresía</span>
+                        </div>
+                    </label>
+                    <div id="membresiaChecks" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+                    <p class="form-hint" style="margin-top:8px;">Si no marcas "todos", solo los tipos seleccionados verán el descuento.</p>
+                </div>
+                <button class="btn btn-primary w-100" onclick="crearPromo()">Registrar Promoción</button>
             </div>
         </div>
         <div style="flex:1; min-width:0;">
@@ -591,7 +743,7 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
                 <button class="btn btn-sm btn-outline-primary" onclick="loadPromos()">↺ Actualizar</button>
             </div>
             <div class="sam-table table-responsive">
-                <table class="table table-hover mb-0">
+                <table class="table mb-0">
                     <thead><tr><th>#</th><th>Producto</th><th>Promoción</th><th class="text-end">Desc %</th><th class="text-end">Desc $</th><th>Vigencia</th><th>Membresías</th><th>Estado</th><th>Acciones</th></tr></thead>
                     <tbody id="promoBody"><tr><td colspan="9" class="text-center py-4 text-muted">Cargando…</td></tr></tbody>
                 </table>
@@ -608,22 +760,43 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
         <div style="flex:1; min-width:0;">
             <div class="sam-card top-accent">
                 <span class="section-title">Registrar Recepción de Mercancía</span>
-                <div class="mb-3"><label class="form-label">Proveedor</label><select id="compraProveedor" class="form-select"><option value="">Seleccionar proveedor…</option></select></div>
-                <div class="mb-3"><label class="form-label">Zona de destino</label><select id="compraZona" class="form-select"><option value="">Seleccionar zona…</option></select></div>
-                <div class="mb-3"><label class="form-label">¿Es reserva?</label>
-                    <select id="compraEsReserva" class="form-select">
-                        <option value="0">No (Piso de venta)</option>
-                        <option value="1">Sí (Bodega / Reserva)</option>
-                    </select>
+                <p class="section-subtitle">Registra la entrada de productos al inventario.</p>
+                <div class="mb-3">
+                    <label class="form-label">Proveedor</label>
+                    <select id="compraProveedor" class="form-select"><option value="">Seleccionar proveedor…</option></select>
                 </div>
-                <hr style="border-color:var(--sam-border);margin:16px 0;">
-                <span class="section-title">Agregar Productos</span>
-                <div class="mb-3"><label class="form-label">Producto</label><select id="compraProductoSel" class="form-select"><option value="">Seleccionar producto…</option></select></div>
                 <div class="d-flex gap-3 mb-3">
-                    <div style="flex:1;"><label class="form-label">Cantidad</label><input type="number" id="compraCantidad" class="form-control" placeholder="1" min="1"></div>
-                    <div style="flex:1;"><label class="form-label">Precio costo</label><input type="number" id="compraPrecio" class="form-control" placeholder="0.00" step="0.01" min="0"></div>
+                    <div style="flex:1;">
+                        <label class="form-label">Zona de destino</label>
+                        <select id="compraZona" class="form-select"><option value="">Seleccionar zona…</option></select>
+                    </div>
+                    <div style="flex:1;">
+                        <label class="form-label">Destino</label>
+                        <select id="compraEsReserva" class="form-select">
+                            <option value="0">Piso de venta</option>
+                            <option value="1">Bodega / Reserva</option>
+                        </select>
+                    </div>
                 </div>
-                <button class="btn btn-success w-100 mb-3" onclick="agregarItemCompra()">+ Agregar a lista</button>
+                <div class="form-divider">Productos a recibir</div>
+                <div class="mb-3">
+                    <label class="form-label">Producto</label>
+                    <select id="compraProductoSel" class="form-select"><option value="">Seleccionar producto…</option></select>
+                </div>
+                <div class="d-flex gap-3 mb-3">
+                    <div style="flex:1;">
+                        <label class="form-label">Cantidad</label>
+                        <input type="number" id="compraCantidad" class="form-control" placeholder="1" min="1">
+                    </div>
+                    <div style="flex:1;">
+                        <label class="form-label">Precio de costo</label>
+                        <div class="pfx-group">
+                            <span class="pfx">$</span>
+                            <input type="number" id="compraPrecio" class="form-control" placeholder="0.00" step="0.01" min="0">
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-add mb-3" onclick="agregarItemCompra()">+ Agregar producto a la lista</button>
                 <span class="section-title">Items Agregados</span>
                 <div class="compra-items-sub">
                     <table class="table table-sm mb-0">
@@ -651,7 +824,7 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
         <div style="flex:0 0 340px; min-width:0;">
             <span class="section-title">Recepciones Recientes</span>
             <div class="sam-table table-responsive">
-                <table class="table table-sm table-hover mb-0">
+                <table class="table table-sm mb-0">
                     <thead><tr><th>Fecha</th><th>Producto</th><th class="text-end">Cant.</th><th>Proveedor</th></tr></thead>
                     <tbody id="histCompraBody"><tr><td colspan="4" class="text-center text-muted py-3">Cargando…</td></tr></tbody>
                 </table>
@@ -668,7 +841,7 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
     <!-- LEFT: Light zone -->
     <div class="pos-light">
         <div class="d-flex gap-3" style="flex-shrink:0;">
-            <div style="flex:0 0 180px;">
+            <div style="flex:0 0 170px;">
                 <label class="form-label">Canal de venta</label>
                 <select id="posCanal" class="form-select">
                     <option value="CAJA">Caja</option>
@@ -677,13 +850,15 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
                 </select>
             </div>
             <div style="flex:1; position:relative;">
-                <label class="form-label">Buscar producto para agregar</label>
-                <input type="text" id="posSearch" class="form-control" placeholder="Nombre, SKU o marca…" oninput="buscarProductoPos()">
+                <label class="form-label">Buscar producto</label>
+                <div class="search-wrap">
+                    <input type="text" id="posSearch" class="form-control" placeholder="Nombre, SKU o marca…" oninput="buscarProductoPos()" autocomplete="off">
+                </div>
                 <div id="searchResults"></div>
             </div>
         </div>
         <div class="pos-cart-wrap sam-table table-responsive">
-            <table class="table table-hover mb-0">
+            <table class="table mb-0">
                 <thead>
                     <tr>
                         <th>Producto</th><th class="text-end">Precio U.</th>
@@ -735,19 +910,8 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
             <hr class="pos-divider">
             <div>
                 <div class="pos-label">Método de Pago</div>
-                <div id="pagosContainer">
-                    <div class="pago-row d-flex gap-2 mb-2" data-idx="0">
-                        <select class="select-dark pago-metodo" onchange="actualizarResumenPago()" style="flex:1;">
-                            <option value="EFECTIVO">Efectivo</option>
-                            <option value="TARJETA">Tarjeta</option>
-                            <option value="CASHI">Cashi</option>
-                            <option value="INBURSA">Inbursa</option>
-                            <option value="VALES">Vales</option>
-                        </select>
-                        <input type="number" class="input-dark pago-monto" placeholder="Monto" min="0" step="0.01" oninput="actualizarResumenPago()" style="width:100px;">
-                    </div>
-                </div>
-                <button style="width:100%;margin-top:6px;padding:8px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.12);border-radius:8px;cursor:pointer;font-size:.82rem;font-weight:600;" onclick="agregarPago()">+ Agregar método de pago</button>
+                <div id="pagosContainer"></div>
+                <button class="btn-add" style="margin-top:6px;border-color:rgba(255,255,255,.12);color:rgba(255,255,255,.5);" onmouseover="this.style.borderColor='rgba(255,194,32,.4)';this.style.color='#FFC220';this.style.background='rgba(255,194,32,.05)';" onmouseout="this.style.borderColor='rgba(255,255,255,.12)';this.style.color='rgba(255,255,255,.5)';this.style.background='';" onclick="agregarPago()">+ Agregar método de pago</button>
                 <div id="pagoResumen" class="mt-2 d-none">
                     <span>Pagado: <strong id="pagoTotalIngresado">$0.00</strong></span>
                     <span id="pagoEstado"></span>
@@ -769,7 +933,7 @@ body { background: var(--sam-light); font-family: 'Inter', sans-serif; color: va
         <button class="btn btn-sm btn-outline-primary" onclick="loadHistVentas()">↺ Actualizar</button>
     </div>
     <div class="sam-table table-responsive">
-        <table class="table table-sm table-hover mb-0">
+        <table class="table table-sm mb-0">
             <thead><tr><th>#</th><th>Fecha</th><th>Socio</th><th>Canal</th><th class="text-end">Artículos</th><th class="text-end">Total</th></tr></thead>
             <tbody id="histVentasBody"><tr><td colspan="6" class="text-center text-muted py-4">Cargando…</td></tr></tbody>
         </table>
@@ -957,7 +1121,7 @@ async function loadInventario(q = '') {
     <td>${p.promo_nombre ? `<span class="badge badge-promo">${p.descuento_pct > 0 ? Number(p.descuento_pct)+'%' : '$'+Number(p.descuento_monto)} ${esc(p.promo_nombre)}</span>` : '<span class="text-muted small">—</span>'}</td>
 </tr>`).join('');
     const countEl = document.getElementById('invCount');
-    if (countEl) countEl.textContent = data.length + ' producto' + (data.length !== 1 ? 's' : '');
+    if (countEl) { countEl.textContent = data.length + ' producto' + (data.length !== 1 ? 's' : ''); countEl.style.display = data.length ? 'inline-flex' : 'none'; }
 }
 async function loadInvStats() {
     const res = await api('inventario.php?action=stats');
@@ -1414,10 +1578,8 @@ function cancelarVenta() {
     document.getElementById('posSearchSocio').value = '';
     document.getElementById('socioSeleccionado').classList.add('d-none');
     document.getElementById('socioInputWrap').style.display = '';
-    const rows = document.querySelectorAll('#pagosContainer .pago-row');
-    rows.forEach((r, i) => { if (i > 0) r.remove(); });
-    const firstMonto = document.querySelector('.pago-monto');
-    if (firstMonto) firstMonto.value = '';
+    document.getElementById('pagosContainer').innerHTML = '';
+    agregarPago();
     actualizarResumenPago();
 }
 
@@ -1425,15 +1587,15 @@ function agregarPago() {
     const c = document.getElementById('pagosContainer');
     const d = document.createElement('div');
     d.className = 'pago-row d-flex gap-2 mb-2';
-    d.innerHTML = `<select class="form-select form-select-sm pago-metodo" onchange="actualizarResumenPago()">
+    d.innerHTML = `<select class="select-dark pago-metodo" onchange="actualizarResumenPago()" style="flex:1;">
         <option value="EFECTIVO">Efectivo</option>
         <option value="TARJETA">Tarjeta</option>
         <option value="CASHI">Cashi</option>
         <option value="INBURSA">Inbursa</option>
         <option value="VALES">Vales</option>
     </select>
-    <input type="number" class="form-control form-control-sm pago-monto" placeholder="Monto" min="0" step="0.01" oninput="actualizarResumenPago()">
-    <button class="btn btn-outline-danger btn-sm" onclick="this.parentElement.remove(); actualizarResumenPago();">✕</button>`;
+    <input type="number" class="input-dark pago-monto" placeholder="Monto" min="0" step="0.01" oninput="actualizarResumenPago()" style="width:88px;flex-shrink:0;">
+    <button class="socio-terminal-remove" style="flex-shrink:0;" onclick="this.closest('.pago-row').remove(); actualizarResumenPago();">✕</button>`;
     c.appendChild(d);
 }
 
@@ -1803,6 +1965,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadSocios();
     loadFamiliares();
 
+    agregarPago();
     document.getElementById('pagosContainer').addEventListener('input', actualizarResumenPago);
 
     document.getElementById('familiarBuscar')?.addEventListener('input', () => {
