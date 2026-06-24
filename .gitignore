@@ -2,3 +2,7 @@ SQL/setup.sql
 /vendor/
 .env
 /SQL/setup.sql
+.superpowers
+.claude
+.agents
+skills-lock.json
