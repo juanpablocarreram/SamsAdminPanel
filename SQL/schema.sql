@@ -1,3 +1,5 @@
+CREATE DATABASE IF NOT EXISTS SAMS;
+USE SAMS;
 -- ═══════════════════════════════════════════════════════════
 -- ESQUEMA COMPLETO UNIFICADO · Sistema Sam's Club (ICA_final)
 -- ═══════════════════════════════════════════════════════════

@@ -4,13 +4,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>SAMS · Sistema de Administración de Membresías</title>
+    <script>window.tailwind={config:{theme:{extend:{colors:{'sams-blue':'#003DA5','sams-yellow':'#FFC220','sams-red':'#C8102E'}}}}}</script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+/* ── DESIGN TOKENS ── */
+:root {
+    --sam-blue:   #003DA5;
+    --sam-yellow: #FFC220;
+    --sam-red:    #C8102E;
+    --sam-green:  #10B981;
+    --sam-muted:  #64748b;
+    --sam-bg:     #F5F7FA;
+}
 /* ── FONT ── */
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Plus Jakarta Sans', sans-serif; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.6; }
 
 /* ── SECTION VISIBILITY (JS: classList.add/remove 'active') ── */
 .sam-section { display: none; }
@@ -24,7 +34,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
     transition: all .15s; user-select: none;
 }
 .sam-nav-item:hover { color: #fff; background: rgba(255,255,255,.07); }
-.sam-nav-item.active { color: #fff; background: rgba(99,102,241,.22); font-weight: 600; }
+.sam-nav-item.active { color: #fff; background: rgba(0,61,165,.28); font-weight: 600; }
 .sam-nav-item svg { width: 15px; height: 15px; stroke: currentColor; flex-shrink: 0; }
 .sam-nav-item i { width: 15px; height: 15px; flex-shrink: 0; display: flex; }
 
@@ -34,8 +44,8 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
     font-size: .82rem; font-weight: 500; border: 1.5px solid #e2e8f0;
     background: #fff; color: #64748b; transition: all .15s;
 }
-.pill-tab:hover { border-color: #6366f1; color: #6366f1; }
-.pill-tab.active { background: #6366f1; border-color: #6366f1; color: #fff; }
+.pill-tab:hover { border-color: #003DA5; color: #003DA5; }
+.pill-tab.active { background: #003DA5; border-color: #003DA5; color: #fff; }
 
 /* ── MEMBERSHIP PILL TOGGLES (JS: classList.add/remove 'active-TYPE') ── */
 .memb-pill-toggle {
@@ -137,9 +147,9 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
 
 /* ── COMPRAS ITEMS TABLE ── */
 .compra-items-sub { border-radius: 8px; border: 1px solid #e2e8f0; overflow: hidden; margin-bottom: 12px; }
-.compra-total-row { border-left: 4px solid #6366f1; padding: 11px 16px; background: #f8fafc; display: flex; justify-content: space-between; align-items: center; border-radius: 0 8px 8px 0; margin-bottom: 16px; }
+.compra-total-row { border-left: 4px solid var(--sam-blue); padding: 11px 16px; background: #f8fafc; display: flex; justify-content: space-between; align-items: center; border-radius: 0 8px 8px 0; margin-bottom: 16px; }
 .compra-item-input { font-size: .85rem; padding: 4px 8px; border: 1.5px solid #e2e8f0; border-radius: 6px; color: #334155; background: #fff; font-family: inherit; }
-.compra-item-input:focus { border-color: #6366f1; outline: none; }
+.compra-item-input:focus { border-color: var(--sam-blue); outline: none; }
 
 /* ── TOAST SYSTEM ── */
 #toastArea { position: fixed; bottom: 24px; right: 24px; z-index: 9999; pointer-events: none; }
@@ -150,7 +160,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
 @keyframes toastIn { from { transform: translateX(80px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
 /* ── SPINNERS ── */
-.spinner-sam { display: inline-block; width: 16px; height: 16px; border: 2.5px solid rgba(99,102,241,.2); border-top-color: #6366f1; border-radius: 50%; animation: spin .6s linear infinite; }
+.spinner-sam { display: inline-block; width: 16px; height: 16px; border: 2.5px solid rgba(0,61,165,.2); border-top-color: #003DA5; border-radius: 50%; animation: spin .6s linear infinite; }
 .spinner-border-sm { display: inline-block; width: 15px; height: 15px; border: 2px solid rgba(255,255,255,.3); border-top-color: #fff; border-radius: 50%; animation: spin .6s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -185,9 +195,78 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
 .badge-promo { background: #d1fae5; color: #065f46; }
 .stock-zero { color: #ef4444; font-weight: 700; }
 .fw-600 { font-weight: 600; }
+
+/* ── MISSING UTILITIES (used in JS-generated markup) ── */
+.fw-semibold { font-weight: 600; }
+.td-num { color: #94a3b8; font-size: .78rem; font-variant-numeric: tabular-nums; }
+.badges-cell { display: flex; flex-wrap: wrap; gap: 4px; }
+.section-title { font-size: .78rem; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: .6px; margin: 18px 0 10px; }
+.count-badge { display: inline-flex; align-items: center; background: #e2e8f0; color: #475569; font-size: .7rem; font-weight: 700; border-radius: 10px; padding: 1px 8px; }
+.socio-detail-name { font-size: 1.1rem; font-weight: 700; color: #1e293b; margin-bottom: 14px; }
+
+/* ── ICON ACTION BUTTONS ── */
+.cell-actions { display: flex; gap: 6px; align-items: center; }
+.btn-icon { width: 30px; height: 30px; border: 1.5px solid #e2e8f0; background: #fff; border-radius: 8px; cursor: pointer; font-size: .8rem; display: inline-flex; align-items: center; justify-content: center; transition: all .15s; font-family: inherit; color: #64748b; }
+.btn-icon:hover { box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+.btn-icon-success { border-color: #d1fae5; color: #059669; } .btn-icon-success:hover { background: #d1fae5; border-color: #059669; }
+.btn-icon-warn    { border-color: #fef3c7; color: #d97706; } .btn-icon-warn:hover    { background: #fef3c7; border-color: #d97706; }
+.btn-icon-danger  { border-color: #fee2e2; color: #dc2626; } .btn-icon-danger:hover  { background: #fee2e2; border-color: #dc2626; }
+
+/* ── POS/PAYMENT STATUS + BOOTSTRAP SHIM ── */
+.pago-faltante { color: #f87171; font-weight: 600; }
+.pago-ok       { color: #34d399; font-weight: 600; }
+.badge-desc-ok { color: #059669; font-weight: 600; font-size: .82rem; }
+.badge-desc-no { color: #94a3b8; font-size: .82rem; }
+.btn { display: inline-flex; align-items: center; justify-content: center; cursor: pointer; font-family: inherit; border: none; background: transparent; padding: 0; }
+.btn-sm { font-size: .82rem; padding: 3px 7px; border-radius: 6px; }
+
+/* ── DATA CARD (Inventario grid, Promociones grid) ── */
+.data-grid { display: grid; gap: 1rem; }
+.data-card { background: #fff; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 1px 4px rgba(0,0,0,.05); padding: 18px 20px; display: flex; flex-direction: column; transition: box-shadow .15s, transform .12s; }
+.data-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.08); transform: translateY(-1px); }
+.data-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
+.data-card-name { font-size: .92rem; font-weight: 700; color: #1e293b; line-height: 1.35; }
+.data-card-sku  { font-size: .72rem; color: #94a3b8; font-weight: 600; margin-top: 3px; letter-spacing: .3px; }
+.data-card-meta { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: .8rem; color: #64748b; margin-bottom: 10px; }
+.data-card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 1px solid #f1f5f9; margin-top: auto; }
+.data-card-price { font-size: 1.05rem; font-weight: 800; color: var(--sam-blue); }
+.promo-card-discount { font-size: 1.35rem; font-weight: 800; color: var(--sam-blue); line-height: 1.1; }
+.promo-card-dates { font-size: .72rem; color: #94a3b8; margin-top: 2px; }
+.stock-ok  { color: #059669; font-weight: 700; }
+.stock-low { color: #d97706; font-weight: 700; }
+.stock-out { color: #dc2626; font-weight: 700; }
+
+/* ── LIST ROW (Socios, history tables, dashboard) ── */
+.list-container { display: flex; flex-direction: column; gap: 8px; }
+.list-row { background: #fff; border-radius: 10px; border: 1px solid #e8edf3; box-shadow: 0 1px 3px rgba(0,0,0,.04); padding: 14px 18px; display: flex; align-items: center; gap: 16px; transition: box-shadow .12s, border-color .12s; }
+.list-row:hover { box-shadow: 0 3px 12px rgba(0,0,0,.07); border-color: #d0d9e8; }
+.list-row-id     { font-size: .72rem; font-weight: 600; color: #94a3b8; width: 34px; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+.list-row-main   { flex: 1; min-width: 0; }
+.list-row-name   { font-size: .9rem; font-weight: 700; color: #1e293b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.list-row-sub    { font-size: .76rem; color: #94a3b8; margin-top: 1px; }
+.list-row-field  { display: flex; flex-direction: column; gap: 2px; flex-shrink: 0; }
+.list-row-label  { font-size: .63rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: .5px; }
+.list-row-value  { font-size: .83rem; font-weight: 600; color: #334155; }
+.list-row-amount { font-size: .97rem; font-weight: 800; color: var(--sam-blue); flex-shrink: 0; }
+.list-row-actions { flex-shrink: 0; }
+
+/* ── SOCIOS DETAIL PANEL BUTTONS (replace Bootstrap btn classes) ── */
+.btn-detail-primary { background: #003DA5; color: #fff; border: none; padding: 8px 16px; border-radius: 8px; font-size: .85rem; font-weight: 600; cursor: pointer; font-family: inherit; transition: background .15s; }
+.btn-detail-primary:hover { background: #002f80; }
+.btn-detail-danger  { background: #fff; color: #dc2626; border: 1.5px solid #fee2e2; padding: 8px 16px; border-radius: 8px; font-size: .85rem; font-weight: 600; cursor: pointer; font-family: inherit; transition: all .15s; }
+.btn-detail-danger:hover  { background: #fee2e2; }
+.btn-detail-link { background: transparent; border: none; color: #003DA5; font-size: .85rem; font-weight: 600; cursor: pointer; padding: 0; font-family: inherit; text-decoration: underline; }
+.detail-fam-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.detail-fam-row  { display: flex; align-items: center; gap: 12px; background: #f8fafc; border-radius: 8px; padding: 10px 14px; border: 1px solid #f1f5f9; }
+
+@media (max-width: 768px) {
+    .list-row { flex-wrap: wrap; gap: 10px; }
+    .list-row-main { min-width: 60%; }
+    .data-grid { grid-template-columns: 1fr !important; }
+}
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 antialiased">
+<body class="bg-[#F5F7FA] text-slate-900 antialiased">
 <div id="toastArea"></div>
 
 <!-- ═══ SIDEBAR ═══ -->
@@ -230,8 +309,8 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
 <style>@keyframes pulse-dot{0%,100%{box-shadow:0 0 0 3px rgba(52,211,153,.18)}50%{box-shadow:0 0 0 6px rgba(52,211,153,.06)}}</style>
 
 <!-- ═══ MAIN ═══ -->
-<main class="ml-56 min-h-screen bg-slate-50 px-8 py-7">
-    <div class="flex items-center justify-between mb-7 pb-5 border-b border-slate-200">
+<main class="ml-56 min-h-screen bg-[#F5F7FA] px-10 py-9">
+    <div class="flex items-center justify-between mb-9 pb-6 border-b border-slate-200">
         <h1 id="page-title" class="text-xl font-bold text-slate-900 tracking-tight">Dashboard</h1>
         <div class="flex items-center gap-3">
             <span id="page-date" class="text-xs font-medium text-slate-500 bg-white border border-slate-200 rounded-full px-3 py-1.5"></span>
@@ -244,8 +323,8 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
 <!-- ═══ DASHBOARD ═══ -->
 <div class="sam-section active" id="section-dashboard">
     <!-- Stat cards -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm border-t-4 border-t-indigo-500">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-5 mb-8">
+        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm border-t-4 border-t-sams-blue">
             <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Socios activos</p>
             <p id="dash-socios" class="text-3xl font-bold text-slate-900 tracking-tight">—</p>
         </div>
@@ -263,32 +342,20 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
         </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-7 gap-4 mb-6">
+    <div class="grid grid-cols-1 md:grid-cols-7 gap-5 mb-8">
         <!-- Ventas recientes -->
-        <div class="md:col-span-4 bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+        <div class="md:col-span-4 bg-white rounded-xl border border-slate-200 shadow-sm p-7">
             <p class="text-sm font-semibold text-slate-800 mb-4 pb-2 border-b border-slate-100">Ventas Recientes</p>
-            <div class="overflow-hidden rounded-lg border border-slate-100">
-                <table class="w-full text-sm">
-                    <thead class="bg-slate-800 text-white">
-                        <tr>
-                            <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">#</th>
-                            <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Fecha</th>
-                            <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Canal</th>
-                            <th class="text-right text-xs font-semibold uppercase tracking-wider px-4 py-3">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody id="dash-ventas-body">
-                        <tr><td colspan="4" class="text-center py-4 text-slate-400 text-sm">Cargando…</td></tr>
-                    </tbody>
-                </table>
+            <div id="dash-ventas-list" class="list-container mt-1 min-h-[80px]">
+                <div class="list-row" style="justify-content:center;color:#94a3b8;font-size:.87rem;">Cargando…</div>
             </div>
             <div class="mt-4">
-                <button onclick="showSection('ventas')" class="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors">Ver todas las ventas →</button>
+                <button onclick="showSection('ventas')" class="text-sm font-medium text-sams-blue hover:text-sams-blue/80 transition-colors">Ver todas las ventas →</button>
             </div>
         </div>
 
         <!-- Membresías breakdown -->
-        <div class="md:col-span-3 bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+        <div class="md:col-span-3 bg-white rounded-xl border border-slate-200 shadow-sm p-7">
             <p class="text-sm font-semibold text-slate-800 mb-4 pb-2 border-b border-slate-100">Distribución de Membresías</p>
             <div id="dash-memb-bars">
                 <div class="text-center text-slate-400 text-sm py-4">Cargando…</div>
@@ -297,11 +364,11 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
     </div>
 
     <!-- Accesos rápidos -->
-    <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-7">
         <p class="text-sm font-semibold text-slate-800 mb-4">Accesos Rápidos</p>
         <div class="flex flex-wrap gap-3">
             <button onclick="showSection('ventas'); setTimeout(()=>document.getElementById('posSearch')?.focus(),100)"
-                class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors shadow-sm">
+                class="flex items-center gap-2 bg-sams-blue hover:bg-sams-blue/90 text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors shadow-sm">
                 Nueva Venta
             </button>
             <button onclick="showSection('socios'); setTimeout(()=>document.getElementById('socioNombre')?.focus(),100)"
@@ -325,30 +392,13 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#94a3b8;pointer-events:none;"></svg>
             <input type="text" id="invSearch"
                 oninput="clearTimeout(invTimer);invTimer=setTimeout(()=>loadInventario(this.value),350)"
-                class="w-full pl-9 pr-4 py-2.5 text-sm border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition bg-white"
+                class="w-full pl-9 pr-4 py-2.5 text-sm border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-sams-blue focus:border-sams-blue transition bg-white"
                 placeholder="Buscar por nombre, SKU o marca…">
         </div>
         <span id="invCount" class="text-xs font-semibold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full" style="display:none;"></span>
     </div>
-    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-        <div class="overflow-x-auto">
-            <table class="w-full text-sm" id="invTable">
-                <thead class="bg-slate-800 text-white">
-                    <tr>
-                        <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">SKU</th>
-                        <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Nombre</th>
-                        <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Marca / Cat.</th>
-                        <th class="text-center text-xs font-semibold uppercase tracking-wider px-4 py-3">Stock Piso</th>
-                        <th class="text-center text-xs font-semibold uppercase tracking-wider px-4 py-3">Stock Reserva</th>
-                        <th class="text-right text-xs font-semibold uppercase tracking-wider px-4 py-3">Precio</th>
-                        <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Promo</th>
-                    </tr>
-                </thead>
-                <tbody id="invBody">
-                    <tr><td colspan="7" class="text-center py-6 text-slate-400">Cargando…</td></tr>
-                </tbody>
-            </table>
-        </div>
+    <div id="invGrid" class="data-grid" style="grid-template-columns:repeat(auto-fill,minmax(270px,1fr));">
+        <div style="grid-column:1/-1;text-align:center;padding:32px 0;"><div class="spinner-sam"></div></div>
     </div>
 </div>
 
@@ -356,44 +406,44 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
      TAB 2 · SOCIOS
 ═══════════════════════════════════════════════ -->
 <div class="sam-section" id="section-socios">
-    <div class="flex gap-5" style="align-items:flex-start;">
+    <div class="flex gap-6" style="align-items:flex-start;">
         <!-- Left: Form panel -->
         <div class="flex-shrink-0" style="width:330px;">
-            <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 border-t-4 border-t-indigo-500">
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 border-t-4 border-t-sams-blue">
                 <div id="socioFormNuevo">
                     <p class="text-sm font-semibold text-slate-800 mb-4 pb-2 border-b border-slate-100">Nuevo Socio Titular</p>
-                    <div class="mb-3">
-                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Nombre completo</label>
+                    <div class="mb-4">
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Nombre completo</label>
                         <input type="text" id="socioNombre" autocomplete="off" placeholder="Ej: Juan Pérez García"
-                            class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                            class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue focus:border-sams-blue transition">
                     </div>
-                    <div class="mb-3">
-                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Correo electrónico <span class="font-normal normal-case tracking-normal text-slate-400">(opcional)</span></label>
+                    <div class="mb-4">
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Correo electrónico <span class="font-normal normal-case tracking-normal text-slate-400">(opcional)</span></label>
                         <input type="email" id="socioCorreo" placeholder="correo@ejemplo.com"
-                            class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                            class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue focus:border-sams-blue transition">
                     </div>
-                    <div class="mb-3">
-                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Teléfono <span class="font-normal normal-case tracking-normal text-slate-400">(opcional)</span></label>
+                    <div class="mb-4">
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Teléfono <span class="font-normal normal-case tracking-normal text-slate-400">(opcional)</span></label>
                         <input type="tel" id="socioTelefono" placeholder="55 1234 5678"
-                            class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                            class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue focus:border-sams-blue transition">
                     </div>
-                    <div class="border-t border-slate-100 pt-3 mb-3">
+                    <div class="border-t border-slate-100 pt-4 mb-4">
                         <p class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-3">Membresía</p>
-                        <div class="mb-3">
-                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Tipo de membresía</label>
+                        <div class="mb-4">
+                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Tipo de membresía</label>
                             <select id="socioTipoMembresia"
-                                class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition bg-white">
+                                class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue transition bg-white">
                                 <option value="">Seleccionar tipo…</option>
                             </select>
                         </div>
                         <div class="mb-4">
-                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Fecha de vencimiento</label>
+                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Fecha de vencimiento</label>
                             <input type="date" id="socioFechaFin"
-                                class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                                class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue transition">
                         </div>
                     </div>
                     <button onclick="crearSocioTitular()"
-                        class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold py-2.5 rounded-lg transition-colors mb-2">
+                        class="w-full bg-sams-blue hover:bg-sams-blue/90 text-white text-sm font-semibold py-2.5 rounded-lg transition-colors mb-2">
                         Registrar Socio Titular
                     </button>
                     <button onclick="mostrarFormFamiliar()"
@@ -403,34 +453,34 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
                 </div>
                 <div id="socioFormFamiliar" style="display:none;">
                     <p class="text-sm font-semibold text-slate-800 mb-4 pb-2 border-b border-slate-100">Vincular Familiar</p>
-                    <div class="mb-3">
-                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Socio Titular</label>
+                    <div class="mb-4">
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Socio Titular</label>
                         <select id="socioTitularSel"
-                            class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition bg-white">
+                            class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue transition bg-white">
                             <option value="">Seleccionar titular…</option>
                         </select>
                     </div>
-                    <div class="border-t border-slate-100 pt-3 mb-3">
+                    <div class="border-t border-slate-100 pt-4 mb-4">
                         <p class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-3">Datos del Familiar</p>
-                        <div class="mb-3">
-                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Nombre completo</label>
+                        <div class="mb-4">
+                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Nombre completo</label>
                             <input type="text" id="familiarNombre" placeholder="Nombre completo"
-                                class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                                class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue transition">
                         </div>
-                        <div class="mb-3">
-                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Correo <span class="font-normal normal-case tracking-normal text-slate-400">(opcional)</span></label>
+                        <div class="mb-4">
+                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Correo <span class="font-normal normal-case tracking-normal text-slate-400">(opcional)</span></label>
                             <input type="email" id="familiarCorreo" placeholder="correo@ejemplo.com"
-                                class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                                class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue transition">
                         </div>
-                        <div class="mb-3">
-                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Teléfono <span class="font-normal normal-case tracking-normal text-slate-400">(opcional)</span></label>
+                        <div class="mb-4">
+                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Teléfono <span class="font-normal normal-case tracking-normal text-slate-400">(opcional)</span></label>
                             <input type="tel" id="familiarTelefono" placeholder="55 1234 5678"
-                                class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                                class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue transition">
                         </div>
-                        <div class="mb-3">
-                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Parentesco</label>
+                        <div class="mb-4">
+                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Parentesco</label>
                             <select id="familiarParentesco"
-                                class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition bg-white">
+                                class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue transition bg-white">
                                 <option value="CONYUGE">Cónyuge</option>
                                 <option value="HIJO">Hijo/a</option>
                                 <option value="PADRE">Padre/Madre</option>
@@ -440,7 +490,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
                         </div>
                         <div class="mb-4">
                             <label class="flex items-center gap-2 cursor-pointer text-sm font-medium text-slate-600">
-                                <input type="checkbox" id="familiarComplementaria" class="rounded accent-indigo-600">
+                                <input type="checkbox" id="familiarComplementaria" class="rounded accent-[#003DA5]">
                                 Tarjeta complementaria gratis
                             </label>
                             <p class="text-xs text-slate-400 mt-1 ml-5">Solo se permite 1 por titular</p>
@@ -462,7 +512,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
         <div class="flex-1 min-w-0">
             <div class="flex justify-between items-center mb-4">
                 <input type="text" id="sociosBuscar" placeholder="Buscar socio por nombre o número…"
-                    class="text-sm border border-slate-300 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-500 transition bg-white"
+                    class="text-sm border border-slate-300 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-sams-blue transition bg-white"
                     style="max-width:280px;">
                 <button onclick="loadSocios(); loadFamiliares();"
                     class="border border-slate-300 text-slate-600 hover:bg-slate-50 text-sm font-medium px-3 py-2 rounded-lg transition-colors">
@@ -475,57 +525,20 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
                 <div class="pill-tab" onclick="showSocioTab('detalles', this)">Detalles</div>
             </div>
             <div id="socios-listado">
-                <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-sm">
-                            <thead class="bg-slate-800 text-white">
-                                <tr>
-                                    <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">#</th>
-                                    <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Número</th>
-                                    <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Nombre</th>
-                                    <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Membresía</th>
-                                    <th class="text-center text-xs font-semibold uppercase tracking-wider px-4 py-3">Familiares</th>
-                                    <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Vencimiento</th>
-                                    <th class="text-right text-xs font-semibold uppercase tracking-wider px-4 py-3">Cashback</th>
-                                    <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody id="sociosBody">
-                                <tr><td colspan="8" class="text-center py-6 text-slate-400">Cargando socios…</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
+                <div id="sociosBody" class="list-container">
+                    <div style="text-align:center;padding:24px 0;"><div class="spinner-sam"></div></div>
                 </div>
             </div>
             <div id="socios-familiares" style="display:none;">
                 <div class="flex gap-2 mb-3">
                     <input type="text" id="familiarBuscar" placeholder="Buscar familiar…"
-                        class="text-sm border border-slate-300 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-500 transition bg-white"
+                        class="text-sm border border-slate-300 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-sams-blue transition bg-white"
                         style="max-width:300px;">
                     <button onclick="loadFamiliares()"
                         class="border border-slate-300 text-slate-600 hover:bg-slate-50 text-sm px-3 py-2 rounded-lg transition-colors">↺</button>
                 </div>
-                <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-sm">
-                            <thead class="bg-slate-800 text-white">
-                                <tr>
-                                    <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Familiar</th>
-                                    <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Número</th>
-                                    <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Parentesco</th>
-                                    <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Membresía</th>
-                                    <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Titular</th>
-                                    <th class="text-center text-xs font-semibold uppercase tracking-wider px-4 py-3">Complem.</th>
-                                    <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Vencimiento</th>
-                                    <th class="text-right text-xs font-semibold uppercase tracking-wider px-4 py-3">Cashback</th>
-                                    <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody id="familiaresBody">
-                                <tr><td colspan="9" class="text-center py-6 text-slate-400">Cargando familiares…</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
+                <div id="familiaresBody" class="list-container">
+                    <div style="text-align:center;padding:24px 0;"><div class="spinner-sam"></div></div>
                 </div>
             </div>
             <div id="socios-detalles" style="display:none;">
@@ -541,70 +554,70 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
      TAB 3 · PROMOCIONES
 ═══════════════════════════════════════════════ -->
 <div class="sam-section" id="section-promociones">
-    <div class="flex gap-5" style="align-items:flex-start;">
+    <div class="flex gap-6" style="align-items:flex-start;">
         <!-- Left: New promo form -->
         <div class="flex-shrink-0" style="width:370px;">
-            <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 border-t-4 border-t-indigo-500">
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 border-t-4 border-t-sams-blue">
                 <p class="text-sm font-semibold text-slate-800 mb-4 pb-2 border-b border-slate-100">Nueva Promoción</p>
-                <div class="mb-3">
-                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Producto</label>
+                <div class="mb-4">
+                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Producto</label>
                     <select id="promoProducto"
-                        class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition bg-white">
+                        class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue transition bg-white">
                         <option value="">Cargando…</option>
                     </select>
                 </div>
-                <div class="mb-3">
-                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Nombre de la promoción</label>
+                <div class="mb-4">
+                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Nombre de la promoción</label>
                     <input type="text" id="promoNombre" placeholder="Ej: Promo Verano 2026"
-                        class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                        class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue transition">
                 </div>
-                <div class="border-t border-slate-100 pt-3 mb-3">
+                <div class="border-t border-slate-100 pt-4 mb-4">
                     <p class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-3">Tipo de descuento — elige uno</p>
                     <div class="grid grid-cols-2 gap-3">
                         <div>
-                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Descuento %</label>
+                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Descuento %</label>
                             <div class="relative">
                                 <input type="number" id="promoDescPct" placeholder="0" min="0" max="100" step="0.01"
-                                    class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 pr-8 outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                                    class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 pr-8 outline-none focus:ring-2 focus:ring-sams-blue transition">
                                 <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 font-semibold">%</span>
                             </div>
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Descuento $</label>
+                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Descuento $</label>
                             <div class="relative">
                                 <span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 font-semibold">$</span>
                                 <input type="number" id="promoDescMonto" placeholder="0.00" min="0" step="0.01"
-                                    class="w-full text-sm border border-slate-300 rounded-lg pl-7 pr-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                                    class="w-full text-sm border border-slate-300 rounded-lg pl-7 pr-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue transition">
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="border-t border-slate-100 pt-3 mb-3">
+                <div class="border-t border-slate-100 pt-4 mb-4">
                     <p class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-3">Vigencia</p>
                     <div class="grid grid-cols-2 gap-3">
                         <div>
-                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Inicio</label>
+                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Inicio</label>
                             <input type="date" id="promoFechaIni"
-                                class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                                class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue transition">
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Fin</label>
+                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Fin</label>
                             <input type="date" id="promoFechaFin"
-                                class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                                class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue transition">
                         </div>
                     </div>
                 </div>
                 <div class="border-t border-slate-100 pt-3 mb-4">
                     <p class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-3">Elegibilidad</p>
                     <label class="flex items-start gap-2 cursor-pointer text-sm font-medium text-slate-600 mb-2">
-                        <input type="checkbox" id="promoAplicaTodos" onchange="toggleTodosCheck()" class="mt-0.5 accent-indigo-600">
+                        <input type="checkbox" id="promoAplicaTodos" onchange="toggleTodosCheck()" class="mt-0.5 accent-[#003DA5]">
                         <span>Aplica a todos los socios <span class="text-slate-400 font-normal">(sin importar membresía)</span></span>
                     </label>
                     <div id="membresiaChecks" class="flex flex-wrap gap-2"></div>
                     <p class="text-xs text-slate-400 mt-2">Si no marcas "todos", solo los tipos seleccionados verán el descuento.</p>
                 </div>
                 <button onclick="crearPromo()"
-                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold py-2.5 rounded-lg transition-colors">
+                    class="w-full bg-sams-blue hover:bg-sams-blue/90 text-white text-sm font-semibold py-2.5 rounded-lg transition-colors">
                     Registrar Promoción
                 </button>
             </div>
@@ -619,27 +632,8 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
                     ↺ Actualizar
                 </button>
             </div>
-            <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm">
-                        <thead class="bg-slate-800 text-white">
-                            <tr>
-                                <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">#</th>
-                                <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Producto</th>
-                                <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Promoción</th>
-                                <th class="text-right text-xs font-semibold uppercase tracking-wider px-4 py-3">Desc %</th>
-                                <th class="text-right text-xs font-semibold uppercase tracking-wider px-4 py-3">Desc $</th>
-                                <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Vigencia</th>
-                                <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Membresías</th>
-                                <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Estado</th>
-                                <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="promoBody">
-                            <tr><td colspan="9" class="text-center py-6 text-slate-400">Cargando…</td></tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div id="promoBody" class="data-grid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr));">
+                <div style="grid-column:1/-1;text-align:center;padding:32px 0;"><div class="spinner-sam"></div></div>
             </div>
         </div>
     </div>
@@ -649,30 +643,30 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
      TAB 4 · COMPRAS
 ═══════════════════════════════════════════════ -->
 <div class="sam-section" id="section-compras">
-    <div class="flex gap-5" style="align-items:flex-start;">
+    <div class="flex gap-6" style="align-items:flex-start;">
         <!-- Left: Receipt form -->
         <div class="flex-1 min-w-0">
-            <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 border-t-4 border-t-indigo-500">
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 border-t-4 border-t-sams-blue">
                 <p class="text-sm font-semibold text-slate-800 mb-4 pb-2 border-b border-slate-100">Registrar Recepción de Mercancía</p>
-                <div class="mb-3">
-                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Proveedor</label>
+                <div class="mb-4">
+                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Proveedor</label>
                     <select id="compraProveedor"
-                        class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition bg-white">
+                        class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue transition bg-white">
                         <option value="">Seleccionar proveedor…</option>
                     </select>
                 </div>
                 <div class="grid grid-cols-2 gap-3 mb-4">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Zona de destino</label>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Zona de destino</label>
                         <select id="compraZona"
-                            class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition bg-white">
+                            class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue transition bg-white">
                             <option value="">Seleccionar zona…</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Destino</label>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Destino</label>
                         <select id="compraEsReserva"
-                            class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition bg-white">
+                            class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue transition bg-white">
                             <option value="0">Piso de venta</option>
                             <option value="1">Bodega / Reserva</option>
                         </select>
@@ -680,25 +674,25 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
                 </div>
                 <div class="border-t border-slate-100 pt-4 mb-3">
                     <p class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-3">Productos a recibir</p>
-                    <div class="mb-3">
-                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Producto</label>
+                    <div class="mb-4">
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Producto</label>
                         <select id="compraProductoSel"
-                            class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition bg-white">
+                            class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue transition bg-white">
                             <option value="">Seleccionar producto…</option>
                         </select>
                     </div>
                     <div class="grid grid-cols-2 gap-3 mb-3">
                         <div>
-                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Cantidad</label>
+                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Cantidad</label>
                             <input type="number" id="compraCantidad" placeholder="1" min="1"
-                                class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                                class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue transition">
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Precio de costo</label>
+                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Precio de costo</label>
                             <div class="relative">
                                 <span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 font-semibold">$</span>
                                 <input type="number" id="compraPrecio" placeholder="0.00" step="0.01" min="0"
-                                    class="w-full text-sm border border-slate-300 rounded-lg pl-7 pr-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                                    class="w-full text-sm border border-slate-300 rounded-lg pl-7 pr-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue transition">
                             </div>
                         </div>
                     </div>
@@ -726,10 +720,10 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
                 </div>
                 <div class="compra-total-row">
                     <span class="text-sm font-semibold text-slate-700" id="compraTotalUnidades">Total: 0 unidades</span>
-                    <span class="text-base font-bold text-indigo-600" id="compraTotalCosto">$0.00</span>
+                    <span class="text-base font-bold text-sams-blue" id="compraTotalCosto">$0.00</span>
                 </div>
                 <button onclick="procesarCompra()"
-                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold py-2.5 rounded-lg transition-colors">
+                    class="w-full bg-sams-blue hover:bg-sams-blue/90 text-white text-sm font-semibold py-2.5 rounded-lg transition-colors">
                     Registrar Compra
                 </button>
             </div>
@@ -738,22 +732,8 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
         <!-- Right: History -->
         <div class="flex-shrink-0" style="width:340px;">
             <p class="text-sm font-semibold text-slate-800 mb-3">Recepciones Recientes</p>
-            <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm">
-                        <thead class="bg-slate-800 text-white">
-                            <tr>
-                                <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Fecha</th>
-                                <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Producto</th>
-                                <th class="text-right text-xs font-semibold uppercase tracking-wider px-4 py-3">Cant.</th>
-                                <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Proveedor</th>
-                            </tr>
-                        </thead>
-                        <tbody id="histCompraBody">
-                            <tr><td colspan="4" class="text-center py-4 text-slate-400">Cargando…</td></tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div id="histCompraBody" class="list-container">
+                <div class="list-row" style="justify-content:center;color:#94a3b8;font-size:.87rem;">Cargando…</div>
             </div>
         </div>
     </div>
@@ -768,19 +748,19 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
     <div class="pos-light">
         <div class="flex gap-3 flex-shrink-0">
             <div style="flex:0 0 175px;">
-                <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Canal de venta</label>
+                <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Canal de venta</label>
                 <select id="posCanal"
-                    class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition bg-white">
+                    class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue transition bg-white">
                     <option value="CAJA">Caja</option>
                     <option value="SELF">Self-checkout</option>
                     <option value="SCAN_GO">Scan &amp; Go</option>
                 </select>
             </div>
             <div class="flex-1 relative">
-                <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Buscar producto</label>
+                <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Buscar producto</label>
                 <input type="text" id="posSearch" oninput="buscarProductoPos()" autocomplete="off"
                     placeholder="Nombre, SKU o marca…"
-                    class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition bg-white">
+                    class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue transition bg-white">
                 <div id="searchResults"></div>
             </div>
         </div>
@@ -876,24 +856,8 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
             ↺ Actualizar
         </button>
     </div>
-    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-        <div class="overflow-x-auto">
-            <table class="w-full text-sm">
-                <thead class="bg-slate-800 text-white">
-                    <tr>
-                        <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">#</th>
-                        <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Fecha</th>
-                        <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Socio</th>
-                        <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Canal</th>
-                        <th class="text-right text-xs font-semibold uppercase tracking-wider px-4 py-3">Artículos</th>
-                        <th class="text-right text-xs font-semibold uppercase tracking-wider px-4 py-3">Total</th>
-                    </tr>
-                </thead>
-                <tbody id="histVentasBody">
-                    <tr><td colspan="6" class="text-center py-6 text-slate-400">Cargando…</td></tr>
-                </tbody>
-            </table>
-        </div>
+    <div id="histVentasBody" class="list-container">
+        <div class="list-row" style="justify-content:center;color:#94a3b8;font-size:.87rem;">Cargando…</div>
     </div>
 </div>
 </div>
@@ -901,8 +865,6 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
 </main><!-- /sam-main -->
 
 <div id="toastArea"></div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 <script>
 const sectionTitles = {
     dashboard:   'Dashboard',
@@ -1028,7 +990,7 @@ async function loadDashboard() {
     }
 
     // Ventas recientes + ingresos hoy
-    const dashBody = document.getElementById('dash-ventas-body');
+    const ventasList = document.getElementById('dash-ventas-list');
     if (ventasRes.success && ventasRes.data.length) {
         const now = new Date();
         const todayStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
@@ -1037,15 +999,19 @@ async function loadDashboard() {
             if (v.fecha && v.fecha.startsWith(todayStr)) todayTotal += parseFloat(v.total || 0);
         });
         document.getElementById('dash-ingresos').textContent = fmt(todayTotal);
-        dashBody.innerHTML = ventasRes.data.slice(0, 5).map(v =>
-            `<tr>
-                <td class="text-muted small">#${v.id}</td>
-                <td><span class="badge badge-blue">${v.canal || '—'}</span></td>
-                <td class="text-end fw-bold">${fmt(v.total)}</td>
-            </tr>`
+        ventasList.innerHTML = ventasRes.data.slice(0, 5).map(v =>
+            `<div class="list-row">
+                <div class="list-row-id">#${esc(String(v.id))}</div>
+                <div class="list-row-main">
+                    <div class="list-row-name">${v.socio ? esc(v.socio) : 'Venta directa'}</div>
+                    <div class="list-row-sub">${esc(v.fecha || '—')}</div>
+                </div>
+                <span class="badge badge-blue">${esc(v.canal || '—')}</span>
+                <div class="list-row-amount">${fmt(v.total)}</div>
+            </div>`
         ).join('');
     } else {
-        dashBody.innerHTML = '<tr><td colspan="3" class="text-center text-muted py-3">Sin ventas registradas</td></tr>';
+        ventasList.innerHTML = '<div class="list-row" style="justify-content:center;color:#94a3b8;font-size:.87rem;">Sin ventas registradas</div>';
         document.getElementById('dash-ingresos').textContent = fmt(0);
     }
 }
@@ -1058,25 +1024,48 @@ async function loadInventario(q = '') {
         const el = document.getElementById('invSearch');
         if (el) q = el.value;
     }
-    const body = document.getElementById('invBody');
-    if (!body) return;
-    body.innerHTML = '<tr><td colspan="7" class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary"></div></td></tr>';
+    const grid = document.getElementById('invGrid');
+    if (!grid) return;
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:32px 0;"><div class="spinner-sam"></div></div>';
     const res = await api('inventario.php?action=list&q=' + encodeURIComponent(q));
     if (!res.success) { toast(res.error,'error'); return; }
     const data = res.data;
-    body.innerHTML = data.length ? '' : '<tr><td colspan="7" class="text-center text-muted py-4">Sin resultados</td></tr>';
-    body.innerHTML += data.map(p => `<tr>
-    <td class="text-muted small">${esc(p.sku)}</td>
-    <td>
-        <span class="fw-600">${esc(p.nombre)}</span>
-        ${p.es_members_mark == 1 ? '<span class="badge badge-gold ms-1">Member\'s Mark</span>' : ''}
-    </td>
-    <td class="small text-muted">${esc(p.marca)}<br><span class="text-xs">${esc(p.categoria || '')}</span></td>
-    <td class="text-center ${p.stock_piso == 0 ? 'stock-zero fw-bold' : ''}">${Number(p.stock_piso)}</td>
-    <td class="text-center text-muted">${Number(p.stock_reserva)}</td>
-    <td class="text-end">${fmt(p.precio_actual)}</td>
-    <td>${p.promo_nombre ? `<span class="badge badge-promo">${p.descuento_pct > 0 ? Number(p.descuento_pct)+'%' : '$'+Number(p.descuento_monto)} ${esc(p.promo_nombre)}</span>` : '<span class="text-muted small">—</span>'}</td>
-</tr>`).join('');
+    if (!data.length) {
+        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#94a3b8;padding:40px 0;font-size:.9rem;">Sin resultados</div>';
+    } else {
+        grid.innerHTML = data.map(p => {
+            const sc = p.stock_piso == 0 ? 'stock-out' : p.stock_piso <= 5 ? 'stock-low' : 'stock-ok';
+            const promoTag = p.promo_nombre
+                ? `<span class="badge badge-promo">${p.descuento_pct > 0 ? Number(p.descuento_pct)+'% off' : '$'+Number(p.descuento_monto)+' off'}</span>`
+                : '';
+            return `<div class="data-card">
+                <div class="data-card-header">
+                    <div style="min-width:0;">
+                        <div class="data-card-name">${esc(p.nombre)}${p.es_members_mark == 1 ? ' <span class="badge badge-gold" style="font-size:.65rem;vertical-align:middle;">M\'s Mark</span>' : ''}</div>
+                        <div class="data-card-sku">${esc(p.sku)}</div>
+                    </div>
+                    ${promoTag}
+                </div>
+                <div class="data-card-meta">
+                    <span style="font-weight:600;">${esc(p.marca)}</span>
+                    ${p.categoria ? `<span>${esc(p.categoria)}</span>` : ''}
+                </div>
+                <div class="data-card-footer">
+                    <div style="display:flex;gap:18px;">
+                        <div class="list-row-field">
+                            <span class="list-row-label">Stock Piso</span>
+                            <span class="${sc}" style="font-size:.9rem;">${Number(p.stock_piso)}</span>
+                        </div>
+                        <div class="list-row-field">
+                            <span class="list-row-label">Reserva</span>
+                            <span class="list-row-value">${Number(p.stock_reserva)}</span>
+                        </div>
+                    </div>
+                    <div class="data-card-price">${fmt(p.precio_actual)}</div>
+                </div>
+            </div>`;
+        }).join('');
+    }
     const countEl = document.getElementById('invCount');
     if (countEl) { countEl.textContent = data.length + ' producto' + (data.length !== 1 ? 's' : ''); countEl.style.display = data.length ? 'inline-flex' : 'none'; }
 }
@@ -1147,15 +1136,18 @@ async function loadProductosPromo() {
 
 async function loadPromos() {
     const body = document.getElementById('promoBody');
-    body.innerHTML = '<tr><td colspan="9" class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary"></div></td></tr>';
+    body.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:32px 0;"><div class="spinner-sam"></div></div>';
     const res = await api('promociones.php?action=list_promos');
     if (!res.success) { toast(res.error,'error'); return; }
-    body.innerHTML = res.data.length ? '' : '<tr><td colspan="9" class="text-center text-muted py-4">Sin promociones</td></tr>';
-    res.data.forEach(r => {
+    if (!res.data.length) {
+        body.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#94a3b8;padding:40px 0;font-size:.9rem;">Sin promociones registradas</div>';
+        return;
+    }
+    body.innerHTML = res.data.map(r => {
         const isActivo = r.activo == 1;
         const statusBadge = isActivo
-            ? '<span class="badge badge-green" style="gap:5px;display:inline-flex;align-items:center;"><span style="width:5px;height:5px;border-radius:50%;background:currentColor;display:inline-block;"></span>Activa</span>'
-            : '<span class="badge badge-gray" style="gap:5px;display:inline-flex;align-items:center;"><span style="width:5px;height:5px;border-radius:50%;background:currentColor;display:inline-block;"></span>Inactiva</span>';
+            ? '<span class="badge badge-green" style="display:inline-flex;align-items:center;gap:4px;"><span style="width:5px;height:5px;border-radius:50%;background:currentColor;display:inline-block;"></span>Activa</span>'
+            : '<span class="badge badge-gray" style="display:inline-flex;align-items:center;gap:4px;"><span style="width:5px;height:5px;border-radius:50%;background:currentColor;display:inline-block;"></span>Inactiva</span>';
         let membTag = '';
         if (r.aplica_a_todos == '1') {
             membTag = '<span class="badge badge-blue">Todos</span>';
@@ -1166,33 +1158,33 @@ async function loadPromos() {
             }).join('');
             membTag = `<div class="badges-cell">${badges}</div>`;
         } else {
-            membTag = '<span class="text-muted">—</span>';
+            membTag = '<span style="color:#94a3b8;">—</span>';
         }
-        const descPct   = Number(r.descuento_pct)   > 0 ? `<span class="badge badge-yellow">${Number(r.descuento_pct)}%</span>`    : '<span class="text-muted">—</span>';
-        const descMonto = Number(r.descuento_monto)  > 0 ? `<span class="badge badge-green">${fmt(r.descuento_monto)}</span>` : '<span class="text-muted">—</span>';
-        body.innerHTML += `<tr>
-            <td class="td-num">${Number(r.id)}</td>
-            <td>
-                <span class="fw-semibold">${esc(r.producto_nombre)}</span><br>
-                <span class="text-muted text-xs">${esc(r.sku)}</span>
-            </td>
-            <td>${esc(r.nombre_promo)}</td>
-            <td class="text-end">${descPct}</td>
-            <td class="text-end">${descMonto}</td>
-            <td class="text-muted small">
-                ${esc(r.fecha_inicio||'—')}<br>
-                <span style="color:var(--sam-muted);font-size:.68rem;">hasta</span> ${esc(r.fecha_fin||'—')}
-            </td>
-            <td>${membTag}</td>
-            <td>${statusBadge}</td>
-            <td class="td-action">
+        const discText = Number(r.descuento_pct) > 0
+            ? `${Number(r.descuento_pct)}% off`
+            : `${fmt(r.descuento_monto)} off`;
+        return `<div class="data-card">
+            <div class="data-card-header">
+                <div style="min-width:0;">
+                    <div class="data-card-name">${esc(r.nombre_promo)}</div>
+                    <div class="data-card-sku">${esc(r.producto_nombre)} · ${esc(r.sku)}</div>
+                </div>
+                ${statusBadge}
+            </div>
+            <div style="margin-bottom:10px;">
+                <div class="promo-card-discount">${discText}</div>
+                <div class="promo-card-dates">Vigencia: ${esc(r.fecha_inicio||'—')} → ${esc(r.fecha_fin||'—')}</div>
+            </div>
+            <div style="margin-bottom:10px;">${membTag}</div>
+            <div class="data-card-footer">
                 <div class="cell-actions">
                     <button class="btn-icon ${isActivo ? 'btn-icon-warn' : 'btn-icon-success'}" title="${isActivo ? 'Desactivar' : 'Activar'}" onclick="togglePromo(${Number(r.id)})">${isActivo ? '⏸' : '▶'}</button>
                     <button class="btn-icon btn-icon-danger" title="Eliminar promoción" onclick="deletePromo(${Number(r.id)})">✕</button>
                 </div>
-            </td>
-        </tr>`;
-    });
+                <span class="list-row-label" style="font-variant-numeric:tabular-nums;">#${Number(r.id)}</span>
+            </div>
+        </div>`;
+    }).join('');
 }
 
 async function crearPromo() {
@@ -1342,14 +1334,25 @@ async function procesarCompra() {
 async function loadHistCompra() {
     const body = document.getElementById('histCompraBody');
     const res = await api('compras.php?action=historial');
-    if (!res.success) { body.innerHTML = '<tr><td colspan="4" class="text-danger">Error</td></tr>'; return; }
-    body.innerHTML = res.data.length ? '' : '<tr><td colspan="4" class="text-center text-muted py-3">Sin registros</td></tr>';
-    res.data.forEach(r => {
-        body.innerHTML += `<tr>
-            <td class="small">${esc(r.fecha)}</td><td><strong>${esc(r.producto)}</strong></td>
-            <td class="text-end">${Number(r.cantidad)}</td><td class="small">${esc(r.proveedor||'—')}</td>
-        </tr>`;
-    });
+    if (!res.success) {
+        body.innerHTML = '<div class="list-row" style="justify-content:center;color:#ef4444;font-size:.87rem;">Error al cargar</div>'; return;
+    }
+    body.innerHTML = res.data.length ? res.data.map(r =>
+        `<div class="list-row">
+            <div class="list-row-main">
+                <div class="list-row-name">${esc(r.producto)}</div>
+                <div class="list-row-sub">${esc(r.fecha)}</div>
+            </div>
+            <div class="list-row-field">
+                <span class="list-row-label">Cantidad</span>
+                <span class="list-row-value">${Number(r.cantidad)}</span>
+            </div>
+            <div class="list-row-field">
+                <span class="list-row-label">Proveedor</span>
+                <span class="list-row-value">${esc(r.proveedor || '—')}</span>
+            </div>
+        </div>`
+    ).join('') : '<div class="list-row" style="justify-content:center;color:#94a3b8;font-size:.87rem;">Sin registros</div>';
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1652,18 +1655,24 @@ async function procesarVenta() {
 async function loadHistVentas() {
     const body = document.getElementById('histVentasBody');
     const res = await api('ventas.php?action=historial');
-    if (!res.success) { body.innerHTML = '<tr><td colspan="6" class="text-danger">Error</td></tr>'; return; }
-    body.innerHTML = res.data.length ? '' : '<tr><td colspan="6" class="text-center text-muted py-3">Sin ventas</td></tr>';
-    res.data.forEach(r => {
-        body.innerHTML += `<tr>
-            <td class="text-muted small">#${Number(r.id)}</td>
-            <td class="small">${esc(r.fecha)}</td>
-            <td>${r.socio ? esc(r.socio) : '<span class="text-muted">—</span>'}</td>
-            <td><span class="badge badge-blue">${esc(r.canal)}</span></td>
-            <td class="text-end">${Number(r.num_items)}</td>
-            <td class="text-end fw-bold">${fmt(r.total)}</td>
-        </tr>`;
-    });
+    if (!res.success) {
+        body.innerHTML = '<div class="list-row" style="justify-content:center;color:#ef4444;font-size:.87rem;">Error al cargar</div>'; return;
+    }
+    body.innerHTML = res.data.length ? res.data.map(r =>
+        `<div class="list-row">
+            <div class="list-row-id">#${Number(r.id)}</div>
+            <div class="list-row-main">
+                <div class="list-row-name">${r.socio ? esc(r.socio) : '<span style="color:#94a3b8;">Venta directa</span>'}</div>
+                <div class="list-row-sub">${esc(r.fecha)}</div>
+            </div>
+            <span class="badge badge-blue">${esc(r.canal)}</span>
+            <div class="list-row-field">
+                <span class="list-row-label">Artículos</span>
+                <span class="list-row-value">${Number(r.num_items)}</span>
+            </div>
+            <div class="list-row-amount">${fmt(r.total)}</div>
+        </div>`
+    ).join('') : '<div class="list-row" style="justify-content:center;color:#94a3b8;font-size:.87rem;">Sin ventas registradas</div>';
 }
 
 // ═══════════════════════════════════════════
@@ -1687,29 +1696,42 @@ async function loadSocios() {
     const body = document.getElementById('sociosBody');
     let url = 'socios.php?action=list_titulares';
     if (q) url = 'socios.php?action=buscar_socios&q=' + encodeURIComponent(q);
-    body.innerHTML = '<tr><td colspan="8" class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary"></div></td></tr>';
+    body.innerHTML = '<div style="text-align:center;padding:24px 0;"><div class="spinner-sam"></div></div>';
     const res = await api(url);
     if (!res.success) { toast(res.error,'error'); return; }
     sociosData = res.data;
-    body.innerHTML = res.data.length ? '' : '<tr><td colspan="8" class="text-center text-muted py-4">Sin socios registrados</td></tr>';
-    res.data.forEach(r => {
+    body.innerHTML = res.data.length ? res.data.map(r => {
         const membClass = r.tipo_membresia === 'PLUS' ? 'badge-purple' : r.tipo_membresia === 'BENEFITS' ? 'badge-blue' : 'badge-gray';
-        body.innerHTML += `<tr style="cursor:pointer;" onclick="mostrarDetallesSocio(${r.socio_membresia_id})">
-            <td class="td-num">#${r.socio_membresia_id}</td>
-            <td class="fw-semibold" style="font-variant-numeric:tabular-nums;">${esc(r.numero_socio)}</td>
-            <td><strong>${esc(r.nombre)}</strong></td>
-            <td><span class="badge ${membClass}">${esc(r.tipo_membresia)}</span></td>
-            <td class="text-center"><span class="badge badge-gray">${r.num_familiares || 0}</span></td>
-            <td class="small text-muted">${esc(r.vencimiento)}</td>
-            <td class="text-end fw-semibold" style="color:var(--sam-green);">${fmt(r.saldo_cashback)}</td>
-            <td class="td-action" onclick="event.stopPropagation()">
+        return `<div class="list-row" style="cursor:pointer;" onclick="mostrarDetallesSocio(${r.socio_membresia_id})">
+            <div class="list-row-id">#${r.socio_membresia_id}</div>
+            <div class="list-row-main">
+                <div class="list-row-name">${esc(r.nombre)}</div>
+                <div class="list-row-sub">${esc(r.numero_socio)}</div>
+            </div>
+            <div class="list-row-field">
+                <span class="list-row-label">Membresía</span>
+                <span class="badge ${membClass}">${esc(r.tipo_membresia)}</span>
+            </div>
+            <div class="list-row-field">
+                <span class="list-row-label">Familiares</span>
+                <span class="badge badge-gray">${r.num_familiares || 0}</span>
+            </div>
+            <div class="list-row-field">
+                <span class="list-row-label">Vence</span>
+                <span class="list-row-value">${esc(r.vencimiento)}</span>
+            </div>
+            <div class="list-row-field">
+                <span class="list-row-label">Cashback</span>
+                <span class="list-row-amount" style="font-size:.88rem;">${fmt(r.saldo_cashback)}</span>
+            </div>
+            <div class="list-row-actions" onclick="event.stopPropagation()">
                 <div class="cell-actions">
                     <button class="btn-icon btn-icon-warn" title="Desactivar membresía" onclick="desactivarMembresia(${r.socio_membresia_id})">⏸</button>
                     <button class="btn-icon btn-icon-danger" title="Eliminar titular y familiares" onclick="eliminarTitular(${r.socio_membresia_id}, ${JSON.stringify(r.nombre)}, ${r.num_familiares || 0})">✕</button>
                 </div>
-            </td>
-        </tr>`;
-    });
+            </div>
+        </div>`;
+    }).join('') : '<div class="list-row" style="justify-content:center;color:#94a3b8;font-size:.87rem;">Sin socios registrados</div>';
 }
 
 async function mostrarDetallesSocio(socio_membresia_id) {
@@ -1750,34 +1772,34 @@ async function mostrarDetallesSocio(socio_membresia_id) {
                 </div>
             </div>
             <div class="socio-detail-actions">
-                <button class="btn btn-sm btn-primary" onclick="renovarMembresia(${titular.id})">Renovar Membresía</button>
-                <button class="btn btn-sm btn-outline-danger" onclick="eliminarTitular(${titular.id}, ${JSON.stringify(titular.nombre)}, ${familiares.length})">Eliminar Titular</button>
+                <button class="btn-detail-primary" onclick="renovarMembresia(${titular.id})">Renovar Membresía</button>
+                <button class="btn-detail-danger" onclick="eliminarTitular(${titular.id}, ${JSON.stringify(titular.nombre)}, ${familiares.length})">Eliminar Titular</button>
             </div>
         </div>
     `;
 
     if (familiares.length > 0) {
-        html += `<div class="section-title" style="display:block;">Familiares Vinculados <span class="count-badge" style="margin-left:8px;">${familiares.length}</span></div>`;
-        html += `<div class="sam-table table-responsive"><table class="table table-sm mb-0">
-            <thead><tr><th>Nombre</th><th>Parentesco</th><th>Membresía</th><th class="text-center">Complem.</th><th class="text-end">Cashback</th><th class="td-action">Acciones</th></tr></thead>
-            <tbody>`;
+        html += `<div class="section-title" style="display:block;margin-top:20px;">Familiares Vinculados <span class="count-badge" style="margin-left:8px;">${familiares.length}</span></div>`;
+        html += '<div class="detail-fam-list">';
         familiares.forEach(f => {
-            html += `<tr>
-                <td class="fw-semibold">${esc(f.nombre)}</td>
-                <td><span class="badge badge-gray" style="font-size:.67rem;">${esc(f.parentesco)}</span></td>
-                <td><span class="badge ${membClass(f.tipo_membresia)}">${esc(f.tipo_membresia)}</span></td>
-                <td class="text-center">${f.es_complementaria == 1 ? '<span class="badge badge-green">Gratis</span>' : '<span class="text-muted">—</span>'}</td>
-                <td class="text-end" style="color:var(--sam-green);font-weight:600;">${fmt(f.saldo_cashback)}</td>
-                <td class="td-action">
+            html += `<div class="detail-fam-row">
+                <div style="flex:1;min-width:0;">
+                    <div class="list-row-name" style="font-size:.88rem;">${esc(f.nombre)}</div>
+                    <div class="list-row-sub">${esc(f.parentesco)}</div>
+                </div>
+                <span class="badge ${membClass(f.tipo_membresia)}">${esc(f.tipo_membresia)}</span>
+                ${f.es_complementaria == 1 ? '<span class="badge badge-green">Gratis</span>' : ''}
+                <span style="color:var(--sam-green);font-weight:700;font-size:.85rem;">${fmt(f.saldo_cashback)}</span>
+                <div class="cell-actions">
                     <button class="btn-icon btn-icon-danger" title="Eliminar familiar" onclick="eliminarFamiliar(${f.socio_membresia_id}, ${JSON.stringify(f.nombre)}, ${socio_membresia_id})">✕</button>
-                </td>
-            </tr>`;
+                </div>
+            </div>`;
         });
-        html += '</tbody></table></div>';
+        html += '</div>';
     } else {
         html += `<div class="alert alert-info mt-3 mb-0">
             Este socio no tiene familiares vinculados aún.
-            <button class="btn btn-sm btn-link p-0" onclick="mostrarFormFamiliar()">Vincular un familiar</button>
+            <button class="btn-detail-link" onclick="mostrarFormFamiliar()">Vincular un familiar</button>
         </div>`;
     }
 
@@ -1897,7 +1919,7 @@ async function renovarMembresia(socio_membresia_id) {
 async function loadFamiliares() {
     const q = document.getElementById('familiarBuscar').value;
     const body = document.getElementById('familiaresBody');
-    body.innerHTML = '<tr><td colspan="9" class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary"></div></td></tr>';
+    body.innerHTML = '<div style="text-align:center;padding:24px 0;"><div class="spinner-sam"></div></div>';
     const res = await api('socios.php?action=list_familiares');
     if (!res.success) { toast(res.error,'error'); return; }
     let datos = res.data;
@@ -1909,31 +1931,47 @@ async function loadFamiliares() {
             f.titular_nombre.toLowerCase().includes(qLower)
         );
     }
-    body.innerHTML = datos.length ? '' : '<tr><td colspan="9" class="text-center text-muted py-4">Sin familiares registrados</td></tr>';
-    datos.forEach(f => {
+    body.innerHTML = datos.length ? datos.map(f => {
         const membClass = f.tipo_membresia === 'PLUS' ? 'badge-purple' : f.tipo_membresia === 'BENEFITS' ? 'badge-blue' : 'badge-gray';
-        const complementariaTag = f.es_complementaria == 1
-            ? '<span class="badge badge-green">Gratis</span>'
-            : '<span class="text-muted">—</span>';
-        body.innerHTML += `<tr>
-            <td><strong>${esc(f.nombre)}</strong></td>
-            <td class="td-num">${esc(f.numero_socio)}</td>
-            <td><span class="badge badge-gray" style="font-size:.67rem;text-transform:uppercase;">${esc(f.parentesco)}</span></td>
-            <td><span class="badge ${membClass}">${esc(f.tipo_membresia)}</span></td>
-            <td>
-                <span class="fw-semibold">${esc(f.titular_nombre)}</span><br>
-                <span class="text-muted text-xs">${esc(f.titular_numero_socio)}</span>
-            </td>
-            <td class="text-center">${complementariaTag}</td>
-            <td class="text-muted small">${esc(f.vencimiento)}</td>
-            <td class="text-end fw-semibold" style="color:var(--sam-green);">${fmt(f.saldo_cashback)}</td>
-            <td class="td-action">
+        return `<div class="list-row">
+            <div class="list-row-main">
+                <div class="list-row-name">${esc(f.nombre)}</div>
+                <div class="list-row-sub">${esc(f.numero_socio)}</div>
+            </div>
+            <div class="list-row-field">
+                <span class="list-row-label">Parentesco</span>
+                <span class="badge badge-gray" style="font-size:.67rem;text-transform:uppercase;">${esc(f.parentesco)}</span>
+            </div>
+            <div class="list-row-field">
+                <span class="list-row-label">Membresía</span>
+                <span class="badge ${membClass}">${esc(f.tipo_membresia)}</span>
+            </div>
+            <div class="list-row-field">
+                <span class="list-row-label">Titular</span>
+                <div>
+                    <div class="list-row-value">${esc(f.titular_nombre)}</div>
+                    <div class="list-row-sub">${esc(f.titular_numero_socio)}</div>
+                </div>
+            </div>
+            <div class="list-row-field">
+                <span class="list-row-label">Complem.</span>
+                ${f.es_complementaria == 1 ? '<span class="badge badge-green">Gratis</span>' : '<span style="color:#94a3b8;">—</span>'}
+            </div>
+            <div class="list-row-field">
+                <span class="list-row-label">Vence</span>
+                <span class="list-row-value">${esc(f.vencimiento)}</span>
+            </div>
+            <div class="list-row-field">
+                <span class="list-row-label">Cashback</span>
+                <span class="list-row-amount" style="font-size:.88rem;">${fmt(f.saldo_cashback)}</span>
+            </div>
+            <div class="list-row-actions">
                 <div class="cell-actions">
                     <button class="btn-icon btn-icon-danger" onclick="eliminarFamiliar(${f.socio_membresia_id}, ${JSON.stringify(f.nombre)}, ${f.cuenta_titular_id})" title="Eliminar familiar">✕</button>
                 </div>
-            </td>
-        </tr>`;
-    });
+            </div>
+        </div>`;
+    }).join('') : '<div class="list-row" style="justify-content:center;color:#94a3b8;font-size:.87rem;">Sin familiares registrados</div>';
 }
 
 let familiarBuscarTimer;
