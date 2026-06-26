@@ -675,8 +675,8 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.6; }
 ═══════════════════════════════════════════════ -->
 <div class="sam-section" id="section-compras">
     <div class="flex gap-6 mb-6" style="align-items:flex-start;">
-        <!-- Form card — takes remaining space -->
-        <div class="flex-1 min-w-0 bg-white rounded-xl border border-slate-200 shadow-sm p-6 border-t-4 border-t-sams-blue">
+        <!-- Form card — 2/3 of the row -->
+        <div style="flex:2;min-width:0;" class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 border-t-4 border-t-sams-blue">
                 <p class="text-sm font-semibold text-slate-800 mb-4 pb-2 border-b border-slate-100">Registrar Recepción de Mercancía</p>
                 <div class="mb-4">
                     <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Proveedor</label>
@@ -760,7 +760,8 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.6; }
         </div><!-- /form card -->
 
         <!-- Nuevo Proveedor card -->
-        <div class="flex-shrink-0 bg-white rounded-xl border border-slate-200 shadow-sm p-6 border-t-4 border-t-sams-blue" style="width:300px;">
+        <!-- Proveedor card — 1/3 of the row -->
+        <div style="flex:1;min-width:240px;" class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 border-t-4 border-t-sams-blue">
             <p class="text-sm font-semibold text-slate-800 mb-4 pb-2 border-b border-slate-100">Añadir Proveedor</p>
             <form onsubmit="guardarNuevoProveedor(event)">
                 <div class="mb-5">
