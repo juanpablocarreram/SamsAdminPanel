@@ -183,53 +183,57 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
 }
     </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-900 antialiased">
+<div id="toastArea"></div>
 
-<!-- SIDEBAR -->
-<aside class="sam-sidebar">
-    <div class="sam-sidebar-brand">
-        <img src="img/sams_logo.png" alt="Sam's">
+<!-- ═══ SIDEBAR ═══ -->
+<aside class="sam-sidebar fixed inset-y-0 left-0 w-56 bg-slate-900 flex flex-col z-50">
+    <div class="flex items-center gap-3 px-5 py-5 border-b border-slate-700/40">
+        <img src="img/sams_logo.png" class="w-8 flex-shrink-0" alt="Sam's">
         <div>
-            <div class="sam-sidebar-brand-text">Sam's Admin</div>
-            <div class="sam-sidebar-brand-sub">Panel de Control</div>
+            <div class="text-sm font-bold text-white tracking-tight">Sam's Admin</div>
+            <div class="text-xs text-slate-500 uppercase tracking-widest mt-0.5">Panel de Control</div>
         </div>
     </div>
-    <nav class="sam-nav">
-        <div class="sam-nav-label">General</div>
+    <nav class="flex-1 py-3">
+        <div class="px-4 mb-1.5 text-xs font-semibold text-slate-600 uppercase tracking-widest">General</div>
         <div class="sam-nav-item active" data-section="dashboard" onclick="showSection('dashboard')">
-            <span class="nav-icon">▣</span> Dashboard
+            <i data-lucide="layout-dashboard"></i> Dashboard
         </div>
-        <div class="sam-nav-label">Gestión</div>
+        <div class="px-4 mt-4 mb-1.5 text-xs font-semibold text-slate-600 uppercase tracking-widest">Gestión</div>
         <div class="sam-nav-item" data-section="inventario" onclick="showSection('inventario')">
-            <span class="nav-icon">▦</span> Inventario
+            <i data-lucide="package"></i> Inventario
         </div>
         <div class="sam-nav-item" data-section="socios" onclick="showSection('socios')">
-            <span class="nav-icon">◉</span> Socios
+            <i data-lucide="users"></i> Socios
         </div>
         <div class="sam-nav-item" data-section="promociones" onclick="showSection('promociones')">
-            <span class="nav-icon">◈</span> Promociones
+            <i data-lucide="tag"></i> Promociones
         </div>
-        <div class="sam-nav-label">Operaciones</div>
+        <div class="px-4 mt-4 mb-1.5 text-xs font-semibold text-slate-600 uppercase tracking-widest">Operaciones</div>
         <div class="sam-nav-item" data-section="compras" onclick="showSection('compras')">
-            <span class="nav-icon">◆</span> Compras
+            <i data-lucide="shopping-cart"></i> Compras
         </div>
         <div class="sam-nav-item" data-section="ventas" onclick="showSection('ventas')">
-            <span class="nav-icon">▷</span> Punto de Venta
+            <i data-lucide="credit-card"></i> Punto de Venta
         </div>
     </nav>
-    <div class="sam-sidebar-footer">
-        <span class="sam-status-dot"></span>
-        Sistema activo
+    <div class="flex items-center gap-2.5 px-5 py-4 border-t border-slate-700/40">
+        <span class="sam-status-dot w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0" style="box-shadow:0 0 0 3px rgba(52,211,153,.18);animation:pulse-dot 2.5s ease-in-out infinite;"></span>
+        <span class="text-xs text-slate-500 uppercase tracking-wider">Sistema activo</span>
     </div>
 </aside>
+<style>@keyframes pulse-dot{0%,100%{box-shadow:0 0 0 3px rgba(52,211,153,.18)}50%{box-shadow:0 0 0 6px rgba(52,211,153,.06)}}</style>
 
-<!-- MAIN -->
-<main class="sam-main">
-    <div class="sam-page-header">
-        <div class="sam-page-title" id="page-title">Dashboard</div>
-        <div class="sam-page-meta">
-            <span class="sam-date-chip" id="page-date"></span>
-            <button class="btn btn-sm btn-outline-primary" onclick="refreshCurrentSection()">↺ Actualizar</button>
+<!-- ═══ MAIN ═══ -->
+<main class="ml-56 min-h-screen bg-slate-50 px-8 py-7">
+    <div class="flex items-center justify-between mb-7 pb-5 border-b border-slate-200">
+        <h1 id="page-title" class="text-xl font-bold text-slate-900 tracking-tight">Dashboard</h1>
+        <div class="flex items-center gap-3">
+            <span id="page-date" class="text-xs font-medium text-slate-500 bg-white border border-slate-200 rounded-full px-3 py-1.5"></span>
+            <button onclick="refreshCurrentSection()" class="flex items-center gap-1.5 text-sm font-medium text-slate-600 border border-slate-200 bg-white hover:bg-slate-50 px-3 py-1.5 rounded-lg transition-colors shadow-sm">
+                <i data-lucide="refresh-cw" style="width:14px;height:14px;"></i> Actualizar
+            </button>
         </div>
     </div>
 
