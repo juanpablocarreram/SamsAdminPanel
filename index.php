@@ -752,7 +752,6 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.6; }
                     Registrar Compra
                 </button>
             </div>
-        </div>
 
         <!-- Recepciones Recientes — full width below the form -->
         <p class="text-sm font-semibold text-slate-800 mb-3">Recepciones Recientes</p>
