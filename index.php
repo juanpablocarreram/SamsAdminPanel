@@ -649,78 +649,111 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
      TAB 4 · COMPRAS
 ═══════════════════════════════════════════════ -->
 <div class="sam-section" id="section-compras">
-    <div class="d-flex gap-4" style="align-items:flex-start;">
-        <div style="flex:1; min-width:0;">
-            <div class="sam-card top-accent">
-                <span class="section-title">Registrar Recepción de Mercancía</span>
-                <p class="section-subtitle">Registra la entrada de productos al inventario.</p>
+    <div class="flex gap-5" style="align-items:flex-start;">
+        <!-- Left: Receipt form -->
+        <div class="flex-1 min-w-0">
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 border-t-4 border-t-indigo-500">
+                <p class="text-sm font-semibold text-slate-800 mb-4 pb-2 border-b border-slate-100">Registrar Recepción de Mercancía</p>
                 <div class="mb-3">
-                    <label class="form-label">Proveedor</label>
-                    <select id="compraProveedor" class="form-select"><option value="">Seleccionar proveedor…</option></select>
+                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Proveedor</label>
+                    <select id="compraProveedor"
+                        class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition bg-white">
+                        <option value="">Seleccionar proveedor…</option>
+                    </select>
                 </div>
-                <div class="d-flex gap-3 mb-3">
-                    <div style="flex:1;">
-                        <label class="form-label">Zona de destino</label>
-                        <select id="compraZona" class="form-select"><option value="">Seleccionar zona…</option></select>
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Zona de destino</label>
+                        <select id="compraZona"
+                            class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition bg-white">
+                            <option value="">Seleccionar zona…</option>
+                        </select>
                     </div>
-                    <div style="flex:1;">
-                        <label class="form-label">Destino</label>
-                        <select id="compraEsReserva" class="form-select">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Destino</label>
+                        <select id="compraEsReserva"
+                            class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition bg-white">
                             <option value="0">Piso de venta</option>
                             <option value="1">Bodega / Reserva</option>
                         </select>
                     </div>
                 </div>
-                <div class="form-divider">Productos a recibir</div>
-                <div class="mb-3">
-                    <label class="form-label">Producto</label>
-                    <select id="compraProductoSel" class="form-select"><option value="">Seleccionar producto…</option></select>
-                </div>
-                <div class="d-flex gap-3 mb-3">
-                    <div style="flex:1;">
-                        <label class="form-label">Cantidad</label>
-                        <input type="number" id="compraCantidad" class="form-control" placeholder="1" min="1">
+                <div class="border-t border-slate-100 pt-4 mb-3">
+                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-3">Productos a recibir</p>
+                    <div class="mb-3">
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Producto</label>
+                        <select id="compraProductoSel"
+                            class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition bg-white">
+                            <option value="">Seleccionar producto…</option>
+                        </select>
                     </div>
-                    <div style="flex:1;">
-                        <label class="form-label">Precio de costo</label>
-                        <div class="pfx-group">
-                            <span class="pfx">$</span>
-                            <input type="number" id="compraPrecio" class="form-control" placeholder="0.00" step="0.01" min="0">
+                    <div class="grid grid-cols-2 gap-3 mb-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Cantidad</label>
+                            <input type="number" id="compraCantidad" placeholder="1" min="1"
+                                class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Precio de costo</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 font-semibold">$</span>
+                                <input type="number" id="compraPrecio" placeholder="0.00" step="0.01" min="0"
+                                    class="w-full text-sm border border-slate-300 rounded-lg pl-7 pr-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                            </div>
                         </div>
                     </div>
+                    <button onclick="agregarItemCompra()"
+                        class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors mb-4">
+                        + Agregar producto a la lista
+                    </button>
                 </div>
-                <button class="btn-add mb-3" onclick="agregarItemCompra()">+ Agregar producto a la lista</button>
-                <span class="section-title">Items Agregados</span>
+                <p class="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Items Agregados</p>
                 <div class="compra-items-sub">
-                    <table class="table table-sm mb-0">
-                        <thead>
+                    <table class="w-full text-sm">
+                        <thead class="bg-slate-800 text-white">
                             <tr>
-                                <th>Producto</th>
-                                <th class="text-center" style="width:90px;">Cant.</th>
-                                <th class="text-center" style="width:120px;">Precio costo</th>
-                                <th class="text-end" style="width:100px;">Total</th>
-                                <th style="width:42px;"></th>
+                                <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Producto</th>
+                                <th class="text-center text-xs font-semibold uppercase tracking-wider px-4 py-3" style="width:90px;">Cant.</th>
+                                <th class="text-center text-xs font-semibold uppercase tracking-wider px-4 py-3" style="width:120px;">Precio costo</th>
+                                <th class="text-right text-xs font-semibold uppercase tracking-wider px-4 py-3" style="width:100px;">Total</th>
+                                <th class="px-4 py-3" style="width:42px;"></th>
                             </tr>
                         </thead>
                         <tbody id="compraItemsBody">
-                            <tr id="compraEmptyRow"><td colspan="5" class="text-center text-muted py-4">Sin productos agregados</td></tr>
+                            <tr id="compraEmptyRow"><td colspan="5" class="text-center text-slate-400 py-4">Sin productos agregados</td></tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="compra-total-row">
-                    <span style="font-weight:600;" id="compraTotalUnidades">Total: 0 unidades</span>
-                    <span style="font-size:1.1rem;font-weight:700;color:var(--sam-blue);" id="compraTotalCosto">$0.00</span>
+                    <span class="text-sm font-semibold text-slate-700" id="compraTotalUnidades">Total: 0 unidades</span>
+                    <span class="text-base font-bold text-indigo-600" id="compraTotalCosto">$0.00</span>
                 </div>
-                <button class="btn btn-primary w-100" onclick="procesarCompra()">Registrar Compra</button>
+                <button onclick="procesarCompra()"
+                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold py-2.5 rounded-lg transition-colors">
+                    Registrar Compra
+                </button>
             </div>
         </div>
-        <div style="flex:0 0 340px; min-width:0;">
-            <span class="section-title">Recepciones Recientes</span>
-            <div class="sam-table table-responsive">
-                <table class="table table-sm mb-0">
-                    <thead><tr><th>Fecha</th><th>Producto</th><th class="text-end">Cant.</th><th>Proveedor</th></tr></thead>
-                    <tbody id="histCompraBody"><tr><td colspan="4" class="text-center text-muted py-3">Cargando…</td></tr></tbody>
-                </table>
+
+        <!-- Right: History -->
+        <div class="flex-shrink-0" style="width:340px;">
+            <p class="text-sm font-semibold text-slate-800 mb-3">Recepciones Recientes</p>
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead class="bg-slate-800 text-white">
+                            <tr>
+                                <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Fecha</th>
+                                <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Producto</th>
+                                <th class="text-right text-xs font-semibold uppercase tracking-wider px-4 py-3">Cant.</th>
+                                <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Proveedor</th>
+                            </tr>
+                        </thead>
+                        <tbody id="histCompraBody">
+                            <tr><td colspan="4" class="text-center py-4 text-slate-400">Cargando…</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
