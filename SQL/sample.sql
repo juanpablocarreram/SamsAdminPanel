@@ -3,6 +3,16 @@ USE SAMS;
 -- DATOS DE EJEMPLO ACTUALIZADOS Y CORREGIDOS (ICA_final)
 -- =========================================================
 
+-- 0. SUCURSALES
+INSERT INTO sucursales (id, nombre, codigo, ubicacion) VALUES
+(1, 'Sam''s Polanco',   'SUC-0001', 'Av. Presidente Masaryk 111, Polanco'),
+(2, 'Sam''s Santa Fe',  'SUC-0002', 'Av. Vasco de Quiroga 3800, Santa Fe');
+
+-- 0b. USUARIOS ADMINISTRADORES
+INSERT INTO usuarios (nombre, email, password_hash, google_id, rol, sucursal_id) VALUES
+('Admin Polanco',   'admin.polanco@sams.mx',  '$2y$10$cD8sLdLuykzzkpaUIrPoA.PXaH0BmYzXFMnRgDzomMi31gOYYjFbO', NULL, 'ADMIN', 1),
+('Admin Santa Fe',  'admin.santafe@sams.mx',  '$2y$10$cD8sLdLuykzzkpaUIrPoA.PXaH0BmYzXFMnRgDzomMi31gOYYjFbO', NULL, 'ADMIN', 2);
+
 -- 1. PUESTOS
 INSERT INTO puesto_ICA_final (nombre, area, nivel) VALUES
 ('Cajero', 'CAJAS', 'OPERATIVO'),
@@ -162,14 +172,14 @@ INSERT INTO lista_precio_ICA_final (producto_id, precio, vigente, fecha) VALUES
 (22, 189.00,  1, NOW());
 
 -- 13. INVENTARIO
-INSERT INTO inventario_ICA_final (producto_id, zona_id, cantidad, es_reserva) VALUES
-(1,  1, 48,  0), (2,  1, 36,  0), (3,  1, 120, 0), (4,  1, 200, 0), (5,  1, 60,  0),
-(6,  1, 96,  0), (7,  1, 40,  0), (8,  1, 55,  0), (9,  1, 45,  0), (10, 1, 72,  0),
-(11, 1, 84,  0), (16, 1, 38,  0), (17, 1, 50,  0), (12, 2, 15,  0), (13, 2, 22,  0),
-(14, 2, 30,  0), (15, 2, 60,  0), (5,  5, 40,  0), (19, 5, 96,  0), (20, 5, 72,  0),
-(21, 6, 50,  0), (22, 6, 35,  0), (18, 9, 150, 0), (1,  3, 200, 1), (3,  3, 480, 1),
-(4,  3, 600, 1), (6,  3, 288, 1), (10, 3, 144, 1), (16, 3, 120, 1), (12, 4, 10,  1),
-(13, 4, 8,   1), (19, 4, 288, 1), (21, 4, 100, 1);
+INSERT INTO inventario_ICA_final (producto_id, zona_id, cantidad, es_reserva, sucursal_id) VALUES
+(1,  1, 48,  0, 1), (2,  1, 36,  0, 1), (3,  1, 120, 0, 1), (4,  1, 200, 0, 1), (5,  1, 60,  0, 1),
+(6,  1, 96,  0, 1), (7,  1, 40,  0, 1), (8,  1, 55,  0, 1), (9,  1, 45,  0, 1), (10, 1, 72,  0, 1),
+(11, 1, 84,  0, 1), (16, 1, 38,  0, 1), (17, 1, 50,  0, 1), (12, 2, 15,  0, 1), (13, 2, 22,  0, 1),
+(14, 2, 30,  0, 1), (15, 2, 60,  0, 1), (5,  5, 40,  0, 1), (19, 5, 96,  0, 1), (20, 5, 72,  0, 1),
+(21, 6, 50,  0, 2), (22, 6, 35,  0, 2), (18, 9, 150, 0, 2), (1,  3, 200, 1, 1), (3,  3, 480, 1, 1),
+(4,  3, 600, 1, 1), (6,  3, 288, 1, 1), (10, 3, 144, 1, 1), (16, 3, 120, 1, 1), (12, 4, 10,  1, 1),
+(13, 4, 8,   1, 1), (19, 4, 288, 1, 1), (21, 4, 100, 1, 2);
 
 -- 14. PROMOCIONES SEGMENTADAS
 INSERT INTO promocion_ICA_final (id, producto_id, nombre_promo, descuento_pct, descuento_monto, fecha_inicio, fecha_fin, aplica_a_todos, activo) VALUES
@@ -186,13 +196,13 @@ INSERT INTO promocion_membresia_ICA_final (promocion_id, tipo_membresia_id) VALU
 (5, 3); -- Promo 5 (Pantalla) ÚNICAMENTE para PLUS
 
 -- 15. VENTAS DE EJEMPLO (Apuntando a los IDs correctos de la tabla socio_membresia_ICA_final)
-INSERT INTO venta_ICA_final (socio_membresia_id, canal, total, fecha) VALUES
-(1, 'CAJA',    434.80,  '2026-05-13 10:30:00'), -- Roberto (Clásica - ID 1)
-(2, 'SELF',     226.00,  '2026-05-13 11:15:00'), -- Patricia (Benefits - ID 2)
-(3, 'SCAN_GO', 11049.15, '2026-05-13 12:45:00'), -- Diego (Titular PLUS - ID 3)
-(4, 'CAJA',     284.00,  '2026-05-14 09:20:00'), -- Sofía (Benefits - ID 4)
-(6, 'CAJA',    12999.00, '2026-05-14 14:00:00'), -- Diego (Su otra cuenta Clásica - ID 6)
-(7, 'CAJA',     220.00,  '2026-05-14 15:30:00'); -- Elena (Familiar PLUS vinculada - ID 7)
+INSERT INTO venta_ICA_final (socio_membresia_id, canal, total, fecha, sucursal_id) VALUES
+(1, 'CAJA',    434.80,  '2026-05-13 10:30:00', 1), -- Roberto (Clásica - ID 1)
+(2, 'SELF',     226.00,  '2026-05-13 11:15:00', 1), -- Patricia (Benefits - ID 2)
+(3, 'SCAN_GO', 11049.15, '2026-05-13 12:45:00', 1), -- Diego (Titular PLUS - ID 3)
+(4, 'CAJA',     284.00,  '2026-05-14 09:20:00', 2), -- Sofía (Benefits - ID 4)
+(6, 'CAJA',    12999.00, '2026-05-14 14:00:00', 2), -- Diego (Su otra cuenta Clásica - ID 6)
+(7, 'CAJA',     220.00,  '2026-05-14 15:30:00', 2); -- Elena (Familiar PLUS vinculada - ID 7)
 
 -- DETALLE DE ELEMENTOS VENDIDOS E HISTORIAL DE PROMO APLICADA
 INSERT INTO venta_item_ICA_final (venta_id, producto_id, cantidad, precio, descuento, promocion_id, tipo_descuento) VALUES
@@ -222,17 +232,17 @@ INSERT INTO pago_ICA_final (venta_id, metodo, monto) VALUES
 (6, 'TARJETA',  220.00);
 
 -- 16. MOVIMIENTOS DE INVENTARIO
-INSERT INTO inventario_movimiento_ICA_final (producto_id, tipo, cantidad, fecha, proveedor_id) VALUES
-(1,  'RECEPCION', 200, '2026-05-10 08:00:00', 1),
-(3,  'RECEPCION', 480, '2026-05-10 08:30:00', 2),
-(4,  'RECEPCION', 600, '2026-05-10 09:00:00', 2),
-(10, 'RECEPCION', 144, '2026-05-11 07:45:00', 3),
-(12, 'RECEPCION', 25,  '2026-05-11 10:00:00', 8),
-(13, 'RECEPCION', 30,  '2026-05-11 10:15:00', 9),
-(19, 'RECEPCION', 288, '2026-05-12 06:30:00', 6),
-(3,  'VENTA',     24,  '2026-05-13 10:30:00', NULL),
-(19, 'VENTA',     1,   '2026-05-13 10:30:00', NULL),
-(12, 'VENTA',     1,   '2026-05-13 12:45:00', NULL);
+INSERT INTO inventario_movimiento_ICA_final (producto_id, tipo, cantidad, fecha, proveedor_id, sucursal_id) VALUES
+(1,  'RECEPCION', 200, '2026-05-10 08:00:00', 1, 1),
+(3,  'RECEPCION', 480, '2026-05-10 08:30:00', 2, 1),
+(4,  'RECEPCION', 600, '2026-05-10 09:00:00', 2, 1),
+(10, 'RECEPCION', 144, '2026-05-11 07:45:00', 3, 1),
+(12, 'RECEPCION', 25,  '2026-05-11 10:00:00', 8, 1),
+(13, 'RECEPCION', 30,  '2026-05-11 10:15:00', 9, 1),
+(19, 'RECEPCION', 288, '2026-05-12 06:30:00', 6, 1),
+(3,  'VENTA',     24,  '2026-05-13 10:30:00', NULL, 1),
+(19, 'VENTA',     1,   '2026-05-13 10:30:00', NULL, 1),
+(12, 'VENTA',     1,   '2026-05-13 12:45:00', NULL, 1);
 
 -- ═══════════════════════════════
 -- VERIFICACIÓN RÁPIDA DE ESTRUCTURA Y SEGMENTACIÓN
