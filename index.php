@@ -356,116 +356,182 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
      TAB 2 · SOCIOS
 ═══════════════════════════════════════════════ -->
 <div class="sam-section" id="section-socios">
-    <div class="d-flex gap-4" style="align-items:flex-start;gap:28px;">
-        <div style="flex:0 0 320px; min-width:0;">
-            <div class="sam-card top-accent">
+    <div class="flex gap-5" style="align-items:flex-start;">
+        <!-- Left: Form panel -->
+        <div class="flex-shrink-0" style="width:330px;">
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 border-t-4 border-t-indigo-500">
                 <div id="socioFormNuevo">
-                    <span class="section-title">Nuevo Socio Titular</span>
-                    <p class="section-subtitle">Completa los datos para registrar una nueva membresía.</p>
+                    <p class="text-sm font-semibold text-slate-800 mb-4 pb-2 border-b border-slate-100">Nuevo Socio Titular</p>
                     <div class="mb-3">
-                        <label class="form-label">Nombre completo</label>
-                        <input type="text" id="socioNombre" class="form-control" placeholder="Ej: Juan Pérez García" autocomplete="off">
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Nombre completo</label>
+                        <input type="text" id="socioNombre" autocomplete="off" placeholder="Ej: Juan Pérez García"
+                            class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Correo electrónico <span style="color:var(--sam-muted);font-weight:400;text-transform:none;letter-spacing:0;">(opcional)</span></label>
-                        <input type="email" id="socioCorreo" class="form-control" placeholder="correo@ejemplo.com">
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Correo electrónico <span class="font-normal normal-case tracking-normal text-slate-400">(opcional)</span></label>
+                        <input type="email" id="socioCorreo" placeholder="correo@ejemplo.com"
+                            class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Teléfono <span style="color:var(--sam-muted);font-weight:400;text-transform:none;letter-spacing:0;">(opcional)</span></label>
-                        <input type="tel" id="socioTelefono" class="form-control" placeholder="55 1234 5678">
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Teléfono <span class="font-normal normal-case tracking-normal text-slate-400">(opcional)</span></label>
+                        <input type="tel" id="socioTelefono" placeholder="55 1234 5678"
+                            class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
                     </div>
-                    <div class="form-divider">Membresía</div>
-                    <div class="mb-3">
-                        <label class="form-label">Tipo de membresía</label>
-                        <select id="socioTipoMembresia" class="form-select"><option value="">Seleccionar tipo…</option></select>
+                    <div class="border-t border-slate-100 pt-3 mb-3">
+                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-3">Membresía</p>
+                        <div class="mb-3">
+                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Tipo de membresía</label>
+                            <select id="socioTipoMembresia"
+                                class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition bg-white">
+                                <option value="">Seleccionar tipo…</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Fecha de vencimiento</label>
+                            <input type="date" id="socioFechaFin"
+                                class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Fecha de vencimiento</label>
-                        <input type="date" id="socioFechaFin" class="form-control">
-                    </div>
-                    <button class="btn btn-primary w-100 mb-2" onclick="crearSocioTitular()">Registrar Socio Titular</button>
-                    <button class="btn btn-outline-secondary w-100" onclick="mostrarFormFamiliar()">Vincular un familiar existente</button>
+                    <button onclick="crearSocioTitular()"
+                        class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold py-2.5 rounded-lg transition-colors mb-2">
+                        Registrar Socio Titular
+                    </button>
+                    <button onclick="mostrarFormFamiliar()"
+                        class="w-full border border-slate-300 text-slate-700 hover:bg-slate-50 text-sm font-medium py-2.5 rounded-lg transition-colors">
+                        Vincular un familiar existente
+                    </button>
                 </div>
                 <div id="socioFormFamiliar" style="display:none;">
-                    <span class="section-title">Vincular Familiar</span>
-                    <p class="section-subtitle">El familiar hereda membresía y vencimiento del titular.</p>
+                    <p class="text-sm font-semibold text-slate-800 mb-4 pb-2 border-b border-slate-100">Vincular Familiar</p>
                     <div class="mb-3">
-                        <label class="form-label">Socio Titular</label>
-                        <select id="socioTitularSel" class="form-select"><option value="">Seleccionar titular…</option></select>
-                    </div>
-                    <div class="form-divider">Datos del Familiar</div>
-                    <div class="mb-3">
-                        <label class="form-label">Nombre completo</label>
-                        <input type="text" id="familiarNombre" class="form-control" placeholder="Nombre completo">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Correo <span style="color:var(--sam-muted);font-weight:400;text-transform:none;letter-spacing:0;">(opcional)</span></label>
-                        <input type="email" id="familiarCorreo" class="form-control" placeholder="correo@ejemplo.com">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Teléfono <span style="color:var(--sam-muted);font-weight:400;text-transform:none;letter-spacing:0;">(opcional)</span></label>
-                        <input type="tel" id="familiarTelefono" class="form-control" placeholder="55 1234 5678">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Parentesco</label>
-                        <select id="familiarParentesco" class="form-select">
-                            <option value="CONYUGE">Cónyuge</option>
-                            <option value="HIJO">Hijo/a</option>
-                            <option value="PADRE">Padre/Madre</option>
-                            <option value="HERMANO">Hermano/a</option>
-                            <option value="OTRO">Otro</option>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Socio Titular</label>
+                        <select id="socioTitularSel"
+                            class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition bg-white">
+                            <option value="">Seleccionar titular…</option>
                         </select>
                     </div>
-                    <div class="mb-3">
-                        <label class="check-card" for="familiarComplementaria">
-                            <input type="checkbox" id="familiarComplementaria">
-                            <div class="check-card-body">
-                                <span class="check-card-text">Tarjeta complementaria gratis</span>
-                                <span class="check-card-hint">Solo se permite 1 por titular</span>
-                            </div>
-                        </label>
+                    <div class="border-t border-slate-100 pt-3 mb-3">
+                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-3">Datos del Familiar</p>
+                        <div class="mb-3">
+                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Nombre completo</label>
+                            <input type="text" id="familiarNombre" placeholder="Nombre completo"
+                                class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                        </div>
+                        <div class="mb-3">
+                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Correo <span class="font-normal normal-case tracking-normal text-slate-400">(opcional)</span></label>
+                            <input type="email" id="familiarCorreo" placeholder="correo@ejemplo.com"
+                                class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                        </div>
+                        <div class="mb-3">
+                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Teléfono <span class="font-normal normal-case tracking-normal text-slate-400">(opcional)</span></label>
+                            <input type="tel" id="familiarTelefono" placeholder="55 1234 5678"
+                                class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                        </div>
+                        <div class="mb-3">
+                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Parentesco</label>
+                            <select id="familiarParentesco"
+                                class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition bg-white">
+                                <option value="CONYUGE">Cónyuge</option>
+                                <option value="HIJO">Hijo/a</option>
+                                <option value="PADRE">Padre/Madre</option>
+                                <option value="HERMANO">Hermano/a</option>
+                                <option value="OTRO">Otro</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="flex items-center gap-2 cursor-pointer text-sm font-medium text-slate-600">
+                                <input type="checkbox" id="familiarComplementaria" class="rounded accent-indigo-600">
+                                Tarjeta complementaria gratis
+                            </label>
+                            <p class="text-xs text-slate-400 mt-1 ml-5">Solo se permite 1 por titular</p>
+                        </div>
                     </div>
-                    <button class="btn btn-success w-100 mb-2" onclick="crearSocioFamiliar()">Vincular Familiar</button>
-                    <button class="btn btn-outline-secondary w-100" onclick="mostrarFormNuevo()">← Volver</button>
+                    <button onclick="crearSocioFamiliar()"
+                        class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold py-2.5 rounded-lg transition-colors mb-2">
+                        Vincular Familiar
+                    </button>
+                    <button onclick="mostrarFormNuevo()"
+                        class="w-full border border-slate-300 text-slate-700 hover:bg-slate-50 text-sm font-medium py-2.5 rounded-lg transition-colors">
+                        ← Volver
+                    </button>
                 </div>
             </div>
         </div>
-        <div style="flex:1; min-width:0;">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div class="search-wrap" style="max-width:280px;flex:1;">
-                    <input type="text" id="sociosBuscar" class="form-control" placeholder="Buscar socio por nombre o número…">
-                </div>
-                <button class="btn btn-sm btn-outline-primary" onclick="loadSocios(); loadFamiliares();">↺ Actualizar</button>
+
+        <!-- Right: List panels -->
+        <div class="flex-1 min-w-0">
+            <div class="flex justify-between items-center mb-4">
+                <input type="text" id="sociosBuscar" placeholder="Buscar socio por nombre o número…"
+                    class="text-sm border border-slate-300 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-500 transition bg-white"
+                    style="max-width:280px;">
+                <button onclick="loadSocios(); loadFamiliares();"
+                    class="border border-slate-300 text-slate-600 hover:bg-slate-50 text-sm font-medium px-3 py-2 rounded-lg transition-colors">
+                    ↺ Actualizar
+                </button>
             </div>
-            <div class="pill-tabs">
+            <div class="flex gap-2 mb-4">
                 <div class="pill-tab active" onclick="showSocioTab('listado', this)">Titulares</div>
                 <div class="pill-tab" onclick="showSocioTab('familiares', this)">Familiares</div>
                 <div class="pill-tab" onclick="showSocioTab('detalles', this)">Detalles</div>
             </div>
             <div id="socios-listado">
-                <div class="sam-table table-responsive">
-                    <table class="table table-sm mb-0">
-                        <thead><tr><th>#</th><th>Número</th><th>Nombre</th><th>Membresía</th><th class="text-center">Familiares</th><th>Vencimiento</th><th class="text-end">Cashback</th><th>Acciones</th></tr></thead>
-                        <tbody id="sociosBody"><tr><td colspan="8" class="text-center text-muted py-4">Cargando socios…</td></tr></tbody>
-                    </table>
+                <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-slate-800 text-white">
+                                <tr>
+                                    <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">#</th>
+                                    <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Número</th>
+                                    <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Nombre</th>
+                                    <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Membresía</th>
+                                    <th class="text-center text-xs font-semibold uppercase tracking-wider px-4 py-3">Familiares</th>
+                                    <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Vencimiento</th>
+                                    <th class="text-right text-xs font-semibold uppercase tracking-wider px-4 py-3">Cashback</th>
+                                    <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sociosBody">
+                                <tr><td colspan="8" class="text-center py-6 text-slate-400">Cargando socios…</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             <div id="socios-familiares" style="display:none;">
-                <div class="d-flex gap-2 mb-3">
-                    <div class="search-wrap" style="max-width:300px;flex:1;">
-                        <input type="text" id="familiarBuscar" class="form-control" placeholder="Buscar familiar…">
-                    </div>
-                    <button class="btn btn-sm btn-outline-primary" onclick="loadFamiliares()">↺</button>
+                <div class="flex gap-2 mb-3">
+                    <input type="text" id="familiarBuscar" placeholder="Buscar familiar…"
+                        class="text-sm border border-slate-300 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-500 transition bg-white"
+                        style="max-width:300px;">
+                    <button onclick="loadFamiliares()"
+                        class="border border-slate-300 text-slate-600 hover:bg-slate-50 text-sm px-3 py-2 rounded-lg transition-colors">↺</button>
                 </div>
-                <div class="sam-table table-responsive">
-                    <table class="table table-sm mb-0">
-                        <thead><tr><th>Familiar</th><th>Número</th><th>Parentesco</th><th>Membresía</th><th>Titular</th><th class="text-center">Complem.</th><th>Vencimiento</th><th class="text-end">Cashback</th><th>Acciones</th></tr></thead>
-                        <tbody id="familiaresBody"><tr><td colspan="9" class="text-center text-muted py-4">Cargando familiares…</td></tr></tbody>
-                    </table>
+                <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-slate-800 text-white">
+                                <tr>
+                                    <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Familiar</th>
+                                    <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Número</th>
+                                    <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Parentesco</th>
+                                    <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Membresía</th>
+                                    <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Titular</th>
+                                    <th class="text-center text-xs font-semibold uppercase tracking-wider px-4 py-3">Complem.</th>
+                                    <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Vencimiento</th>
+                                    <th class="text-right text-xs font-semibold uppercase tracking-wider px-4 py-3">Cashback</th>
+                                    <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="familiaresBody">
+                                <tr><td colspan="9" class="text-center py-6 text-slate-400">Cargando familiares…</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             <div id="socios-detalles" style="display:none;">
-                <div id="socioDetallesContent" class="text-center text-muted py-4">Selecciona un socio para ver los detalles</div>
+                <div id="socioDetallesContent" class="text-center text-slate-400 text-sm py-8">
+                    Selecciona un socio para ver los detalles
+                </div>
             </div>
         </div>
     </div>
