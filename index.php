@@ -757,9 +757,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.6; }
                     Registrar Compra
                 </button>
             </div>
-        </div><!-- /form card -->
 
-        <!-- Nuevo Proveedor card -->
         <!-- Proveedor card — 1/3 of the row -->
         <div style="flex:1;min-width:240px;" class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 border-t-4 border-t-sams-blue">
             <p class="text-sm font-semibold text-slate-800 mb-4 pb-2 border-b border-slate-100">Añadir Proveedor</p>
