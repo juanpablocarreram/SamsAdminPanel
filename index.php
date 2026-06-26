@@ -181,6 +181,10 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
     .sam-sidebar { display: none !important; }
     .pos-terminal { flex: 0 0 260px; }
 }
+/* JS-generated classes not expressible as Tailwind utilities */
+.badge-promo { background: #d1fae5; color: #065f46; }
+.stock-zero { color: #ef4444; font-weight: 700; }
+.fw-600 { font-weight: 600; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 antialiased">
@@ -316,31 +320,32 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
      TAB 1 · INVENTARIO
 ═══════════════════════════════════════════════ -->
 <div class="sam-section" id="section-inventario">
-    <div class="sam-card mb-3">
-        <div class="d-flex align-items-center gap-3">
-            <div class="search-wrap" style="flex:1;">
-                <input type="text" id="invSearch" class="form-control" placeholder="Buscar por nombre, SKU o marca…" oninput="clearTimeout(invTimer);invTimer=setTimeout(()=>loadInventario(this.value),350)">
-            </div>
-            <span class="count-badge" id="invCount" style="display:none;"></span>
+    <div class="flex items-center gap-3 mb-5">
+        <div class="relative flex-1" style="max-width:420px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#94a3b8;pointer-events:none;"></svg>
+            <input type="text" id="invSearch"
+                oninput="clearTimeout(invTimer);invTimer=setTimeout(()=>loadInventario(this.value),350)"
+                class="w-full pl-9 pr-4 py-2.5 text-sm border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition bg-white"
+                placeholder="Buscar por nombre, SKU o marca…">
         </div>
+        <span id="invCount" class="text-xs font-semibold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full" style="display:none;"></span>
     </div>
-
-    <div class="sam-card">
-        <div class="sam-table">
-            <table class="table mb-0" id="invTable">
-                <thead>
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm" id="invTable">
+                <thead class="bg-slate-800 text-white">
                     <tr>
-                        <th>SKU</th>
-                        <th>Nombre</th>
-                        <th>Marca / Cat.</th>
-                        <th class="text-center">Stock Piso</th>
-                        <th class="text-center">Stock Reserva</th>
-                        <th class="text-end">Precio</th>
-                        <th>Promo</th>
+                        <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">SKU</th>
+                        <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Nombre</th>
+                        <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Marca / Cat.</th>
+                        <th class="text-center text-xs font-semibold uppercase tracking-wider px-4 py-3">Stock Piso</th>
+                        <th class="text-center text-xs font-semibold uppercase tracking-wider px-4 py-3">Stock Reserva</th>
+                        <th class="text-right text-xs font-semibold uppercase tracking-wider px-4 py-3">Precio</th>
+                        <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Promo</th>
                     </tr>
                 </thead>
                 <tbody id="invBody">
-                    <tr><td colspan="7" class="text-center py-4 text-muted">Cargando…</td></tr>
+                    <tr><td colspan="7" class="text-center py-6 text-slate-400">Cargando…</td></tr>
                 </tbody>
             </table>
         </div>
