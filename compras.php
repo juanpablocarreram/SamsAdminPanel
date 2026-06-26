@@ -138,6 +138,18 @@ try {
         $stmt = $pdo->query($sql);
         echo json_encode(['success' => true, 'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
 
+    // =========================================================
+    // ACCIÓN: crear_proveedor  (escritura)
+    // =========================================================
+    } elseif ($action === 'crear_proveedor') {
+
+        $nombre = trim($_POST['nombre'] ?? '');
+        if (!$nombre) throw new Exception('El nombre del proveedor es obligatorio');
+
+        $stmt = $pdo->prepare("INSERT INTO proveedor_ICA_final (nombre) VALUES (?)");
+        $stmt->execute([$nombre]);
+        echo json_encode(['success' => true, 'id' => (int)$pdo->lastInsertId()]);
+
     } else {
         http_response_code(400);
         echo json_encode(['success' => false, 'error' => 'Acción no válida']);

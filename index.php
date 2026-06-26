@@ -146,10 +146,14 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.6; }
 .res-memb-tag { font-size: .68rem; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: #eff6ff; color: #1d4ed8; }
 
 /* ── COMPRAS ITEMS TABLE ── */
-.compra-items-sub { border-radius: 8px; border: 1px solid #e2e8f0; overflow: hidden; margin-bottom: 12px; }
-.compra-total-row { border-left: 4px solid var(--sam-blue); padding: 11px 16px; background: #f8fafc; display: flex; justify-content: space-between; align-items: center; border-radius: 0 8px 8px 0; margin-bottom: 16px; }
-.compra-item-input { font-size: .85rem; padding: 4px 8px; border: 1.5px solid #e2e8f0; border-radius: 6px; color: #334155; background: #fff; font-family: inherit; }
-.compra-item-input:focus { border-color: var(--sam-blue); outline: none; }
+.compra-items-sub { border-radius: 10px; border: 1px solid #e2e8f0; overflow: hidden; margin-bottom: 14px; }
+.compra-items-sub tbody tr { border-bottom: 1px solid #f1f5f9; transition: background .1s; }
+.compra-items-sub tbody tr:last-child { border-bottom: none; }
+.compra-items-sub tbody tr:hover { background: #f8fafc; }
+.compra-items-sub tbody td { padding: 12px 16px; }
+.compra-total-row { border-left: 4px solid var(--sam-blue); padding: 12px 18px; background: #f8fafc; display: flex; justify-content: space-between; align-items: center; border-radius: 0 8px 8px 0; margin-bottom: 18px; }
+.compra-item-input { font-size: .87rem; padding: 6px 10px; border: 1.5px solid #e2e8f0; border-radius: 7px; color: #334155; background: #fff; font-family: inherit; transition: border-color .12s; }
+.compra-item-input:focus { border-color: var(--sam-blue); outline: none; box-shadow: 0 0 0 3px rgba(0,61,165,.08); }
 
 /* ── TOAST SYSTEM ── */
 #toastArea { position: fixed; bottom: 24px; right: 24px; z-index: 9999; pointer-events: none; }
@@ -670,8 +674,9 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.6; }
      TAB 4 · COMPRAS
 ═══════════════════════════════════════════════ -->
 <div class="sam-section" id="section-compras">
-        <!-- Form card -->
-        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 border-t-4 border-t-sams-blue mb-6" style="max-width:760px;">
+    <div class="flex gap-6 mb-6" style="align-items:flex-start;">
+        <!-- Form card — takes remaining space -->
+        <div class="flex-1 min-w-0 bg-white rounded-xl border border-slate-200 shadow-sm p-6 border-t-4 border-t-sams-blue">
                 <p class="text-sm font-semibold text-slate-800 mb-4 pb-2 border-b border-slate-100">Registrar Recepción de Mercancía</p>
                 <div class="mb-4">
                     <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Proveedor</label>
@@ -697,8 +702,8 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.6; }
                         </select>
                     </div>
                 </div>
-                <div class="border-t border-slate-100 pt-4 mb-3">
-                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-3">Productos a recibir</p>
+                <div class="bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 mb-4">
+                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-4">Agregar producto a la lista</p>
                     <div class="mb-4">
                         <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Producto</label>
                         <select id="compraProductoSel"
@@ -752,6 +757,31 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.6; }
                     Registrar Compra
                 </button>
             </div>
+        </div><!-- /form card -->
+
+        <!-- Nuevo Proveedor card -->
+        <div class="flex-shrink-0 bg-white rounded-xl border border-slate-200 shadow-sm p-6 border-t-4 border-t-sams-blue" style="width:300px;">
+            <p class="text-sm font-semibold text-slate-800 mb-4 pb-2 border-b border-slate-100">Añadir Proveedor</p>
+            <form onsubmit="guardarNuevoProveedor(event)">
+                <div class="mb-5">
+                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Nombre <span class="text-red-500">*</span></label>
+                    <input type="text" id="nuevoProveedorNombre" required
+                        class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue focus:border-sams-blue transition"
+                        placeholder="Ej. Nestlé México">
+                </div>
+                <button type="submit" id="btnGuardarProveedor"
+                    style="background:var(--sam-blue);"
+                    class="w-full hover:opacity-90 text-white text-sm font-semibold py-2.5 rounded-lg transition-opacity">
+                    + Añadir Proveedor
+                </button>
+            </form>
+            <div id="proveedorListWrap" class="mt-5">
+                <p class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-3">Proveedores registrados</p>
+                <div id="proveedorListBody" class="flex flex-col gap-1.5"></div>
+            </div>
+        </div><!-- /proveedor card -->
+
+    </div><!-- /flex row -->
 
         <!-- Recepciones Recientes — full width below the form -->
         <p class="text-sm font-semibold text-slate-800 mb-3">Recepciones Recientes</p>
@@ -1316,6 +1346,7 @@ async function loadCompraData() {
         const sel = document.getElementById('compraProveedor');
         sel.innerHTML = '<option value="">Seleccionar proveedor…</option>';
         prov.data.forEach(p => sel.innerHTML += `<option value="${p.id}">${p.nombre}</option>`);
+        renderProveedorList(prov.data);
     }
     if (prod.success) {
         const sel = document.getElementById('compraProductoSel');
@@ -1328,6 +1359,42 @@ async function loadCompraData() {
         zonas.data.forEach(z => sel.innerHTML += `<option value="${z.id}">${z.nombre} (${z.tipo})</option>`);
     }
     loadHistCompra();
+}
+
+async function guardarNuevoProveedor(e) {
+    e.preventDefault();
+    const nombre = document.getElementById('nuevoProveedorNombre').value.trim();
+    if (!nombre) return;
+    const btn = document.getElementById('btnGuardarProveedor');
+    btn.disabled = true; btn.textContent = 'Guardando…';
+    const res = await api('compras.php?action=crear_proveedor', { nombre });
+    btn.disabled = false; btn.textContent = '+ Añadir Proveedor';
+    if (res.success) {
+        toast('Proveedor añadido correctamente', 'success');
+        document.getElementById('nuevoProveedorNombre').value = '';
+        // Reload proveedor select + sidebar list
+        const prov = await api('compras.php?action=list_proveedores');
+        if (prov.success) {
+            const sel = document.getElementById('compraProveedor');
+            sel.innerHTML = '<option value="">Seleccionar proveedor…</option>';
+            prov.data.forEach(p => sel.innerHTML += `<option value="${p.id}">${p.nombre}</option>`);
+            renderProveedorList(prov.data);
+        }
+    } else {
+        toast(res.error || 'Error al añadir proveedor', 'error');
+    }
+}
+
+function renderProveedorList(proveedores) {
+    const body = document.getElementById('proveedorListBody');
+    if (!body) return;
+    if (!proveedores.length) {
+        body.innerHTML = '<p style="font-size:.8rem;color:#94a3b8;">Sin proveedores registrados</p>';
+        return;
+    }
+    body.innerHTML = proveedores.map(p =>
+        `<div style="font-size:.82rem;color:#334155;background:#f8fafc;border:1px solid #e8edf3;border-radius:7px;padding:7px 12px;font-weight:500;">${esc(p.nombre)}</div>`
+    ).join('');
 }
 
 function agregarItemCompra() {
@@ -1357,11 +1424,14 @@ function renderCompraItems() {
     body.innerHTML = compraItems.map((it, i) => {
         const sub = (it.cantidad || 0) * (it.precio_costo || 0);
         return `<tr>
-            <td><strong style="font-size:.85rem;">${esc(it.sku ? '['+it.sku+'] ' : '')}${esc(it.nombre)}</strong></td>
-            <td class="text-center"><input type="number" class="compra-item-input" value="${Number(it.cantidad)}" min="1" step="1" style="width:70px;" onchange="updateCompraItem(${i},'cantidad',this.value)" oninput="updateCompraItem(${i},'cantidad',this.value)"></td>
-            <td class="text-center"><input type="number" class="compra-item-input" value="${it.precio_costo || ''}" min="0" step="0.01" placeholder="0.00" style="width:85px;" onchange="updateCompraItem(${i},'precio_costo',this.value)" oninput="updateCompraItem(${i},'precio_costo',this.value)"></td>
-            <td class="text-end" style="font-weight:700;color:var(--sam-blue);" id="sub-compra-${i}">${sub > 0 ? fmt(sub) : '—'}</td>
-            <td class="text-center"><button class="btn btn-sm" style="color:var(--sam-red);padding:3px 8px;" onclick="removeCompraItem(${i})">✕</button></td>
+            <td>
+                <div style="font-size:.88rem;font-weight:700;color:#1e293b;">${esc(it.nombre)}</div>
+                ${it.sku ? `<div style="font-size:.72rem;color:#94a3b8;margin-top:2px;">${esc(it.sku)}</div>` : ''}
+            </td>
+            <td class="text-center"><input type="number" class="compra-item-input" value="${Number(it.cantidad)}" min="1" step="1" style="width:76px;" onchange="updateCompraItem(${i},'cantidad',this.value)" oninput="updateCompraItem(${i},'cantidad',this.value)"></td>
+            <td class="text-center"><input type="number" class="compra-item-input" value="${it.precio_costo || ''}" min="0" step="0.01" placeholder="0.00" style="width:92px;" onchange="updateCompraItem(${i},'precio_costo',this.value)" oninput="updateCompraItem(${i},'precio_costo',this.value)"></td>
+            <td class="text-end" style="font-weight:700;color:var(--sam-blue);font-size:.93rem;" id="sub-compra-${i}">${sub > 0 ? fmt(sub) : '—'}</td>
+            <td class="text-center"><button class="btn btn-sm" style="color:var(--sam-red);padding:4px 10px;font-size:1rem;" onclick="removeCompraItem(${i})">✕</button></td>
         </tr>`;
     }).join('');
     actualizarTotalesCompra();
