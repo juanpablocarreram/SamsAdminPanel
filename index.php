@@ -92,7 +92,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.6; }
 .pos-wrap { display: flex; gap: 20px; height: calc(100vh - 210px); min-height: 520px; }
 .pos-light { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
 .pos-terminal {
-    flex: 0 0 320px; background: #0f172a; border-radius: 14px;
+    flex: 0 0 370px; background: #0f172a; border-radius: 14px;
     display: flex; flex-direction: column; overflow: hidden;
     border: 1px solid rgba(255,255,255,.06);
 }
@@ -189,7 +189,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.6; }
 @media (max-width: 900px) {
     .sam-main { margin-left: 0 !important; padding: 14px !important; }
     .sam-sidebar { display: none !important; }
-    .pos-terminal { flex: 0 0 260px; }
+    .pos-terminal { flex: 0 0 300px; }
 }
 /* JS-generated classes not expressible as Tailwind utilities */
 .badge-promo { background: #d1fae5; color: #065f46; }
@@ -419,7 +419,8 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.6; }
         </div>
         <span id="invCount" class="text-xs font-semibold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full" style="display:none;"></span>
         <button onclick="abrirNuevoProducto()"
-            class="flex items-center gap-2 bg-sams-blue hover:bg-sams-blue/90 text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors flex-shrink-0">
+            style="background:var(--sam-blue);"
+            class="flex items-center gap-2 hover:opacity-90 text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-opacity flex-shrink-0">
             <i data-lucide="plus" class="w-4 h-4"></i> Nuevo Producto
         </button>
     </div>
@@ -669,10 +670,8 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.6; }
      TAB 4 · COMPRAS
 ═══════════════════════════════════════════════ -->
 <div class="sam-section" id="section-compras">
-    <div class="flex gap-6" style="align-items:flex-start;">
-        <!-- Left: Receipt form -->
-        <div class="flex-1 min-w-0">
-            <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 border-t-4 border-t-sams-blue">
+        <!-- Form card -->
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 border-t-4 border-t-sams-blue mb-6" style="max-width:760px;">
                 <p class="text-sm font-semibold text-slate-800 mb-4 pb-2 border-b border-slate-100">Registrar Recepción de Mercancía</p>
                 <div class="mb-4">
                     <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Proveedor</label>
@@ -755,14 +754,11 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.6; }
             </div>
         </div>
 
-        <!-- Right: History -->
-        <div class="flex-shrink-0" style="width:340px;">
-            <p class="text-sm font-semibold text-slate-800 mb-3">Recepciones Recientes</p>
-            <div id="histCompraBody" class="list-container">
-                <div class="list-row" style="justify-content:center;color:#94a3b8;font-size:.87rem;">Cargando…</div>
-            </div>
+        <!-- Recepciones Recientes — full width below the form -->
+        <p class="text-sm font-semibold text-slate-800 mb-3">Recepciones Recientes</p>
+        <div id="histCompraBody" class="list-container" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:8px;">
+            <div class="list-row" style="justify-content:center;color:#94a3b8;font-size:.87rem;">Cargando…</div>
         </div>
-    </div>
 </div>
 
 <!-- ═══════════════════════════════════════════════
@@ -2236,7 +2232,8 @@ lucide.createIcons();
                     Cancelar
                 </button>
                 <button type="submit"
-                    class="bg-sams-blue hover:bg-sams-blue/90 text-white text-sm font-semibold px-6 py-2.5 rounded-lg transition-colors">
+                    style="background:var(--sam-blue);"
+                    class="hover:opacity-90 text-white text-sm font-semibold px-6 py-2.5 rounded-lg transition-opacity">
                     Guardar Producto
                 </button>
             </div>
