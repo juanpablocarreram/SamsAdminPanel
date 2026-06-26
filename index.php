@@ -290,6 +290,81 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.6; }
 .np-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .np-form-grid .np-full { grid-column: 1 / -1; }
 .np-section-title { font-size: .68rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: .6px; margin-bottom: 12px; }
+
+/* ── SIDEBAR BRAND HEADER ── */
+.sidebar-brand {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 22px 20px 18px;
+    overflow: hidden;
+}
+.sidebar-brand-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 90% 80% at 50% 5%, rgba(0,61,165,.22) 0%, transparent 65%);
+    pointer-events: none;
+}
+.sidebar-brand-rule {
+    position: absolute;
+    bottom: 0; left: 16px; right: 16px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,61,165,.55) 30%, rgba(99,102,241,.4) 65%, transparent);
+}
+.brand-icon-box {
+    width: 46px; height: 46px;
+    background: linear-gradient(150deg, rgba(0,61,165,.28) 0%, rgba(15,23,42,.85) 100%);
+    border: 1px solid rgba(0,61,165,.32);
+    border-radius: 13px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 11px;
+    animation: brand-icon-in .5s cubic-bezier(.34,1.56,.64,1) both,
+               brand-glow 4s .7s ease-in-out infinite;
+}
+.brand-icon-box img {
+    width: 27px; height: 27px; object-fit: contain;
+    filter: brightness(1.05);
+}
+.brand-name-row {
+    display: flex; align-items: baseline; gap: 5px;
+    animation: brand-text-in .4s .13s ease both;
+    opacity: 0;
+}
+.brand-name-sams {
+    font-size: .83rem; font-weight: 400;
+    color: rgba(148,163,184,.85);
+    letter-spacing: .01em;
+}
+.brand-name-admin {
+    font-size: .95rem; font-weight: 700;
+    color: #fff;
+    letter-spacing: -.01em;
+}
+.brand-sub-label {
+    font-size: .6rem;
+    color: rgba(100,116,139,.65);
+    text-transform: uppercase;
+    letter-spacing: .17em;
+    margin-top: 4px;
+    animation: brand-text-in .4s .24s ease both;
+    opacity: 0;
+}
+@keyframes brand-icon-in {
+    from { opacity: 0; transform: scale(.75) translateY(-5px); }
+    to   { opacity: 1; transform: scale(1)   translateY(0); }
+}
+@keyframes brand-text-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes brand-glow {
+    0%,100% { box-shadow: 0 0 0   0px rgba(0,61,165,.0); }
+    50%      { box-shadow: 0 0 18px 2px rgba(0,61,165,.22); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .brand-icon-box, .brand-name-row, .brand-sub-label { animation: none; opacity: 1; }
+}
     </style>
 </head>
 <body class="bg-[#F5F7FA] text-slate-900 antialiased">
@@ -297,12 +372,17 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.6; }
 
 <!-- ═══ SIDEBAR ═══ -->
 <aside class="sam-sidebar fixed inset-y-0 left-0 w-56 bg-slate-900 flex flex-col z-50">
-    <div class="flex items-center gap-3 px-5 py-5 border-b border-slate-700/40">
-        <img src="img/sams_logo.png" class="w-8 flex-shrink-0" alt="Sam's">
-        <div>
-            <div class="text-sm font-bold text-white tracking-tight">Sam's Admin</div>
-            <div class="text-xs text-slate-500 uppercase tracking-widest mt-0.5">Panel de Control</div>
+    <div class="sidebar-brand">
+        <div class="sidebar-brand-bg"></div>
+        <div class="sidebar-brand-rule"></div>
+        <div class="brand-icon-box">
+            <img src="img/sams_logo.png" alt="Sam's">
         </div>
+        <div class="brand-name-row">
+            <span class="brand-name-sams">Sam's</span>
+            <span class="brand-name-admin">Admin</span>
+        </div>
+        <div class="brand-sub-label">Panel de Control</div>
     </div>
     <nav class="flex-1 py-3">
         <div class="px-4 mb-1.5 text-xs font-semibold text-slate-600 uppercase tracking-widest">General</div>
