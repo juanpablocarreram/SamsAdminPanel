@@ -123,9 +123,9 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.6; }
 .socio-terminal-remove:hover { background: rgba(255,255,255,.18); }
 .pos-cart-wrap { flex: 1; overflow-y: auto; }
 .pos-qty-control { display: flex; align-items: center; gap: 4px; }
-.pos-qty-btn { width: 26px; height: 26px; border: 1.5px solid #e2e8f0; background: #fff; border-radius: 6px; cursor: pointer; font-size: .9rem; display: flex; align-items: center; justify-content: center; color: #475569; transition: all .15s; }
+.pos-qty-btn { width: 30px; height: 30px; border: 1.5px solid #e2e8f0; background: #fff; border-radius: 6px; cursor: pointer; font-size: .95rem; display: flex; align-items: center; justify-content: center; color: #475569; transition: all .15s; }
 .pos-qty-btn:hover { border-color: #6366f1; color: #6366f1; }
-.pos-qty-input { width: 42px; text-align: center; border: 1.5px solid #e2e8f0; border-radius: 6px; padding: 3px 4px; font-size: .85rem; font-weight: 600; font-family: inherit; color: #1e293b; }
+.pos-qty-input { width: 46px; text-align: center; border: 1.5px solid #e2e8f0; border-radius: 6px; padding: 5px 6px; font-size: .88rem; font-weight: 600; font-family: inherit; color: #1e293b; }
 .pago-row { display: flex; gap: 8px; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,.06); }
 .pago-row:last-child { border-bottom: none; }
 
@@ -242,7 +242,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.6; }
 .list-row:hover { box-shadow: 0 3px 12px rgba(0,0,0,.07); border-color: #d0d9e8; }
 .list-row-id     { font-size: .72rem; font-weight: 600; color: #94a3b8; width: 34px; flex-shrink: 0; font-variant-numeric: tabular-nums; }
 .list-row-main   { flex: 1; min-width: 0; }
-.list-row-name   { font-size: .9rem; font-weight: 700; color: #1e293b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.list-row-name   { font-size: .9rem; font-weight: 700; color: #1e293b; word-break: break-word; line-height: 1.35; }
 .list-row-sub    { font-size: .76rem; color: #94a3b8; margin-top: 1px; }
 .list-row-field  { display: flex; flex-direction: column; gap: 2px; flex-shrink: 0; }
 .list-row-label  { font-size: .63rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: .5px; }
@@ -264,6 +264,28 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.6; }
     .list-row-main { min-width: 60%; }
     .data-grid { grid-template-columns: 1fr !important; }
 }
+
+/* ── NUEVO PRODUCTO MODAL ── */
+#nuevoProductoOverlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,.5); z-index: 1000;
+    align-items: center; justify-content: center; padding: 16px;
+}
+#nuevoProductoOverlay.active { display: flex; }
+#nuevoProductoCard {
+    background: #fff; border-radius: 16px; padding: 28px;
+    width: 100%; max-width: 680px; max-height: 90vh; overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,.2);
+}
+.np-close-btn {
+    background: #f1f5f9; border: none; color: #64748b; border-radius: 8px;
+    width: 32px; height: 32px; cursor: pointer; font-size: .9rem;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: inherit;
+}
+.np-close-btn:hover { background: #e2e8f0; color: #334155; }
+.np-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.np-form-grid .np-full { grid-column: 1 / -1; }
+.np-section-title { font-size: .68rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: .6px; margin-bottom: 12px; }
     </style>
 </head>
 <body class="bg-[#F5F7FA] text-slate-900 antialiased">
@@ -396,6 +418,10 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.6; }
                 placeholder="Buscar por nombre, SKU o marca…">
         </div>
         <span id="invCount" class="text-xs font-semibold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full" style="display:none;"></span>
+        <button onclick="abrirNuevoProducto()"
+            class="flex items-center gap-2 bg-sams-blue hover:bg-sams-blue/90 text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors flex-shrink-0">
+            <i data-lucide="plus" class="w-4 h-4"></i> Nuevo Producto
+        </button>
     </div>
     <div id="invGrid" class="data-grid" style="grid-template-columns:repeat(auto-fill,minmax(270px,1fr));">
         <div style="grid-column:1/-1;text-align:center;padding:32px 0;"><div class="spinner-sam"></div></div>
@@ -1069,6 +1095,49 @@ async function loadInventario(q = '') {
     const countEl = document.getElementById('invCount');
     if (countEl) { countEl.textContent = data.length + ' producto' + (data.length !== 1 ? 's' : ''); countEl.style.display = data.length ? 'inline-flex' : 'none'; }
 }
+
+// ── NUEVO PRODUCTO MODAL ──────────────────────────────
+let _npOpcionesLoaded = false;
+
+function abrirNuevoProducto() {
+    document.getElementById('nuevoProductoOverlay').classList.add('active');
+    document.getElementById('nuevoProductoForm').reset();
+    if (!_npOpcionesLoaded) cargarOpcionesFormProducto();
+    lucide.createIcons();
+}
+
+function cerrarNuevoProducto() {
+    document.getElementById('nuevoProductoOverlay').classList.remove('active');
+}
+
+async function cargarOpcionesFormProducto() {
+    const [catRes, provRes] = await Promise.all([
+        api('inventario.php?action=categorias'),
+        api('inventario.php?action=proveedores'),
+    ]);
+    const catSel  = document.getElementById('npCategoria');
+    const provSel = document.getElementById('npProveedor');
+    if (catRes.success)  catRes.data.forEach(c => catSel.add(new Option(c.nombre, c.id)));
+    if (provRes.success) provRes.data.forEach(p => provSel.add(new Option(p.nombre, p.id)));
+    _npOpcionesLoaded = true;
+}
+
+async function guardarNuevoProducto(e) {
+    e.preventDefault();
+    const form = document.getElementById('nuevoProductoForm');
+    const btn  = form.querySelector('[type=submit]');
+    btn.disabled = true; btn.textContent = 'Guardando…';
+    const data = Object.fromEntries(new FormData(form));
+    const res  = await api('inventario.php?action=create', data);
+    btn.disabled = false; btn.textContent = 'Guardar Producto';
+    if (res.success) {
+        toast('Producto creado correctamente', 'success');
+        cerrarNuevoProducto();
+        loadInventario(document.getElementById('invSearch').value);
+    } else {
+        toast(res.error || 'Error al crear producto', 'error');
+    }
+}
 async function loadInvStats() {
     const res = await api('inventario.php?action=stats');
     if (!res.success) return;
@@ -1340,7 +1409,7 @@ async function loadHistCompra() {
     body.innerHTML = res.data.length ? res.data.map(r =>
         `<div class="list-row">
             <div class="list-row-main">
-                <div class="list-row-name">${esc(r.producto)}</div>
+                <div class="list-row-name" title="${esc(r.producto)}">${esc(r.producto)}</div>
                 <div class="list-row-sub">${esc(r.fecha)}</div>
             </div>
             <div class="list-row-field">
@@ -1515,12 +1584,12 @@ function renderCart() {
         else if (it._desc_info?.promo_bloqueada) { descTag = `<span class="badge-desc-no" title="Requiere: ${it._desc_info.memb_requerida}">Sin desc.</span>`; }
         const promoTag = it.promo_nombre ? `<span class="badge badge-promo ms-1" style="font-size:.7rem;">${it.promo_nombre}</span>` : '';
         return `<tr>
-            <td>
-                <strong style="font-size:.88rem;">${esc(it.nombre)}</strong>
+            <td class="px-4 py-3">
+                <strong style="font-size:.93rem;">${esc(it.nombre)}</strong>
                 ${it.promo_nombre ? `<br><span class="badge badge-green" style="font-size:.65rem;">${esc(it.promo_nombre)}</span>` : ''}
             </td>
-            <td class="text-end">${fmt(it.precio)}</td>
-            <td class="text-center">
+            <td class="text-end px-4 py-3">${fmt(it.precio)}</td>
+            <td class="text-center px-4 py-3">
                 <div class="pos-qty-control" style="justify-content:center;">
                     <button class="pos-qty-btn" onclick="cambiarCantidadPos(${idx}, -1)">−</button>
                     <input type="number" class="pos-qty-input" value="${Number(it.cantidad)}" min="1"
@@ -1528,9 +1597,9 @@ function renderCart() {
                     <button class="pos-qty-btn" onclick="cambiarCantidadPos(${idx}, 1)">+</button>
                 </div>
             </td>
-            <td class="text-end">${descTag}</td>
-            <td class="text-end fw-bold">${fmt(sub - desc)}</td>
-            <td><button class="btn btn-sm" style="color:var(--sam-red);padding:4px 8px;" onclick="removeFromCart(${idx})">✕</button></td>
+            <td class="text-end px-4 py-3">${descTag}</td>
+            <td class="text-end px-4 py-3 fw-bold">${fmt(sub - desc)}</td>
+            <td class="px-2 py-3"><button class="btn btn-sm" style="color:var(--sam-red);padding:4px 8px;" onclick="removeFromCart(${idx})">✕</button></td>
         </tr>`;
     }).join('');
     const total = subtotal - totalDesc;
@@ -1586,14 +1655,14 @@ async function buscarSocio() {
         if (!res.success || !res.data.length) { cont.style.display = 'none'; return; }
         res.data.forEach(s => {
             const d = document.createElement('div');
-            d.style.cssText = 'padding:9px 13px;cursor:pointer;border-bottom:1px solid #30363D;font-size:.85rem';
+            d.style.cssText = 'padding:9px 13px;cursor:pointer;border-bottom:1px solid #f1f5f9;font-size:.85rem';
             const membCls = { CLASICA:'badge-gray', BENEFITS:'badge-blue', PLUS:'badge-purple' };
             const cls = membCls[s.membresia] || 'badge-gray';
             d.innerHTML = `<div style="font-weight:600;margin-bottom:3px;">${esc(s.nombre)} <span class="text-muted" style="font-weight:400;font-size:.82rem;">#${s.numero_socio}</span></div>
                            <span class="badge ${cls}">${s.membresia}</span>
                            <span class="text-muted" style="font-size:.77rem;margin-left:5px;">Cashback: ${fmt(s.saldo_cashback)}</span>`;
-            d.onmouseover = () => d.style.background = '#21262D';
-            d.onmouseout  = () => d.style.background = '';
+            d.onmouseover = () => { d.style.background = '#eef2ff'; };
+            d.onmouseout  = () => { d.style.background = ''; };
             d.onclick = () => {
                 selectedSocio = s;
                 document.getElementById('socioLabel').textContent = `${s.nombre} · #${s.numero_socio}`;
@@ -2017,5 +2086,164 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 lucide.createIcons();
 </script>
+
+<!-- ═══════════════════════════════════════════════
+     MODAL · NUEVO PRODUCTO
+═══════════════════════════════════════════════ -->
+<div id="nuevoProductoOverlay" onclick="if(event.target===this)cerrarNuevoProducto()">
+    <div id="nuevoProductoCard">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h2 class="text-lg font-bold text-slate-800">Nuevo Producto</h2>
+                <p class="text-xs text-slate-500 mt-0.5">Completa los datos del producto</p>
+            </div>
+            <button type="button" onclick="cerrarNuevoProducto()" class="np-close-btn">✕</button>
+        </div>
+
+        <form id="nuevoProductoForm" onsubmit="guardarNuevoProducto(event)">
+
+            <!-- ── Identificación ── -->
+            <p class="np-section-title">Identificación</p>
+            <div class="np-form-grid mb-5">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">SKU / Código <span class="text-red-500">*</span></label>
+                    <input type="text" name="sku" required
+                        class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue focus:border-sams-blue transition"
+                        placeholder="Ej. SKU-001234">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Nombre <span class="text-red-500">*</span></label>
+                    <input type="text" name="nombre" required
+                        class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue focus:border-sams-blue transition"
+                        placeholder="Nombre del producto">
+                </div>
+            </div>
+
+            <!-- ── Clasificación ── -->
+            <div class="border-t border-slate-100 pt-4 mb-5">
+                <p class="np-section-title">Clasificación</p>
+                <div class="np-form-grid">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Marca</label>
+                        <input type="text" name="marca"
+                            class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue focus:border-sams-blue transition"
+                            placeholder="Ej. Kirkland">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Tipo</label>
+                        <select name="tipo"
+                            class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue transition bg-white">
+                            <option value="">Seleccionar…</option>
+                            <option value="BULK">Bulk</option>
+                            <option value="PERECEDERO">Perecedero</option>
+                            <option value="CONGELADO">Congelado</option>
+                            <option value="ROPA">Ropa</option>
+                            <option value="ELECTRONICA">Electrónica</option>
+                            <option value="SERVICIO">Servicio</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Catálogos ── -->
+            <div class="border-t border-slate-100 pt-4 mb-5">
+                <p class="np-section-title">Catálogos</p>
+                <div class="np-form-grid">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Categoría</label>
+                        <select id="npCategoria" name="categoria_id"
+                            class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue transition bg-white">
+                            <option value="">Sin categoría…</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Proveedor</label>
+                        <select id="npProveedor" name="proveedor_id"
+                            class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue transition bg-white">
+                            <option value="">Sin proveedor…</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Precio & Stock ── -->
+            <div class="border-t border-slate-100 pt-4 mb-5">
+                <p class="np-section-title">Precio & Stock inicial</p>
+                <div class="np-form-grid">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Precio <span class="text-red-500">*</span></label>
+                        <div class="relative">
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 font-semibold">$</span>
+                            <input type="number" name="precio" step="0.01" min="0" required
+                                class="w-full text-sm border border-slate-300 rounded-lg pl-7 pr-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue focus:border-sams-blue transition"
+                                placeholder="0.00">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Stock Piso</label>
+                        <input type="number" name="stock_piso" min="0" value="0"
+                            class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue focus:border-sams-blue transition">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Stock Reserva</label>
+                        <input type="number" name="stock_reserva" min="0" value="0"
+                            class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue focus:border-sams-blue transition">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Multipack</label>
+                        <input type="number" name="multipack" min="1" placeholder="Ej. 6"
+                            class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue focus:border-sams-blue transition">
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Especificaciones ── -->
+            <div class="border-t border-slate-100 pt-4 mb-5">
+                <p class="np-section-title">Especificaciones</p>
+                <div class="np-form-grid">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Días Vida Útil</label>
+                        <input type="number" name="dias_vida_util" min="0" placeholder="Ej. 365"
+                            class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-sams-blue focus:border-sams-blue transition">
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Opciones ── -->
+            <div class="border-t border-slate-100 pt-4 mb-6">
+                <p class="np-section-title">Opciones</p>
+                <div class="flex flex-wrap gap-x-6 gap-y-3">
+                    <label class="flex items-center gap-2 cursor-pointer text-sm font-medium text-slate-600">
+                        <input type="checkbox" name="es_members_mark" class="mt-0.5 accent-[#003DA5]">
+                        <span>Es Member's Mark</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer text-sm font-medium text-slate-600">
+                        <input type="checkbox" name="requiere_refrigeracion" class="mt-0.5 accent-[#003DA5]">
+                        <span>Requiere Refrigeración</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer text-sm font-medium text-slate-600">
+                        <input type="checkbox" name="requiere_congelacion" class="mt-0.5 accent-[#003DA5]">
+                        <span>Requiere Congelación</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="flex gap-3 justify-end border-t border-slate-100 pt-5">
+                <button type="button" onclick="cerrarNuevoProducto()"
+                    class="border border-slate-300 text-slate-700 hover:bg-slate-50 text-sm font-medium px-5 py-2.5 rounded-lg transition-colors">
+                    Cancelar
+                </button>
+                <button type="submit"
+                    class="bg-sams-blue hover:bg-sams-blue/90 text-white text-sm font-semibold px-6 py-2.5 rounded-lg transition-colors">
+                    Guardar Producto
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
 </body>
 </html>

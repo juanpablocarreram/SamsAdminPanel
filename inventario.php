@@ -62,6 +62,70 @@ try {
 
         echo json_encode(['success' => true, 'data' => $stats]);
 
+    // =========================================================
+    // ACCIÓN: categorias  (solo lectura)
+    // =========================================================
+    } elseif ($action === 'categorias') {
+        $stmt = $pdo->query("SELECT id, nombre FROM categoria_ICA_final ORDER BY nombre ASC");
+        echo json_encode(['success' => true, 'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
+
+    // =========================================================
+    // ACCIÓN: proveedores  (solo lectura)
+    // =========================================================
+    } elseif ($action === 'proveedores') {
+        $stmt = $pdo->query("SELECT id, nombre FROM proveedor_ICA_final ORDER BY nombre ASC");
+        echo json_encode(['success' => true, 'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
+
+    // =========================================================
+    // ACCIÓN: create  (escritura, con transacción)
+    // =========================================================
+    } elseif ($action === 'create') {
+        $sku    = trim($_POST['sku'] ?? '');
+        $nombre = trim($_POST['nombre'] ?? '');
+        $precio = (float)($_POST['precio'] ?? 0);
+        if (!$sku || !$nombre) throw new Exception('SKU y Nombre son obligatorios');
+
+        $pdo->beginTransaction();
+
+        $stmt = $pdo->prepare("INSERT INTO producto_ICA_final
+            (sku, nombre, marca, tipo, categoria_id, proveedor_id, es_members_mark,
+             multipack, dias_vida_util, requiere_refrigeracion, requiere_congelacion, activo)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,1)");
+        $stmt->execute([
+            $sku,
+            $nombre,
+            trim($_POST['marca'] ?? '') ?: null,
+            $_POST['tipo'] ?: null,
+            $_POST['categoria_id'] ?: null,
+            $_POST['proveedor_id'] ?: null,
+            isset($_POST['es_members_mark']) ? 1 : 0,
+            (int)($_POST['multipack'] ?? 0) ?: null,
+            (int)($_POST['dias_vida_util'] ?? 0) ?: null,
+            isset($_POST['requiere_refrigeracion']) ? 1 : 0,
+            isset($_POST['requiere_congelacion']) ? 1 : 0,
+        ]);
+        $productoId = $pdo->lastInsertId();
+
+        if ($precio > 0) {
+            $pdo->prepare("INSERT INTO lista_precio_ICA_final (producto_id, precio, vigente) VALUES (?,?,1)")
+                ->execute([$productoId, $precio]);
+        }
+
+        $stockPiso = (float)($_POST['stock_piso'] ?? 0);
+        if ($stockPiso > 0) {
+            $pdo->prepare("INSERT INTO inventario_ICA_final (producto_id, zona_id, cantidad, es_reserva) VALUES (?,NULL,?,0)")
+                ->execute([$productoId, $stockPiso]);
+        }
+
+        $stockReserva = (float)($_POST['stock_reserva'] ?? 0);
+        if ($stockReserva > 0) {
+            $pdo->prepare("INSERT INTO inventario_ICA_final (producto_id, zona_id, cantidad, es_reserva) VALUES (?,NULL,?,1)")
+                ->execute([$productoId, $stockReserva]);
+        }
+
+        $pdo->commit();
+        echo json_encode(['success' => true, 'id' => (int)$productoId]);
+
     } else {
         http_response_code(400);
         echo json_encode(['success' => false, 'error' => 'Acción no válida']);
