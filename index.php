@@ -239,76 +239,73 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
 
 <!-- ═══ DASHBOARD ═══ -->
 <div class="sam-section active" id="section-dashboard">
-    <div class="row g-4 mb-4">
-        <div class="col-6 col-md-3">
-            <div class="stat-card blue">
-                <span class="stat-card-icon">◉</span>
-                <div class="stat-card-label">Socios activos</div>
-                <h3 id="dash-socios">—</h3>
+    <!-- Stat cards -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm border-t-4 border-t-indigo-500">
+            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Socios activos</p>
+            <p id="dash-socios" class="text-3xl font-bold text-slate-900 tracking-tight">—</p>
+        </div>
+        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm border-t-4 border-t-emerald-500">
+            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Ingresos hoy</p>
+            <p id="dash-ingresos" class="text-3xl font-bold text-slate-900 tracking-tight">—</p>
+        </div>
+        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm border-t-4 border-t-rose-500">
+            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Sin existencia</p>
+            <p id="dash-sinstock" class="text-3xl font-bold text-slate-900 tracking-tight">—</p>
+        </div>
+        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm border-t-4 border-t-amber-400">
+            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Promos activas</p>
+            <p id="dash-promos" class="text-3xl font-bold text-slate-900 tracking-tight">—</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-7 gap-4 mb-6">
+        <!-- Ventas recientes -->
+        <div class="md:col-span-4 bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+            <p class="text-sm font-semibold text-slate-800 mb-4 pb-2 border-b border-slate-100">Ventas Recientes</p>
+            <div class="overflow-hidden rounded-lg border border-slate-100">
+                <table class="w-full text-sm">
+                    <thead class="bg-slate-800 text-white">
+                        <tr>
+                            <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">#</th>
+                            <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Fecha</th>
+                            <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Canal</th>
+                            <th class="text-right text-xs font-semibold uppercase tracking-wider px-4 py-3">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dash-ventas-body">
+                        <tr><td colspan="4" class="text-center py-4 text-slate-400 text-sm">Cargando…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-4">
+                <button onclick="showSection('ventas')" class="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors">Ver todas las ventas →</button>
             </div>
         </div>
-        <div class="col-6 col-md-3">
-            <div class="stat-card green">
-                <span class="stat-card-icon">$</span>
-                <div class="stat-card-label">Ingresos hoy</div>
-                <h3 id="dash-ingresos">—</h3>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="stat-card red">
-                <span class="stat-card-icon">!</span>
-                <div class="stat-card-label">Sin existencia</div>
-                <h3 id="dash-sinstock">—</h3>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="stat-card yellow">
-                <span class="stat-card-icon">%</span>
-                <div class="stat-card-label">Promociones activas</div>
-                <h3 id="dash-promos">—</h3>
+
+        <!-- Membresías breakdown -->
+        <div class="md:col-span-3 bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+            <p class="text-sm font-semibold text-slate-800 mb-4 pb-2 border-b border-slate-100">Distribución de Membresías</p>
+            <div id="dash-memb-bars">
+                <div class="text-center text-slate-400 text-sm py-4">Cargando…</div>
             </div>
         </div>
     </div>
 
-    <div class="row g-4 mb-4">
-        <div class="col-md-7">
-            <div class="sam-card" style="height:100%;">
-                <span class="section-title">Ventas Recientes</span>
-                <div class="sam-table">
-                    <table class="table mb-0">
-                        <thead>
-                            <tr><th>#</th><th>Canal</th><th class="text-end">Total</th></tr>
-                        </thead>
-                        <tbody id="dash-ventas-body">
-                            <tr><td colspan="3" class="text-center py-3 text-muted">Cargando…</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="mt-3">
-                    <a href="#" class="btn btn-sm btn-outline-primary" onclick="showSection('ventas'); return false;">Ver todas las ventas →</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-5">
-            <div class="sam-card" style="height:100%;">
-                <span class="section-title">Distribución de Membresías</span>
-                <div id="dash-memb-bars">
-                    <div class="text-center text-muted py-3 small">Cargando…</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="sam-card">
-        <span class="section-title">Accesos Rápidos</span>
-        <div class="d-flex gap-3 flex-wrap">
-            <button class="btn btn-primary" onclick="showSection('ventas'); setTimeout(()=>document.getElementById('posSearch')?.focus(),100)">
+    <!-- Accesos rápidos -->
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+        <p class="text-sm font-semibold text-slate-800 mb-4">Accesos Rápidos</p>
+        <div class="flex flex-wrap gap-3">
+            <button onclick="showSection('ventas'); setTimeout(()=>document.getElementById('posSearch')?.focus(),100)"
+                class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors shadow-sm">
                 Nueva Venta
             </button>
-            <button class="btn btn-outline-primary" onclick="showSection('socios'); setTimeout(()=>document.getElementById('socioNombre')?.focus(),100)">
+            <button onclick="showSection('socios'); setTimeout(()=>document.getElementById('socioNombre')?.focus(),100)"
+                class="flex items-center gap-2 border border-slate-300 text-slate-700 hover:bg-slate-50 text-sm font-medium px-4 py-2.5 rounded-lg transition-colors">
                 Nuevo Socio
             </button>
-            <button class="btn btn-outline-primary" onclick="showSection('compras'); setTimeout(()=>document.getElementById('compraProveedor')?.focus(),100)">
+            <button onclick="showSection('compras'); setTimeout(()=>document.getElementById('compraProveedor')?.focus(),100)"
+                class="flex items-center gap-2 border border-slate-300 text-slate-700 hover:bg-slate-50 text-sm font-medium px-4 py-2.5 rounded-lg transition-colors">
                 Registrar Compra
             </button>
         </div>
