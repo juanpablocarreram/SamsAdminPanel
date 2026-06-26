@@ -764,39 +764,44 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
 ═══════════════════════════════════════════════ -->
 <div class="sam-section" id="section-ventas">
 <div class="pos-wrap">
-    <!-- LEFT: Light zone -->
+    <!-- LEFT: Light product zone -->
     <div class="pos-light">
-        <div class="d-flex gap-3" style="flex-shrink:0;">
-            <div style="flex:0 0 170px;">
-                <label class="form-label">Canal de venta</label>
-                <select id="posCanal" class="form-select">
+        <div class="flex gap-3 flex-shrink-0">
+            <div style="flex:0 0 175px;">
+                <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Canal de venta</label>
+                <select id="posCanal"
+                    class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition bg-white">
                     <option value="CAJA">Caja</option>
                     <option value="SELF">Self-checkout</option>
                     <option value="SCAN_GO">Scan &amp; Go</option>
                 </select>
             </div>
-            <div style="flex:1; position:relative;">
-                <label class="form-label">Buscar producto</label>
-                <div class="search-wrap">
-                    <input type="text" id="posSearch" class="form-control" placeholder="Nombre, SKU o marca…" oninput="buscarProductoPos()" autocomplete="off">
-                </div>
+            <div class="flex-1 relative">
+                <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Buscar producto</label>
+                <input type="text" id="posSearch" oninput="buscarProductoPos()" autocomplete="off"
+                    placeholder="Nombre, SKU o marca…"
+                    class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition bg-white">
                 <div id="searchResults"></div>
             </div>
         </div>
-        <div class="pos-cart-wrap sam-table table-responsive">
-            <table class="table mb-0">
-                <thead>
-                    <tr>
-                        <th>Producto</th><th class="text-end">Precio U.</th>
-                        <th class="text-center" style="width:130px;">Cantidad</th>
-                        <th class="text-end">Desc.</th><th class="text-end">Subtotal</th>
-                        <th style="width:40px;"></th>
-                    </tr>
-                </thead>
-                <tbody id="posCartBody">
-                    <tr><td colspan="6" class="text-center text-muted py-4">Busca un producto para comenzar la venta</td></tr>
-                </tbody>
-            </table>
+        <div class="pos-cart-wrap bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead class="bg-slate-800 text-white">
+                        <tr>
+                            <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Producto</th>
+                            <th class="text-right text-xs font-semibold uppercase tracking-wider px-4 py-3">Precio U.</th>
+                            <th class="text-center text-xs font-semibold uppercase tracking-wider px-4 py-3" style="width:130px;">Cantidad</th>
+                            <th class="text-right text-xs font-semibold uppercase tracking-wider px-4 py-3">Desc.</th>
+                            <th class="text-right text-xs font-semibold uppercase tracking-wider px-4 py-3">Subtotal</th>
+                            <th class="px-4 py-3" style="width:40px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="posCartBody">
+                        <tr><td colspan="6" class="text-center text-slate-400 py-8">Busca un producto para comenzar la venta</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -811,23 +816,24 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
                 <div class="pos-label">Asociar Socio (opcional)</div>
                 <div class="socio-terminal-block">
                     <div id="socioInputWrap" style="position:relative;">
-                        <input type="text" id="posSearchSocio" class="input-dark" placeholder="Nombre o número de socio…" oninput="buscarSocio()">
+                        <input type="text" id="posSearchSocio" class="input-dark"
+                            placeholder="Nombre o número de socio…" oninput="buscarSocio()">
                         <div id="socioResults"></div>
                     </div>
                     <div id="socioSeleccionado" class="mt-2 d-none">
                         <div class="socio-terminal-active">
-                            <span></span>
+                            <span style="font-size:.9rem;">👤</span>
                             <span class="socio-terminal-name" id="socioLabel"></span>
                             <span class="socio-terminal-pill" id="socioMembPill"></span>
                             <button class="socio-terminal-remove" onclick="quitarSocio()" title="Quitar">✕</button>
                         </div>
-                        <div style="font-size:.72rem;color:rgba(255,255,255,.4);margin-top:5px;padding-left:4px;" id="socioMembInfo"></div>
+                        <div style="font-size:.72rem;color:rgba(255,255,255,.36);margin-top:5px;padding-left:4px;" id="socioMembInfo"></div>
                     </div>
                 </div>
             </div>
             <div>
                 <div class="pos-row"><span class="pos-row-label">Subtotal</span><span class="pos-row-value" id="posSubtotal">$0.00</span></div>
-                <div class="pos-row"><span class="pos-row-label">Descuentos</span><span style="color:#F87171;font-weight:600;" id="posDescuentos">−$0.00</span></div>
+                <div class="pos-row"><span class="pos-row-label">Descuentos</span><span style="color:#f87171;font-weight:600;" id="posDescuentos">−$0.00</span></div>
             </div>
             <div>
                 <div class="pos-total-label">TOTAL A PAGAR</div>
@@ -837,7 +843,10 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
             <div>
                 <div class="pos-label">Método de Pago</div>
                 <div id="pagosContainer"></div>
-                <button class="btn-add btn-add-dark" onclick="agregarPago()">+ Agregar método de pago</button>
+                <button onclick="agregarPago()"
+                    style="width:100%;margin-top:6px;padding:8px;background:rgba(255,255,255,.07);color:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.1);border-radius:8px;cursor:pointer;font-size:.82rem;font-weight:600;font-family:inherit;">
+                    + Agregar método de pago
+                </button>
                 <div id="pagoResumen" class="mt-2 d-none">
                     <span>Pagado: <strong id="pagoTotalIngresado">$0.00</strong></span>
                     <span id="pagoEstado"></span>
@@ -846,23 +855,45 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
             </div>
         </div>
         <div class="pos-terminal-footer">
-            <button class="btn btn-outline-danger w-100" onclick="cancelarVenta()">Cancelar venta</button>
-            <button class="btn btn-cobrar w-100" style="padding:13px;" onclick="procesarVenta()">✓ COBRAR</button>
+            <button onclick="cancelarVenta()"
+                style="width:100%;padding:10px;background:transparent;color:#f87171;border:1.5px solid rgba(248,113,113,.35);border-radius:8px;cursor:pointer;font-size:.88rem;font-weight:600;font-family:inherit;transition:all .15s;"
+                onmouseover="this.style.background='rgba(248,113,113,.1)'" onmouseout="this.style.background='transparent'">
+                Cancelar venta
+            </button>
+            <button class="btn-cobrar w-100"
+                style="padding:13px;border:none;border-radius:8px;cursor:pointer;transition:all .15s;display:block;width:100%;font-family:inherit;"
+                onclick="procesarVenta()">✓ COBRAR</button>
         </div>
     </div>
 </div>
 
-<!-- Ventas recientes below POS -->
-<div class="mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <span class="section-title" style="border:none;padding:0;margin:0;">Ventas Recientes</span>
-        <button class="btn btn-sm btn-outline-primary" onclick="loadHistVentas()">↺ Actualizar</button>
+<!-- Ventas history below POS -->
+<div class="mt-6">
+    <div class="flex justify-between items-center mb-3">
+        <p class="text-sm font-semibold text-slate-800">Ventas Recientes</p>
+        <button onclick="loadHistVentas()"
+            class="border border-slate-300 text-slate-600 hover:bg-slate-50 text-sm font-medium px-3 py-2 rounded-lg transition-colors">
+            ↺ Actualizar
+        </button>
     </div>
-    <div class="sam-table table-responsive">
-        <table class="table table-sm mb-0">
-            <thead><tr><th>#</th><th>Fecha</th><th>Socio</th><th>Canal</th><th class="text-end">Artículos</th><th class="text-end">Total</th></tr></thead>
-            <tbody id="histVentasBody"><tr><td colspan="6" class="text-center text-muted py-4">Cargando…</td></tr></tbody>
-        </table>
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+                <thead class="bg-slate-800 text-white">
+                    <tr>
+                        <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">#</th>
+                        <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Fecha</th>
+                        <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Socio</th>
+                        <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Canal</th>
+                        <th class="text-right text-xs font-semibold uppercase tracking-wider px-4 py-3">Artículos</th>
+                        <th class="text-right text-xs font-semibold uppercase tracking-wider px-4 py-3">Total</th>
+                    </tr>
+                </thead>
+                <tbody id="histVentasBody">
+                    <tr><td colspan="6" class="text-center py-6 text-slate-400">Cargando…</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 </div>
@@ -1946,6 +1977,7 @@ document.addEventListener('DOMContentLoaded', () => {
         else { promoDescPct.style.opacity = '1'; promoDescPct.disabled = false; }
     });
 });
+lucide.createIcons();
 </script>
 </body>
 </html>
