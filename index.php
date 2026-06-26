@@ -541,72 +541,105 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
      TAB 3 · PROMOCIONES
 ═══════════════════════════════════════════════ -->
 <div class="sam-section" id="section-promociones">
-    <div class="d-flex gap-4" style="align-items:flex-start;">
-        <div style="flex:0 0 360px; min-width:0;">
-            <div class="sam-card top-accent">
-                <span class="section-title">Nueva Promoción</span>
-                <p class="section-subtitle">Elige el producto, define el descuento y a quién aplica.</p>
+    <div class="flex gap-5" style="align-items:flex-start;">
+        <!-- Left: New promo form -->
+        <div class="flex-shrink-0" style="width:370px;">
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 border-t-4 border-t-indigo-500">
+                <p class="text-sm font-semibold text-slate-800 mb-4 pb-2 border-b border-slate-100">Nueva Promoción</p>
                 <div class="mb-3">
-                    <label class="form-label">Producto</label>
-                    <select id="promoProducto" class="form-select"><option value="">Cargando…</option></select>
+                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Producto</label>
+                    <select id="promoProducto"
+                        class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition bg-white">
+                        <option value="">Cargando…</option>
+                    </select>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Nombre de la promoción</label>
-                    <input type="text" id="promoNombre" class="form-control" placeholder="Ej: Promo Verano 2026">
+                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Nombre de la promoción</label>
+                    <input type="text" id="promoNombre" placeholder="Ej: Promo Verano 2026"
+                        class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition">
                 </div>
-                <div class="form-divider">Tipo de descuento — elige uno</div>
-                <div class="d-flex gap-3 mb-3">
-                    <div style="flex:1;">
-                        <label class="form-label">Descuento porcentual</label>
-                        <div class="sfx-group">
-                            <input type="number" id="promoDescPct" class="form-control" placeholder="0" min="0" max="100" step="0.01">
-                            <span class="sfx">%</span>
+                <div class="border-t border-slate-100 pt-3 mb-3">
+                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-3">Tipo de descuento — elige uno</p>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Descuento %</label>
+                            <div class="relative">
+                                <input type="number" id="promoDescPct" placeholder="0" min="0" max="100" step="0.01"
+                                    class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 pr-8 outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 font-semibold">%</span>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Descuento $</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 font-semibold">$</span>
+                                <input type="number" id="promoDescMonto" placeholder="0.00" min="0" step="0.01"
+                                    class="w-full text-sm border border-slate-300 rounded-lg pl-7 pr-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                            </div>
                         </div>
                     </div>
-                    <div style="flex:1;">
-                        <label class="form-label">Descuento en pesos</label>
-                        <div class="pfx-group">
-                            <span class="pfx">$</span>
-                            <input type="number" id="promoDescMonto" class="form-control" placeholder="0.00" min="0" step="0.01">
+                </div>
+                <div class="border-t border-slate-100 pt-3 mb-3">
+                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-3">Vigencia</p>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Inicio</label>
+                            <input type="date" id="promoFechaIni"
+                                class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5">Fin</label>
+                            <input type="date" id="promoFechaFin"
+                                class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition">
                         </div>
                     </div>
                 </div>
-                <div class="form-divider">Vigencia</div>
-                <div class="d-flex gap-3 mb-3">
-                    <div style="flex:1;">
-                        <label class="form-label">Inicio</label>
-                        <input type="date" id="promoFechaIni" class="form-control">
-                    </div>
-                    <div style="flex:1;">
-                        <label class="form-label">Fin</label>
-                        <input type="date" id="promoFechaFin" class="form-control">
-                    </div>
-                </div>
-                <div class="form-divider">Elegibilidad</div>
-                <div class="mb-3">
-                    <label class="check-card" for="promoAplicaTodos" style="margin-bottom:8px;">
-                        <input type="checkbox" id="promoAplicaTodos" onchange="toggleTodosCheck()">
-                        <div class="check-card-body">
-                            <span class="check-card-text">Aplica a todos los socios</span>
-                            <span class="check-card-hint">Sin importar el tipo de membresía</span>
-                        </div>
+                <div class="border-t border-slate-100 pt-3 mb-4">
+                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-3">Elegibilidad</p>
+                    <label class="flex items-start gap-2 cursor-pointer text-sm font-medium text-slate-600 mb-2">
+                        <input type="checkbox" id="promoAplicaTodos" onchange="toggleTodosCheck()" class="mt-0.5 accent-indigo-600">
+                        <span>Aplica a todos los socios <span class="text-slate-400 font-normal">(sin importar membresía)</span></span>
                     </label>
-                    <div id="membresiaChecks" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
-                    <p class="form-hint" style="margin-top:8px;">Si no marcas "todos", solo los tipos seleccionados verán el descuento.</p>
+                    <div id="membresiaChecks" class="flex flex-wrap gap-2"></div>
+                    <p class="text-xs text-slate-400 mt-2">Si no marcas "todos", solo los tipos seleccionados verán el descuento.</p>
                 </div>
-                <button class="btn btn-primary w-100" onclick="crearPromo()">Registrar Promoción</button>
+                <button onclick="crearPromo()"
+                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold py-2.5 rounded-lg transition-colors">
+                    Registrar Promoción
+                </button>
             </div>
         </div>
-        <div style="flex:1; min-width:0;">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <span class="section-title" style="border:none;padding:0;margin:0;">Promociones Registradas</span>
-                <button class="btn btn-sm btn-outline-primary" onclick="loadPromos()">↺ Actualizar</button>
+
+        <!-- Right: Promos table -->
+        <div class="flex-1 min-w-0">
+            <div class="flex justify-between items-center mb-4">
+                <p class="text-sm font-semibold text-slate-800">Promociones Registradas</p>
+                <button onclick="loadPromos()"
+                    class="border border-slate-300 text-slate-600 hover:bg-slate-50 text-sm font-medium px-3 py-2 rounded-lg transition-colors">
+                    ↺ Actualizar
+                </button>
             </div>
-            <div class="sam-table table-responsive">
-                <table class="table mb-0">
-                    <thead><tr><th>#</th><th>Producto</th><th>Promoción</th><th class="text-end">Desc %</th><th class="text-end">Desc $</th><th>Vigencia</th><th>Membresías</th><th>Estado</th><th>Acciones</th></tr></thead>
-                    <tbody id="promoBody"><tr><td colspan="9" class="text-center py-4 text-muted">Cargando…</td></tr></tbody>
-                </table>
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead class="bg-slate-800 text-white">
+                            <tr>
+                                <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">#</th>
+                                <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Producto</th>
+                                <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Promoción</th>
+                                <th class="text-right text-xs font-semibold uppercase tracking-wider px-4 py-3">Desc %</th>
+                                <th class="text-right text-xs font-semibold uppercase tracking-wider px-4 py-3">Desc $</th>
+                                <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Vigencia</th>
+                                <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Membresías</th>
+                                <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Estado</th>
+                                <th class="text-left text-xs font-semibold uppercase tracking-wider px-4 py-3">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="promoBody">
+                            <tr><td colspan="9" class="text-center py-6 text-slate-400">Cargando…</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
