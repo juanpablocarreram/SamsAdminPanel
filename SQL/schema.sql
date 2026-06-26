@@ -5,6 +5,31 @@ USE SAMS;
 -- ═══════════════════════════════════════════════════════════
 
 -- =========================================================
+-- 0. MULTI-SUCURSAL — Tablas base del sistema de auth
+-- =========================================================
+
+CREATE TABLE IF NOT EXISTS sucursales (
+    id         BIGINT PRIMARY KEY AUTO_INCREMENT,
+    nombre     VARCHAR(150) NOT NULL,
+    codigo     VARCHAR(20)  NOT NULL UNIQUE,
+    ubicacion  VARCHAR(255) NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS usuarios (
+    id            BIGINT PRIMARY KEY AUTO_INCREMENT,
+    nombre        VARCHAR(150) NOT NULL,
+    email         VARCHAR(255) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NULL,
+    google_id     VARCHAR(255) NULL UNIQUE,
+    rol           ENUM('ADMIN','SUPERVISOR','CAJERO') DEFAULT 'ADMIN',
+    sucursal_id   BIGINT NOT NULL,
+    created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (sucursal_id) REFERENCES sucursales(id)
+);
+
+-- =========================================================
 -- 1. TABLAS BASE (Sin dependencias externas)
 -- =========================================================
 
@@ -171,8 +196,10 @@ CREATE TABLE IF NOT EXISTS inventario_ICA_final (
     zona_id BIGINT,
     cantidad DECIMAL(10,2),
     es_reserva BOOLEAN,
+    sucursal_id BIGINT NOT NULL,
     FOREIGN KEY (producto_id) REFERENCES producto_ICA_final(id),
-    FOREIGN KEY (zona_id) REFERENCES zona_operativa_ICA_final(id)
+    FOREIGN KEY (zona_id) REFERENCES zona_operativa_ICA_final(id),
+    FOREIGN KEY (sucursal_id) REFERENCES sucursales(id)
 );
 
 CREATE TABLE IF NOT EXISTS inventario_movimiento_ICA_final (
@@ -182,8 +209,10 @@ CREATE TABLE IF NOT EXISTS inventario_movimiento_ICA_final (
     cantidad DECIMAL(10,2),
     fecha DATETIME,
     proveedor_id BIGINT NULL,
+    sucursal_id BIGINT NOT NULL,
     FOREIGN KEY (producto_id) REFERENCES producto_ICA_final(id),
-    FOREIGN KEY (proveedor_id) REFERENCES proveedor_ICA_final(id)
+    FOREIGN KEY (proveedor_id) REFERENCES proveedor_ICA_final(id),
+    FOREIGN KEY (sucursal_id) REFERENCES sucursales(id)
 );
 
 -- =========================================================
@@ -220,11 +249,13 @@ CREATE TABLE IF NOT EXISTS promocion_membresia_ICA_final (
 -- La venta apunta a la membresía específica escaneada en la caja (sea del titular o del familiar)
 CREATE TABLE IF NOT EXISTS venta_ICA_final (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    socio_membresia_id BIGINT, 
+    socio_membresia_id BIGINT,
     canal ENUM('CAJA','SELF','SCAN_GO'),
     total DECIMAL(10,2),
     fecha DATETIME,
-    FOREIGN KEY (socio_membresia_id) REFERENCES socio_membresia_ICA_final(id)
+    sucursal_id BIGINT NOT NULL,
+    FOREIGN KEY (socio_membresia_id) REFERENCES socio_membresia_ICA_final(id),
+    FOREIGN KEY (sucursal_id) REFERENCES sucursales(id)
 );
 
 -- Detalle de los productos vendidos e historial de promociones aplicadas en el ticket

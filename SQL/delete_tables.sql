@@ -33,6 +33,10 @@ DROP TABLE IF EXISTS proveedor_ICA_final;
 DROP TABLE IF EXISTS turno_ICA_final;
 DROP TABLE IF EXISTS puesto_ICA_final;
 
+-- 5. ELIMINAR TABLAS DE AUTH Y SUCURSALES
+DROP TABLE IF EXISTS usuarios;
+DROP TABLE IF EXISTS sucursales;
+
 -- ═══════════════════════════════
 -- VERIFICACIÓN DE LIMPIEZA
 -- ═══════════════════════════════
