@@ -1,3 +1,4 @@
+USE SAMS;
 -- ═══════════════════════════════════════════════════════════
 -- SCRIPT DE ELIMINACIÓN · Sistema Sam's Club (ICA_final)
 -- Ejecutar en este orden exacto para evitar conflictos de FK
