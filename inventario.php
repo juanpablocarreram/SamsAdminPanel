@@ -121,9 +121,10 @@ try {
                 ->execute([$productoId, $precio]);
         }
 
+        $sucursal_id_create = (int)$_SESSION['sucursal_id'];
+
         $stockPiso = (float)($_POST['stock_piso'] ?? 0);
         if ($stockPiso > 0) {
-            $sucursal_id_create = (int)$_SESSION['sucursal_id'];
             $pdo->prepare("INSERT INTO inventario_ICA_final (producto_id, zona_id, cantidad, es_reserva, sucursal_id) VALUES (?,NULL,?,0,?)")
                 ->execute([$productoId, $stockPiso, $sucursal_id_create]);
         }

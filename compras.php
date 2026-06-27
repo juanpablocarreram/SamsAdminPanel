@@ -39,7 +39,7 @@ try {
              )
              LEFT JOIN inventario_ICA_final inv ON inv.producto_id = p.id AND inv.sucursal_id = ?
              WHERE p.activo = 1
-             GROUP BY p.id, p.sku, p.nombre, p.marca, p.tipo, lp.precio
+             GROUP BY p.id, p.sku, p.nombre, p.marca, p.tipo
              ORDER BY p.nombre"
         );
         $stmt->execute([$sucursal_id]);
