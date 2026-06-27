@@ -46,7 +46,7 @@ try {
                 GROUP BY
                     p.id, p.sku, p.nombre, p.marca, p.tipo, p.es_members_mark,
                     c.nombre, d.nombre, pr.descuento_pct, pr.descuento_monto,
-                    pr.nombre_promo, lp.precio
+                    pr.nombre_promo
                 ORDER BY p.nombre ASC
                 LIMIT 200";
 
