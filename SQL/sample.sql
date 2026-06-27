@@ -1,6 +1,7 @@
 USE SAMS;
 -- =========================================================
 -- DATOS DE EJEMPLO ACTUALIZADOS Y CORREGIDOS (ICA_final)
+-- Password de prueba para usuarios de muestra: Admin1234!
 -- =========================================================
 
 -- 0. SUCURSALES
