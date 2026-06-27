@@ -198,13 +198,13 @@ INSERT INTO inventario_ICA_final (producto_id, zona_id, cantidad, es_reserva, su
 -- Sucursal 2 — Rack Reserva 2 (zona 4)
 (21,  4, 100, 1, 2), (12,  4,   5, 1, 2);
 
--- 14. PROMOCIONES SEGMENTADAS
-INSERT INTO promocion_ICA_final (id, producto_id, nombre_promo, descuento_pct, descuento_monto, fecha_inicio, fecha_fin, aplica_a_todos, activo) VALUES
-(1, 3,  'Refresco x24 Oferta',    10.00, 0.00,  '2026-05-01', '2026-05-31', 1, 1), 
-(2, 6,  'Snack Pack Ahorro',       0.00, 20.00,  '2026-05-01', '2026-05-31', 1, 1), 
-(3, 10, 'Cuidado Personal -15%',  15.00, 0.00,  '2026-05-10', '2026-05-25', 1, 1), 
-(4, 19, 'Leche en Pack Ahorro',    0.00, 25.00,  '2026-05-01', '2026-05-31', 0, 1), 
-(5, 12, 'Pantalla Especial PLUS', 15.00, 0.00,  '2026-05-15', '2026-05-20', 0, 1); 
+-- 14. PROMOCIONES SEGMENTADAS (aisladas por sucursal)
+INSERT INTO promocion_ICA_final (id, producto_id, nombre_promo, descuento_pct, descuento_monto, fecha_inicio, fecha_fin, aplica_a_todos, activo, sucursal_id) VALUES
+(1, 3,  'Refresco x24 Oferta',    10.00, 0.00,  '2026-05-01', '2026-05-31', 1, 1, 1),
+(2, 6,  'Snack Pack Ahorro',       0.00, 20.00,  '2026-05-01', '2026-05-31', 1, 1, 1),
+(3, 10, 'Cuidado Personal -15%',  15.00, 0.00,  '2026-05-10', '2026-05-25', 1, 1, 1),
+(4, 19, 'Leche en Pack Ahorro',    0.00, 25.00,  '2026-05-01', '2026-05-31', 0, 1, 2),
+(5, 12, 'Pantalla Especial PLUS', 15.00, 0.00,  '2026-05-15', '2026-05-20', 0, 1, 2); 
 
 -- REGLAS DE ASIGNACIÓN DE DESCUENTOS SEGMENTADOS
 INSERT INTO promocion_membresia_ICA_final (promocion_id, tipo_membresia_id) VALUES

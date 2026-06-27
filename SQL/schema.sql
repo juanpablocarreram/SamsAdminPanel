@@ -229,9 +229,11 @@ CREATE TABLE IF NOT EXISTS promocion_ICA_final (
     descuento_monto DECIMAL(10,2) DEFAULT 0,
     fecha_inicio DATE,
     fecha_fin DATE,
-    aplica_a_todos BOOLEAN DEFAULT 0, -- 1 = Todo público, 0 = Solo tipos de membresía autorizados
+    aplica_a_todos BOOLEAN DEFAULT 0,
     activo BOOLEAN DEFAULT 1,
-    FOREIGN KEY (producto_id) REFERENCES producto_ICA_final(id)
+    sucursal_id BIGINT NOT NULL,
+    FOREIGN KEY (producto_id) REFERENCES producto_ICA_final(id),
+    FOREIGN KEY (sucursal_id) REFERENCES sucursales(id)
 );
 
 -- Tabla intermedia que decide qué tipo de membresía tiene derecho a qué promoción
