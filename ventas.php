@@ -31,7 +31,7 @@ try {
                 )
                 LEFT JOIN inventario_ICA_final inv ON inv.producto_id = p.id AND inv.es_reserva = 0 AND inv.sucursal_id = ?
                 WHERE p.activo = 1 AND (p.nombre LIKE ? OR p.sku LIKE ? OR p.marca LIKE ?)
-                GROUP BY p.id, p.sku, p.nombre, p.marca, p.tipo, p.multipack
+                GROUP BY p.id, p.sku, p.nombre, p.marca, p.tipo, p.multipack, lp.precio
                 LIMIT 20";
 
         $stmt = $pdo->prepare($sql);
