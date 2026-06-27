@@ -3,6 +3,8 @@ ini_set('display_errors', 0);
 error_reporting(E_ALL);
 
 header('Content-Type: application/json');
+define('SAMS_API_REQUEST', true);
+require_once __DIR__ . '/auth.php';
 include 'database.php';
 
 $action = $_POST['action'] ?? $_GET['action'] ?? '';
@@ -61,15 +63,16 @@ try {
         $pdo->beginTransaction();
 
         // Preparar sentencias reutilizables
+        $sucursal_id = (int)$_SESSION['sucursal_id'];
         $stmtMovimiento = $pdo->prepare(
             "INSERT INTO inventario_movimiento_ICA_final
-                 (producto_id, tipo, cantidad, fecha, proveedor_id)
-             VALUES (?, 'RECEPCION', ?, NOW(), ?)"
+                 (producto_id, tipo, cantidad, fecha, proveedor_id, sucursal_id)
+             VALUES (?, 'RECEPCION', ?, NOW(), ?, ?)"
         );
 
         $stmtCheck = $pdo->prepare(
             "SELECT id, cantidad FROM inventario_ICA_final
-             WHERE producto_id = ? AND zona_id = ? AND es_reserva = ?"
+             WHERE producto_id = ? AND zona_id = ? AND es_reserva = ? AND sucursal_id = ?"
         );
 
         $stmtUpdate = $pdo->prepare(
@@ -77,8 +80,8 @@ try {
         );
 
         $stmtInsert = $pdo->prepare(
-            "INSERT INTO inventario_ICA_final (producto_id, zona_id, cantidad, es_reserva)
-             VALUES (?, ?, ?, ?)"
+            "INSERT INTO inventario_ICA_final (producto_id, zona_id, cantidad, es_reserva, sucursal_id)
+             VALUES (?, ?, ?, ?, ?)"
         );
 
         $stmtDesactivarPrecio = $pdo->prepare(
@@ -96,16 +99,16 @@ try {
             $precio_nuevo = $item['precio_costo'] ?? null;
 
             // 1. Registrar movimiento de recepción
-            $stmtMovimiento->execute([$producto_id, $cantidad, $proveedor_id]);
+            $stmtMovimiento->execute([$producto_id, $cantidad, $proveedor_id, $sucursal_id]);
 
             // 2. Actualizar o insertar registro de inventario en la zona indicada
-            $stmtCheck->execute([$producto_id, $zona_id, $es_reserva]);
+            $stmtCheck->execute([$producto_id, $zona_id, $es_reserva, $sucursal_id]);
             $existing = $stmtCheck->fetch(PDO::FETCH_ASSOC);
 
             if ($existing) {
                 $stmtUpdate->execute([$cantidad, $existing['id']]);
             } else {
-                $stmtInsert->execute([$producto_id, $zona_id, $cantidad, $es_reserva]);
+                $stmtInsert->execute([$producto_id, $zona_id, $cantidad, $es_reserva, $sucursal_id]);
             }
 
             // 3. Actualizar precio si se proporcionó uno nuevo
@@ -125,17 +128,19 @@ try {
     // =========================================================
     } elseif ($action === 'historial') {
 
+        $suc = (int)$_SESSION['sucursal_id'];
         $sql = "SELECT im.id, im.fecha, im.cantidad, im.tipo,
                        p.nombre AS producto, p.sku,
                        pv.nombre AS proveedor
                 FROM inventario_movimiento_ICA_final im
                 JOIN producto_ICA_final p ON im.producto_id = p.id
                 LEFT JOIN proveedor_ICA_final pv ON im.proveedor_id = pv.id
-                WHERE im.tipo = 'RECEPCION'
+                WHERE im.tipo = 'RECEPCION' AND im.sucursal_id = ?
                 ORDER BY im.fecha DESC
                 LIMIT 100";
 
-        $stmt = $pdo->query($sql);
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$suc]);
         echo json_encode(['success' => true, 'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
 
     // =========================================================
