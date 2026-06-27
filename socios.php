@@ -3,6 +3,8 @@
 // SOCIOS · Gestión de Membresías y Jerarquía Familiar
 // ═══════════════════════════════════════════════════════════
 
+define('SAMS_API_REQUEST', true);
+require_once __DIR__ . '/auth.php';
 require_once __DIR__ . '/database.php';
 
 $db = Database::connect();

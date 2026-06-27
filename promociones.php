@@ -3,6 +3,8 @@ ini_set('display_errors', 0);
 error_reporting(E_ALL);
 
 header('Content-Type: application/json');
+define('SAMS_API_REQUEST', true);
+require_once __DIR__ . '/auth.php';
 include 'database.php';
 
 $action = $_POST['action'] ?? $_GET['action'] ?? '';
