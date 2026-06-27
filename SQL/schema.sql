@@ -60,7 +60,9 @@ CREATE TABLE IF NOT EXISTS division_ICA_final (
 CREATE TABLE IF NOT EXISTS zona_operativa_ICA_final (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(100),
-    tipo ENUM('PISO_PALLET','RACK_RESERVA','REFRIGERADO','CONGELADO','CAJAS','SALIDA_CONTROL','ANDEN','SERVICIO')
+    tipo ENUM('PISO_PALLET','RACK_RESERVA','REFRIGERADO','CONGELADO','CAJAS','SALIDA_CONTROL','ANDEN','SERVICIO'),
+    sucursal_id BIGINT NOT NULL,
+    FOREIGN KEY (sucursal_id) REFERENCES sucursales(id)
 );
 
 -- Aquí se guardan únicamente los datos humanos/biométricos del cliente
@@ -89,7 +91,9 @@ CREATE TABLE IF NOT EXISTS empleado_ICA_final (
     puesto_id BIGINT,
     fecha_ingreso DATE,
     activo BOOLEAN,
-    FOREIGN KEY (puesto_id) REFERENCES puesto_ICA_final(id)
+    sucursal_id BIGINT NOT NULL,
+    FOREIGN KEY (puesto_id) REFERENCES puesto_ICA_final(id),
+    FOREIGN KEY (sucursal_id) REFERENCES sucursales(id)
 );
 
 CREATE TABLE IF NOT EXISTS categoria_ICA_final (
@@ -99,26 +103,24 @@ CREATE TABLE IF NOT EXISTS categoria_ICA_final (
     FOREIGN KEY (division_id) REFERENCES division_ICA_final(id)
 );
 
--- Esta tabla une al Humano con el Plástico/Membresía que compró.
--- MODIFICADA: Implementa la jerarquía familiar (auto-referencia), roles y control de complementarias.
+-- Une al Humano con su Membresía. Implementa jerarquía familiar (auto-referencia).
+-- El límite de 1 tarjeta complementaria gratuita por titular se valida en la capa de aplicación.
 CREATE TABLE IF NOT EXISTS socio_membresia_ICA_final (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    numero_socio VARCHAR(50) UNIQUE,                                             -- El número impreso en el plástico/App
-    socio_id BIGINT,                                                             -- ID del Humano
-    cuenta_titular_id BIGINT NULL,                                               -- CORRECCIÓN: Apunta al plástico del titular (NULL si es dueño de cuenta)
-    tipo_id BIGINT,                                                              -- ¿Es Clásica, Benefits o Plus?
-    parentesco ENUM('TITULAR', 'CONYUGE', 'HIJO', 'PADRE', 'HERMANO', 'OTRO') DEFAULT 'TITULAR', -- CORRECCIÓN: Rol familiar
-    es_complementaria BOOLEAN DEFAULT 0,                                         -- CORRECCIÓN: 1 = Gratis, 0 = Adicional con costo
+    numero_socio VARCHAR(50) UNIQUE,
+    socio_id BIGINT,
+    cuenta_titular_id BIGINT NULL,
+    tipo_id BIGINT,
+    parentesco ENUM('TITULAR', 'CONYUGE', 'HIJO', 'PADRE', 'HERMANO', 'OTRO') DEFAULT 'TITULAR',
+    es_complementaria BOOLEAN DEFAULT 0,
     saldo_cashback DECIMAL(10,2) DEFAULT 0.00,
-    fecha_fin DATE,                                                              -- Misma fecha de vencimiento que el titular
+    fecha_inicio DATE,
+    fecha_fin DATE,
     activo BOOLEAN DEFAULT 1,
-    
+
     FOREIGN KEY (socio_id) REFERENCES socio_ICA_final(id),
     FOREIGN KEY (tipo_id) REFERENCES tipo_membresia_ICA_final(id),
-    FOREIGN KEY (cuenta_titular_id) REFERENCES socio_membresia_ICA_final(id) ON DELETE SET NULL,
-    
-    -- REGLA DE NEGOCIO: Evita que un mismo titular registre más de una tarjeta complementaria gratis
-    UNIQUE KEY uq_una_complementaria_por_titular (cuenta_titular_id, es_complementaria)
+    FOREIGN KEY (cuenta_titular_id) REFERENCES socio_membresia_ICA_final(id) ON DELETE SET NULL
 );
 
 -- =========================================================
@@ -181,9 +183,11 @@ CREATE TABLE IF NOT EXISTS asignacion_operativa_ICA_final (
     zona_id BIGINT,
     turno_id BIGINT,
     fecha DATE,
+    sucursal_id BIGINT NOT NULL,
     FOREIGN KEY (empleado_id) REFERENCES empleado_ICA_final(id),
     FOREIGN KEY (zona_id) REFERENCES zona_operativa_ICA_final(id),
-    FOREIGN KEY (turno_id) REFERENCES turno_ICA_final(id)
+    FOREIGN KEY (turno_id) REFERENCES turno_ICA_final(id),
+    FOREIGN KEY (sucursal_id) REFERENCES sucursales(id)
 );
 
 -- =========================================================
