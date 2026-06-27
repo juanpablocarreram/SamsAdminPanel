@@ -166,6 +166,7 @@ if ($action === 'login') {
     }
 
     unset($_SESSION['google_pending']);
+    session_regenerate_id(true);
 
     $_SESSION['user_id']         = $user_id;
     $_SESSION['sucursal_id']     = $sucursal_id;

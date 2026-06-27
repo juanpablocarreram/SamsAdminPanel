@@ -15,6 +15,9 @@ $client->addScope('profile');
 
 // --- FLUJO INICIO: redirigir a Google ---
 if (isset($_GET['start'])) {
+    $state = bin2hex(random_bytes(16));
+    $_SESSION['oauth_state'] = $state;
+    $client->setState($state);
     $authUrl = $client->createAuthUrl();
     header('Location: ' . filter_var($authUrl, FILTER_SANITIZE_URL));
     exit();
@@ -25,6 +28,12 @@ if (!isset($_GET['code'])) {
     header('Location: login.php?error=invalid');
     exit();
 }
+
+if (!isset($_GET['state']) || $_GET['state'] !== ($_SESSION['oauth_state'] ?? '')) {
+    header('Location: login.php?error=invalid');
+    exit();
+}
+unset($_SESSION['oauth_state']);
 
 try {
     $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);

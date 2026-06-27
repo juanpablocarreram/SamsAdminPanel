@@ -3,12 +3,12 @@
 // SOCIOS · Gestión de Membresías y Jerarquía Familiar
 // ═══════════════════════════════════════════════════════════
 
+header('Content-Type: application/json');
 define('SAMS_API_REQUEST', true);
 require_once __DIR__ . '/auth.php';
 require_once __DIR__ . '/database.php';
 
 $db = Database::connect();
-header('Content-Type: application/json');
 
 $action = $_GET['action'] ?? $_POST['action'] ?? null;
 
