@@ -35,7 +35,11 @@ try {
                 LEFT JOIN categoria_ICA_final c ON p.categoria_id = c.id
                 LEFT JOIN division_ICA_final d ON c.division_id = d.id
                 LEFT JOIN inventario_ICA_final inv ON inv.producto_id = p.id AND inv.sucursal_id = ?
-                LEFT JOIN promocion_ICA_final pr ON pr.producto_id = p.id AND pr.activo = 1
+                LEFT JOIN (
+                    SELECT pr.id, pr.producto_id, pr.nombre_promo, pr.descuento_pct, pr.descuento_monto
+                    FROM promocion_ICA_final pr
+                    JOIN promocion_sucursal_ICA_final prs ON prs.promocion_id = pr.id AND prs.sucursal_id = ? AND prs.activo = 1
+                ) pr ON pr.producto_id = p.id
                 LEFT JOIN lista_precio_ICA_final lp ON lp.id = (
                     SELECT id FROM lista_precio_ICA_final
                     WHERE producto_id = p.id AND vigente = 1
@@ -52,7 +56,7 @@ try {
 
         $stmt = $pdo->prepare($sql);
         $sucursal_id = (int)$_SESSION['sucursal_id'];
-        $stmt->execute([$sucursal_id, $search, $search, $search]);
+        $stmt->execute([$sucursal_id, $sucursal_id, $search, $search, $search]);
 
         echo json_encode(['success' => true, 'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
 

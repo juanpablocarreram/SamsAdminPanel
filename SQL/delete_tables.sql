@@ -15,6 +15,7 @@ DROP TABLE IF EXISTS asistencia_ICA_final;
 DROP TABLE IF EXISTS empleado_turno_ICA_final;
 DROP TABLE IF EXISTS inventario_movimiento_ICA_final;
 DROP TABLE IF EXISTS inventario_ICA_final;
+DROP TABLE IF EXISTS promocion_sucursal_ICA_final;
 DROP TABLE IF EXISTS promocion_membresia_ICA_final;
 DROP TABLE IF EXISTS promocion_ICA_final;
 

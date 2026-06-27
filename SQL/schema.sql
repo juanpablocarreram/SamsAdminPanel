@@ -230,10 +230,7 @@ CREATE TABLE IF NOT EXISTS promocion_ICA_final (
     fecha_inicio DATE,
     fecha_fin DATE,
     aplica_a_todos BOOLEAN DEFAULT 0,
-    activo BOOLEAN DEFAULT 1,
-    sucursal_id BIGINT NOT NULL,
-    FOREIGN KEY (producto_id) REFERENCES producto_ICA_final(id),
-    FOREIGN KEY (sucursal_id) REFERENCES sucursales(id)
+    FOREIGN KEY (producto_id) REFERENCES producto_ICA_final(id)
 );
 
 -- Tabla intermedia que decide qué tipo de membresía tiene derecho a qué promoción
@@ -244,6 +241,17 @@ CREATE TABLE IF NOT EXISTS promocion_membresia_ICA_final (
     FOREIGN KEY (promocion_id) REFERENCES promocion_ICA_final(id) ON DELETE CASCADE,
     FOREIGN KEY (tipo_membresia_id) REFERENCES tipo_membresia_ICA_final(id),
     UNIQUE KEY uq_promocion_membresia (promocion_id, tipo_membresia_id)
+);
+
+-- Estado de activación de cada promoción por sucursal (por defecto inactiva)
+CREATE TABLE IF NOT EXISTS promocion_sucursal_ICA_final (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    promocion_id BIGINT NOT NULL,
+    sucursal_id BIGINT NOT NULL,
+    activo BOOLEAN DEFAULT 0,
+    UNIQUE KEY uq_promo_sucursal (promocion_id, sucursal_id),
+    FOREIGN KEY (promocion_id) REFERENCES promocion_ICA_final(id),
+    FOREIGN KEY (sucursal_id) REFERENCES sucursales(id)
 );
 
 -- =========================================================

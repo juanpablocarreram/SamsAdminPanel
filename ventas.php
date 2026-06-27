@@ -39,21 +39,23 @@ try {
         $stmt->execute([$sucursal_id, $q, $q, $q]);
         $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        $sucursal_id = (int)$_SESSION['sucursal_id'];
         $stmtPromos = $pdo->prepare("
             SELECT pr.id AS promo_id, pr.nombre_promo, pr.descuento_pct, pr.descuento_monto, pr.aplica_a_todos,
                    GROUP_CONCAT(CAST(pm.tipo_membresia_id AS CHAR) SEPARATOR ',') AS tipos_ids,
                    GROUP_CONCAT(tm.nombre ORDER BY tm.nombre SEPARATOR ',')       AS tipos_nombres
             FROM promocion_ICA_final pr
+            JOIN promocion_sucursal_ICA_final prs ON prs.promocion_id = pr.id AND prs.sucursal_id = ? AND prs.activo = 1
             LEFT JOIN promocion_membresia_ICA_final pm ON pm.promocion_id = pr.id
             LEFT JOIN tipo_membresia_ICA_final tm ON tm.id = pm.tipo_membresia_id
-            WHERE pr.producto_id = ? AND pr.activo = 1
+            WHERE pr.producto_id = ?
               AND (pr.fecha_inicio IS NULL OR pr.fecha_inicio <= CURDATE())
               AND (pr.fecha_fin   IS NULL OR pr.fecha_fin   >= CURDATE())
             GROUP BY pr.id
         ");
 
         foreach ($productos as &$prod) {
-            $stmtPromos->execute([$prod['id']]);
+            $stmtPromos->execute([$sucursal_id, $prod['id']]);
             $prod['promociones'] = $stmtPromos->fetchAll(PDO::FETCH_ASSOC);
         }
         unset($prod);
