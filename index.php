@@ -1379,7 +1379,6 @@ async function loadPromos() {
             <div class="data-card-footer">
                 <div class="cell-actions">
                     <button class="btn-icon ${isActivo ? 'btn-icon-warn' : 'btn-icon-success'}" title="${isActivo ? 'Desactivar' : 'Activar'}" onclick="togglePromo(${Number(r.id)})">${isActivo ? '⏸' : '▶'}</button>
-                    <button class="btn-icon btn-icon-danger" title="Eliminar promoción" onclick="deletePromo(${Number(r.id)})">✕</button>
                 </div>
                 <span class="list-row-label" style="font-variant-numeric:tabular-nums;">#${Number(r.id)}</span>
             </div>
@@ -1430,11 +1429,6 @@ async function crearPromo() {
 async function togglePromo(id) {
     const res = await api('promociones.php', { action:'toggle', id });
     if (res.success) { toast(res.message); loadPromos(); } else toast(res.error,'error');
-}
-async function deletePromo(id) {
-    if (!confirm('¿Eliminar esta promoción permanentemente?')) return;
-    const res = await api('promociones.php', { action:'delete', id });
-    if (res.success) { toast(res.message); loadPromos(); loadInvStats(); } else toast(res.error,'error');
 }
 
 // ═══════════════════════════════════════════
