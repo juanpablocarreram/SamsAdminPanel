@@ -71,26 +71,38 @@ INSERT INTO categoria_ICA_final (division_id, nombre) VALUES
 (7, 'Lácteos'),
 (7, 'Embutidos y Carnes Frías');
 
--- 6. ZONAS OPERATIVAS
-INSERT INTO zona_operativa_ICA_final (nombre, tipo) VALUES
-('Piso Principal A', 'PISO_PALLET'),
-('Piso Principal B', 'PISO_PALLET'),
-('Rack Reserva 1', 'RACK_RESERVA'),
-('Rack Reserva 2', 'RACK_RESERVA'),
-('Refrigerados Centro', 'REFRIGERADO'),
-('Congelados Fondo', 'CONGELADO'),
-('Cajas 1-10', 'CAJAS'),
-('Andén de Recibo', 'ANDEN'),
-('Farmacia', 'SERVICIO'),
-('Salida de Control', 'SALIDA_CONTROL');
+-- 6. ZONAS OPERATIVAS (por sucursal — IDs 1-10 Polanco, 11-20 Santa Fe)
+INSERT INTO zona_operativa_ICA_final (id, nombre, tipo, sucursal_id) VALUES
+-- Sucursal 1: Sam's Polanco
+( 1, 'Piso Principal A',   'PISO_PALLET',    1),
+( 2, 'Piso Principal B',   'PISO_PALLET',    1),
+( 3, 'Rack Reserva 1',     'RACK_RESERVA',   1),
+( 4, 'Rack Reserva 2',     'RACK_RESERVA',   1),
+( 5, 'Refrigerados Centro','REFRIGERADO',    1),
+( 6, 'Congelados Fondo',   'CONGELADO',      1),
+( 7, 'Cajas 1-10',         'CAJAS',          1),
+( 8, 'Andén de Recibo',    'ANDEN',          1),
+( 9, 'Farmacia',           'SERVICIO',       1),
+(10, 'Salida de Control',  'SALIDA_CONTROL', 1),
+-- Sucursal 2: Sam's Santa Fe
+(11, 'Piso Principal A',   'PISO_PALLET',    2),
+(12, 'Piso Principal B',   'PISO_PALLET',    2),
+(13, 'Rack Reserva 1',     'RACK_RESERVA',   2),
+(14, 'Rack Reserva 2',     'RACK_RESERVA',   2),
+(15, 'Refrigerados Centro','REFRIGERADO',    2),
+(16, 'Congelados Fondo',   'CONGELADO',      2),
+(17, 'Cajas 1-10',         'CAJAS',          2),
+(18, 'Andén de Recibo',    'ANDEN',          2),
+(19, 'Farmacia',           'SERVICIO',       2),
+(20, 'Salida de Control',  'SALIDA_CONTROL', 2);
 
--- 7. EMPLEADOS (CORRECCIÓN: Campo 'activo' en lugar de 'active')
-INSERT INTO empleado_ICA_final (numero_empleado, nombre, puesto_id, fecha_ingreso, activo) VALUES
-('EMP001', 'María López García', 1, '2021-03-15', 1),
-('EMP002', 'Juan Pérez Martínez', 2, '2019-06-01', 1),
-('EMP003', 'Ana Torres Ruiz', 3, '2022-01-10', 1),
-('EMP004', 'Carlos Sánchez Vega', 4, '2018-09-20', 1),
-('EMP005', 'Rosa Hernández Cruz', 5, '2023-02-28', 1);
+-- 7. EMPLEADOS (con sucursal_id)
+INSERT INTO empleado_ICA_final (numero_empleado, nombre, puesto_id, fecha_ingreso, activo, sucursal_id) VALUES
+('EMP001', 'María López García',   1, '2021-03-15', 1, 1), -- Cajera Polanco
+('EMP002', 'Juan Pérez Martínez',  2, '2019-06-01', 1, 1), -- Supervisor Cajas Polanco
+('EMP003', 'Ana Torres Ruiz',      3, '2022-01-10', 1, 2), -- Aux. Piso Santa Fe
+('EMP004', 'Carlos Sánchez Vega',  4, '2018-09-20', 1, 1), -- Gerente Polanco
+('EMP005', 'Rosa Hernández Cruz',  5, '2023-02-28', 1, 2); -- Recibidora Santa Fe
 
 -- 8. SOCIOS (La información humana básica)
 INSERT INTO socio_ICA_final (nombre, correo, telefono) VALUES
@@ -107,19 +119,15 @@ INSERT INTO tipo_membresia_ICA_final (nombre, cashback) VALUES
 ('BENEFITS', 2.00), -- ID 2
 ('PLUS', 3.50);     -- ID 3
 
--- 10. MEMBRESÍAS DE SOCIOS (CORRECCIÓN: Se implementan las nuevas columnas de jerarquía familiar)
--- Primero insertamos las cuentas Titulares (cuenta_titular_id = NULL)
-INSERT INTO socio_membresia_ICA_final (id, numero_socio, socio_id, cuenta_titular_id, tipo_id, parentesco, es_complementaria, saldo_cashback, fecha_fin, activo) VALUES
-(1, 'SAM-100001', 1, NULL, 1, 'TITULAR', 0, 0.00,   '2026-12-31', 1), -- Roberto: Clásica
-(2, 'SAM-100002', 2, NULL, 2, 'TITULAR', 0, 145.50, '2026-08-15', 1), -- Patricia: Benefits
-(3, 'SAM-100003', 3, NULL, 3, 'TITULAR', 0, 320.00, '2027-01-01', 1), -- Diego: Cuenta Personal PLUS (Titular ID 3)
-(4, 'SAM-100004', 4, NULL, 2, 'TITULAR', 0, 75.25,  '2026-11-30', 1), -- Sofía: Benefits
-(5, 'SAM-100005', 5, NULL, 1, 'TITULAR', 0, 0.00,   '2026-09-15', 1), -- Miguel: Clásica
-(6, 'SAM-999999', 3, NULL, 1, 'TITULAR', 0, 0.00,   '2027-03-01', 1); -- Diego: OTRA cuenta (Clásica Empresarial)
-
--- Ahora insertamos un Miembro Vinculado (Familiar) que depende del Titular de Diego (ID 3)
-INSERT INTO socio_membresia_ICA_final (id, numero_socio, socio_id, cuenta_titular_id, tipo_id, parentesco, es_complementaria, saldo_cashback, fecha_fin, activo) VALUES
-(7, 'SAM-100003-F', 6, 3, 3, 'HERMANO', 1, 0.00, '2027-01-01', 1); -- Elena: Tarjeta complementaria (gratis) vinculada al PLUS de Diego
+-- 10. MEMBRESÍAS DE SOCIOS (con fecha_inicio — socios son globales, sin sucursal_id)
+INSERT INTO socio_membresia_ICA_final (id, numero_socio, socio_id, cuenta_titular_id, tipo_id, parentesco, es_complementaria, saldo_cashback, fecha_inicio, fecha_fin, activo) VALUES
+(1, 'SAM-100001',   1, NULL, 1, 'TITULAR', 0,   0.00, '2025-12-31', '2026-12-31', 1), -- Roberto: Clásica
+(2, 'SAM-100002',   2, NULL, 2, 'TITULAR', 0, 145.50, '2025-08-15', '2026-08-15', 1), -- Patricia: Benefits
+(3, 'SAM-100003',   3, NULL, 3, 'TITULAR', 0, 320.00, '2026-01-01', '2027-01-01', 1), -- Diego: PLUS
+(4, 'SAM-100004',   4, NULL, 2, 'TITULAR', 0,  75.25, '2025-11-30', '2026-11-30', 1), -- Sofía: Benefits
+(5, 'SAM-100005',   5, NULL, 1, 'TITULAR', 0,   0.00, '2025-09-15', '2026-09-15', 1), -- Miguel: Clásica
+(6, 'SAM-999999',   3, NULL, 1, 'TITULAR', 0,   0.00, '2026-03-01', '2027-03-01', 1), -- Diego: Clásica Empresarial
+(7, 'SAM-100003-F', 6,    3, 3, 'HERMANO', 1,   0.00, '2026-01-01', '2027-01-01', 1); -- Elena: Complementaria PLUS de Diego
 
 
 -- 11. PRODUCTOS
@@ -173,14 +181,35 @@ INSERT INTO lista_precio_ICA_final (producto_id, precio, vigente, fecha) VALUES
 (22, 189.00,  1, NOW());
 
 -- 13. INVENTARIO
+-- Nota: los zona_id deben pertenecer a la misma sucursal que el registro de inventario.
+-- Sucursal 1 (Polanco): zonas 1-10. Sucursal 2 (Santa Fe): zonas 11-20.
 INSERT INTO inventario_ICA_final (producto_id, zona_id, cantidad, es_reserva, sucursal_id) VALUES
-(1,  1, 48,  0, 1), (2,  1, 36,  0, 1), (3,  1, 120, 0, 1), (4,  1, 200, 0, 1), (5,  1, 60,  0, 1),
-(6,  1, 96,  0, 1), (7,  1, 40,  0, 1), (8,  1, 55,  0, 1), (9,  1, 45,  0, 1), (10, 1, 72,  0, 1),
-(11, 1, 84,  0, 1), (16, 1, 38,  0, 1), (17, 1, 50,  0, 1), (12, 2, 15,  0, 1), (13, 2, 22,  0, 1),
-(14, 2, 30,  0, 1), (15, 2, 60,  0, 1), (5,  5, 40,  0, 1), (19, 5, 96,  0, 1), (20, 5, 72,  0, 1),
-(21, 6, 50,  0, 2), (22, 6, 35,  0, 2), (18, 9, 150, 0, 2), (1,  3, 200, 1, 1), (3,  3, 480, 1, 1),
-(4,  3, 600, 1, 1), (6,  3, 288, 1, 1), (10, 3, 144, 1, 1), (16, 3, 120, 1, 1), (12, 4, 10,  1, 1),
-(13, 4, 8,   1, 1), (19, 4, 288, 1, 1), (21, 4, 100, 1, 2);
+-- Sucursal 1 — Piso Principal A (zona 1)
+( 1,  1,  48, 0, 1), ( 2,  1,  36, 0, 1), ( 3,  1, 120, 0, 1), ( 4,  1, 200, 0, 1), ( 5,  1,  60, 0, 1),
+( 6,  1,  96, 0, 1), ( 7,  1,  40, 0, 1), ( 8,  1,  55, 0, 1), ( 9,  1,  45, 0, 1), (10,  1,  72, 0, 1),
+(11,  1,  84, 0, 1), (16,  1,  38, 0, 1), (17,  1,  50, 0, 1),
+-- Sucursal 1 — Piso Principal B (zona 2)
+(12,  2,  15, 0, 1), (13,  2,  22, 0, 1), (14,  2,  30, 0, 1), (15,  2,  60, 0, 1),
+-- Sucursal 1 — Refrigerados (zona 5)
+( 5,  5,  40, 0, 1), (19,  5,  96, 0, 1), (20,  5,  72, 0, 1),
+-- Sucursal 1 — Rack Reserva 1 (zona 3)
+( 1,  3, 200, 1, 1), ( 3,  3, 480, 1, 1), ( 4,  3, 600, 1, 1), ( 6,  3, 288, 1, 1),
+(10,  3, 144, 1, 1), (16,  3, 120, 1, 1),
+-- Sucursal 1 — Rack Reserva 2 (zona 4)
+(12,  4,  10, 1, 1), (13,  4,   8, 1, 1), (19,  4, 288, 1, 1),
+-- Sucursal 2 — Piso Principal A (zona 11)
+( 3, 11,  60, 0, 2), ( 4, 11, 100, 0, 2), ( 8, 11,  30, 0, 2), ( 9, 11,  25, 0, 2),
+(10, 11,  36, 0, 2), (11, 11,  42, 0, 2), (16, 11,  20, 0, 2), (17, 11,  25, 0, 2),
+-- Sucursal 2 — Piso Principal B (zona 12)
+(12, 12,   8, 0, 2), (13, 12,  10, 0, 2), (14, 12,  15, 0, 2), (15, 12,  30, 0, 2),
+-- Sucursal 2 — Congelados (zona 16)
+(21, 16,  50, 0, 2), (22, 16,  35, 0, 2),
+-- Sucursal 2 — Farmacia (zona 19)
+(18, 19, 150, 0, 2),
+-- Sucursal 2 — Rack Reserva 1 (zona 13)
+( 3, 13, 240, 1, 2), ( 4, 13, 300, 1, 2), (10, 13,  72, 1, 2),
+-- Sucursal 2 — Rack Reserva 2 (zona 14)
+(21, 14, 100, 1, 2), (12, 14,   5, 1, 2);
 
 -- 14. PROMOCIONES SEGMENTADAS
 INSERT INTO promocion_ICA_final (id, producto_id, nombre_promo, descuento_pct, descuento_monto, fecha_inicio, fecha_fin, aplica_a_todos, activo) VALUES
