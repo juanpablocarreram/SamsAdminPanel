@@ -26,17 +26,23 @@ try {
     // =========================================================
     } elseif ($action === 'list_productos') {
 
-        $stmt = $pdo->query(
+        $sucursal_id = (int)$_SESSION['sucursal_id'];
+        $stmt = $pdo->prepare(
             "SELECT p.id, p.sku, p.nombre, p.marca, p.tipo,
                     COALESCE(lp.precio, 0)         AS precio,
                     COALESCE(SUM(inv.cantidad), 0) AS stock_actual
              FROM producto_ICA_final p
-             LEFT JOIN lista_precio_ICA_final lp ON lp.producto_id = p.id AND lp.vigente = 1
-             LEFT JOIN inventario_ICA_final inv ON inv.producto_id = p.id
+             LEFT JOIN lista_precio_ICA_final lp ON lp.id = (
+                 SELECT id FROM lista_precio_ICA_final
+                 WHERE producto_id = p.id AND vigente = 1
+                 ORDER BY fecha DESC LIMIT 1
+             )
+             LEFT JOIN inventario_ICA_final inv ON inv.producto_id = p.id AND inv.sucursal_id = ?
              WHERE p.activo = 1
              GROUP BY p.id, p.sku, p.nombre, p.marca, p.tipo, lp.precio
              ORDER BY p.nombre"
         );
+        $stmt->execute([$sucursal_id]);
         echo json_encode(['success' => true, 'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
 
     // =========================================================
@@ -44,7 +50,9 @@ try {
     // =========================================================
     } elseif ($action === 'list_zonas') {
 
-        $stmt = $pdo->query("SELECT id, nombre, tipo FROM zona_operativa_ICA_final ORDER BY nombre");
+        $sucursal_id = (int)$_SESSION['sucursal_id'];
+        $stmt = $pdo->prepare("SELECT id, nombre, tipo FROM zona_operativa_ICA_final WHERE sucursal_id = ? ORDER BY nombre");
+        $stmt->execute([$sucursal_id]);
         echo json_encode(['success' => true, 'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
 
     // =========================================================
@@ -58,6 +66,15 @@ try {
         $es_reserva   = (int)($_POST['es_reserva'] ?? 0);
 
         if (empty($items)) throw new Exception('No hay artículos en la compra');
+
+        // Validar que la zona pertenece a la sucursal activa
+        $stmtValidaZona = $pdo->prepare(
+            "SELECT id FROM zona_operativa_ICA_final WHERE id = ? AND sucursal_id = ?"
+        );
+        $stmtValidaZona->execute([$zona_id, (int)$_SESSION['sucursal_id']]);
+        if (!$stmtValidaZona->fetch()) {
+            throw new Exception('La zona seleccionada no pertenece a esta sucursal');
+        }
 
         // --- Inicio de transacción ---
         $pdo->beginTransaction();
