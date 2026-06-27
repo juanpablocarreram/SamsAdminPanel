@@ -71,30 +71,18 @@ INSERT INTO categoria_ICA_final (division_id, nombre) VALUES
 (7, 'Lácteos'),
 (7, 'Embutidos y Carnes Frías');
 
--- 6. ZONAS OPERATIVAS (por sucursal — IDs 1-10 Polanco, 11-20 Santa Fe)
-INSERT INTO zona_operativa_ICA_final (id, nombre, tipo, sucursal_id) VALUES
--- Sucursal 1: Sam's Polanco
-( 1, 'Piso Principal A',   'PISO_PALLET',    1),
-( 2, 'Piso Principal B',   'PISO_PALLET',    1),
-( 3, 'Rack Reserva 1',     'RACK_RESERVA',   1),
-( 4, 'Rack Reserva 2',     'RACK_RESERVA',   1),
-( 5, 'Refrigerados Centro','REFRIGERADO',    1),
-( 6, 'Congelados Fondo',   'CONGELADO',      1),
-( 7, 'Cajas 1-10',         'CAJAS',          1),
-( 8, 'Andén de Recibo',    'ANDEN',          1),
-( 9, 'Farmacia',           'SERVICIO',       1),
-(10, 'Salida de Control',  'SALIDA_CONTROL', 1),
--- Sucursal 2: Sam's Santa Fe
-(11, 'Piso Principal A',   'PISO_PALLET',    2),
-(12, 'Piso Principal B',   'PISO_PALLET',    2),
-(13, 'Rack Reserva 1',     'RACK_RESERVA',   2),
-(14, 'Rack Reserva 2',     'RACK_RESERVA',   2),
-(15, 'Refrigerados Centro','REFRIGERADO',    2),
-(16, 'Congelados Fondo',   'CONGELADO',      2),
-(17, 'Cajas 1-10',         'CAJAS',          2),
-(18, 'Andén de Recibo',    'ANDEN',          2),
-(19, 'Farmacia',           'SERVICIO',       2),
-(20, 'Salida de Control',  'SALIDA_CONTROL', 2);
+-- 6. ZONAS OPERATIVAS (catálogo global — compartido por todas las sucursales)
+INSERT INTO zona_operativa_ICA_final (nombre, tipo) VALUES
+('Piso Principal A',    'PISO_PALLET'),
+('Piso Principal B',    'PISO_PALLET'),
+('Rack Reserva 1',      'RACK_RESERVA'),
+('Rack Reserva 2',      'RACK_RESERVA'),
+('Refrigerados Centro', 'REFRIGERADO'),
+('Congelados Fondo',    'CONGELADO'),
+('Cajas 1-10',          'CAJAS'),
+('Andén de Recibo',     'ANDEN'),
+('Farmacia',            'SERVICIO'),
+('Salida de Control',   'SALIDA_CONTROL');
 
 -- 7. EMPLEADOS (con sucursal_id)
 INSERT INTO empleado_ICA_final (numero_empleado, nombre, puesto_id, fecha_ingreso, activo, sucursal_id) VALUES
@@ -181,8 +169,7 @@ INSERT INTO lista_precio_ICA_final (producto_id, precio, vigente, fecha) VALUES
 (22, 189.00,  1, NOW());
 
 -- 13. INVENTARIO
--- Nota: los zona_id deben pertenecer a la misma sucursal que el registro de inventario.
--- Sucursal 1 (Polanco): zonas 1-10. Sucursal 2 (Santa Fe): zonas 11-20.
+-- Las zonas son catálogo global (IDs 1-10). El aislamiento por sucursal lo da sucursal_id.
 INSERT INTO inventario_ICA_final (producto_id, zona_id, cantidad, es_reserva, sucursal_id) VALUES
 -- Sucursal 1 — Piso Principal A (zona 1)
 ( 1,  1,  48, 0, 1), ( 2,  1,  36, 0, 1), ( 3,  1, 120, 0, 1), ( 4,  1, 200, 0, 1), ( 5,  1,  60, 0, 1),
@@ -197,19 +184,19 @@ INSERT INTO inventario_ICA_final (producto_id, zona_id, cantidad, es_reserva, su
 (10,  3, 144, 1, 1), (16,  3, 120, 1, 1),
 -- Sucursal 1 — Rack Reserva 2 (zona 4)
 (12,  4,  10, 1, 1), (13,  4,   8, 1, 1), (19,  4, 288, 1, 1),
--- Sucursal 2 — Piso Principal A (zona 11)
-( 3, 11,  60, 0, 2), ( 4, 11, 100, 0, 2), ( 8, 11,  30, 0, 2), ( 9, 11,  25, 0, 2),
-(10, 11,  36, 0, 2), (11, 11,  42, 0, 2), (16, 11,  20, 0, 2), (17, 11,  25, 0, 2),
--- Sucursal 2 — Piso Principal B (zona 12)
-(12, 12,   8, 0, 2), (13, 12,  10, 0, 2), (14, 12,  15, 0, 2), (15, 12,  30, 0, 2),
--- Sucursal 2 — Congelados (zona 16)
-(21, 16,  50, 0, 2), (22, 16,  35, 0, 2),
--- Sucursal 2 — Farmacia (zona 19)
-(18, 19, 150, 0, 2),
--- Sucursal 2 — Rack Reserva 1 (zona 13)
-( 3, 13, 240, 1, 2), ( 4, 13, 300, 1, 2), (10, 13,  72, 1, 2),
--- Sucursal 2 — Rack Reserva 2 (zona 14)
-(21, 14, 100, 1, 2), (12, 14,   5, 1, 2);
+-- Sucursal 2 — Piso Principal A (zona 1)
+( 3,  1,  60, 0, 2), ( 4,  1, 100, 0, 2), ( 8,  1,  30, 0, 2), ( 9,  1,  25, 0, 2),
+(10,  1,  36, 0, 2), (11,  1,  42, 0, 2), (16,  1,  20, 0, 2), (17,  1,  25, 0, 2),
+-- Sucursal 2 — Piso Principal B (zona 2)
+(12,  2,   8, 0, 2), (13,  2,  10, 0, 2), (14,  2,  15, 0, 2), (15,  2,  30, 0, 2),
+-- Sucursal 2 — Congelados (zona 6)
+(21,  6,  50, 0, 2), (22,  6,  35, 0, 2),
+-- Sucursal 2 — Farmacia (zona 9)
+(18,  9, 150, 0, 2),
+-- Sucursal 2 — Rack Reserva 1 (zona 3)
+( 3,  3, 240, 1, 2), ( 4,  3, 300, 1, 2), (10,  3,  72, 1, 2),
+-- Sucursal 2 — Rack Reserva 2 (zona 4)
+(21,  4, 100, 1, 2), (12,  4,   5, 1, 2);
 
 -- 14. PROMOCIONES SEGMENTADAS
 INSERT INTO promocion_ICA_final (id, producto_id, nombre_promo, descuento_pct, descuento_monto, fecha_inicio, fecha_fin, aplica_a_todos, activo) VALUES

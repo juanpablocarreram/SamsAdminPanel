@@ -60,9 +60,7 @@ CREATE TABLE IF NOT EXISTS division_ICA_final (
 CREATE TABLE IF NOT EXISTS zona_operativa_ICA_final (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(100),
-    tipo ENUM('PISO_PALLET','RACK_RESERVA','REFRIGERADO','CONGELADO','CAJAS','SALIDA_CONTROL','ANDEN','SERVICIO'),
-    sucursal_id BIGINT NOT NULL,
-    FOREIGN KEY (sucursal_id) REFERENCES sucursales(id)
+    tipo ENUM('PISO_PALLET','RACK_RESERVA','REFRIGERADO','CONGELADO','CAJAS','SALIDA_CONTROL','ANDEN','SERVICIO')
 );
 
 -- Aquí se guardan únicamente los datos humanos/biométricos del cliente

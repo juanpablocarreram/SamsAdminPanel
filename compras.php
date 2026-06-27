@@ -50,9 +50,7 @@ try {
     // =========================================================
     } elseif ($action === 'list_zonas') {
 
-        $sucursal_id = (int)$_SESSION['sucursal_id'];
-        $stmt = $pdo->prepare("SELECT id, nombre, tipo FROM zona_operativa_ICA_final WHERE sucursal_id = ? ORDER BY nombre");
-        $stmt->execute([$sucursal_id]);
+        $stmt = $pdo->query("SELECT id, nombre, tipo FROM zona_operativa_ICA_final ORDER BY nombre");
         echo json_encode(['success' => true, 'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
 
     // =========================================================
@@ -66,15 +64,6 @@ try {
         $es_reserva   = (int)($_POST['es_reserva'] ?? 0);
 
         if (empty($items)) throw new Exception('No hay artículos en la compra');
-
-        // Validar que la zona pertenece a la sucursal activa
-        $stmtValidaZona = $pdo->prepare(
-            "SELECT id FROM zona_operativa_ICA_final WHERE id = ? AND sucursal_id = ?"
-        );
-        $stmtValidaZona->execute([$zona_id, (int)$_SESSION['sucursal_id']]);
-        if (!$stmtValidaZona->fetch()) {
-            throw new Exception('La zona seleccionada no pertenece a esta sucursal');
-        }
 
         // --- Inicio de transacción ---
         $pdo->beginTransaction();
