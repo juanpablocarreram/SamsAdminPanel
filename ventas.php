@@ -24,7 +24,11 @@ try {
                        COALESCE(lp.precio, 0) AS precio,
                        COALESCE(SUM(CASE WHEN inv.es_reserva=0 THEN inv.cantidad ELSE 0 END), 0) AS stock
                 FROM producto_ICA_final p
-                LEFT JOIN lista_precio_ICA_final lp ON lp.producto_id = p.id AND lp.vigente = 1
+                LEFT JOIN lista_precio_ICA_final lp ON lp.id = (
+                    SELECT id FROM lista_precio_ICA_final
+                    WHERE producto_id = p.id AND vigente = 1
+                    ORDER BY fecha DESC LIMIT 1
+                )
                 LEFT JOIN inventario_ICA_final inv ON inv.producto_id = p.id AND inv.es_reserva = 0 AND inv.sucursal_id = ?
                 WHERE p.activo = 1 AND (p.nombre LIKE ? OR p.sku LIKE ? OR p.marca LIKE ?)
                 GROUP BY p.id, p.sku, p.nombre, p.marca, p.tipo, p.multipack, lp.precio
