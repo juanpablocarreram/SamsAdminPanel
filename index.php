@@ -1,3 +1,11 @@
+<?php
+require_once __DIR__ . '/auth.php';
+$sessionUser = [
+    'nombre'          => $_SESSION['nombre'],
+    'sucursal_nombre' => $_SESSION['sucursal_nombre'],
+    'rol'             => $_SESSION['rol'],
+];
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,6 +16,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>const SAMS_SESSION = <?= json_encode($sessionUser) ?>;</script>
     <style>
 /* ── DESIGN TOKENS ── */
 :root {
@@ -407,6 +416,23 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.6; }
             <i data-lucide="credit-card"></i> Punto de Venta
         </div>
     </nav>
+    <div class="px-4 py-3 border-t border-slate-700/40">
+        <div class="flex items-center gap-2.5 mb-2">
+            <div class="w-7 h-7 rounded-full bg-blue-900/50 border border-blue-700/40 flex items-center justify-center flex-shrink-0">
+                <span class="text-xs font-bold text-blue-300"><?= strtoupper(substr($sessionUser['nombre'], 0, 1)) ?></span>
+            </div>
+            <div class="min-w-0">
+                <p class="text-xs font-semibold text-slate-200 truncate"><?= htmlspecialchars($sessionUser['nombre']) ?></p>
+                <p class="text-[10px] text-slate-500 truncate"><?= htmlspecialchars($sessionUser['sucursal_nombre']) ?></p>
+            </div>
+        </div>
+        <form method="POST" action="auth_handler.php">
+            <input type="hidden" name="action" value="logout">
+            <button type="submit" class="w-full text-left text-xs text-slate-500 hover:text-rose-400 transition-colors flex items-center gap-1.5 py-1">
+                <i data-lucide="log-out" style="width:12px;height:12px;"></i> Cerrar sesión
+            </button>
+        </form>
+    </div>
     <div class="flex items-center gap-2.5 px-5 py-4 border-t border-slate-700/40">
         <span class="sam-status-dot w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0" style="box-shadow:0 0 0 3px rgba(52,211,153,.18);animation:pulse-dot 2.5s ease-in-out infinite;"></span>
         <span class="text-xs text-slate-500 uppercase tracking-wider">Sistema activo</span>
@@ -1074,6 +1100,7 @@ async function api(url, data=null) {
         const opts = { method: data ? 'POST' : 'GET', headers: {} };
         if (data) { opts.body = new URLSearchParams(data); opts.headers['Content-Type'] = 'application/x-www-form-urlencoded'; }
         const r = await fetch(url, opts);
+        if (r.status === 401) { window.location.href = 'login.php'; return { success: false, error: 'No autenticado' }; }
         return await r.json();
     } catch (err) {
         console.error('API Error:', err.message);
