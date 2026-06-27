@@ -3,6 +3,8 @@ ini_set('display_errors', 0);
 error_reporting(E_ALL);
 
 header('Content-Type: application/json');
+define('SAMS_API_REQUEST', true);
+require_once __DIR__ . '/auth.php';
 include 'database.php';
 
 $action = $_POST['action'] ?? $_GET['action'] ?? '';
@@ -32,7 +34,7 @@ try {
                 FROM producto_ICA_final p
                 LEFT JOIN categoria_ICA_final c ON p.categoria_id = c.id
                 LEFT JOIN division_ICA_final d ON c.division_id = d.id
-                LEFT JOIN inventario_ICA_final inv ON inv.producto_id = p.id
+                LEFT JOIN inventario_ICA_final inv ON inv.producto_id = p.id AND inv.sucursal_id = ?
                 LEFT JOIN promocion_ICA_final pr ON pr.producto_id = p.id AND pr.activo = 1
                 LEFT JOIN lista_precio_ICA_final lp ON lp.producto_id = p.id AND lp.vigente = 1
                 WHERE p.activo = 1
@@ -45,7 +47,8 @@ try {
                 LIMIT 200";
 
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$search, $search, $search]);
+        $sucursal_id = (int)$_SESSION['sucursal_id'];
+        $stmt->execute([$sucursal_id, $search, $search, $search]);
 
         echo json_encode(['success' => true, 'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
 
@@ -56,7 +59,10 @@ try {
 
         $stats = [];
         $stats['total_productos'] = (int)$pdo->query("SELECT COUNT(*) FROM producto_ICA_final WHERE activo = 1")->fetchColumn();
-        $stats['con_stock']       = (int)$pdo->query("SELECT COUNT(DISTINCT producto_id) FROM inventario_ICA_final WHERE cantidad > 0")->fetchColumn();
+        $sucursal_id = (int)$_SESSION['sucursal_id'];
+        $stmtConStock = $pdo->prepare("SELECT COUNT(DISTINCT producto_id) FROM inventario_ICA_final WHERE cantidad > 0 AND sucursal_id = ?");
+        $stmtConStock->execute([$sucursal_id]);
+        $stats['con_stock'] = (int)$stmtConStock->fetchColumn();
         $stats['sin_stock']       = $stats['total_productos'] - $stats['con_stock'];
         $stats['con_promo']       = (int)$pdo->query("SELECT COUNT(DISTINCT producto_id) FROM promocion_ICA_final WHERE activo = 1")->fetchColumn();
 
@@ -113,14 +119,15 @@ try {
 
         $stockPiso = (float)($_POST['stock_piso'] ?? 0);
         if ($stockPiso > 0) {
-            $pdo->prepare("INSERT INTO inventario_ICA_final (producto_id, zona_id, cantidad, es_reserva) VALUES (?,NULL,?,0)")
-                ->execute([$productoId, $stockPiso]);
+            $sucursal_id_create = (int)$_SESSION['sucursal_id'];
+            $pdo->prepare("INSERT INTO inventario_ICA_final (producto_id, zona_id, cantidad, es_reserva, sucursal_id) VALUES (?,NULL,?,0,?)")
+                ->execute([$productoId, $stockPiso, $sucursal_id_create]);
         }
 
         $stockReserva = (float)($_POST['stock_reserva'] ?? 0);
         if ($stockReserva > 0) {
-            $pdo->prepare("INSERT INTO inventario_ICA_final (producto_id, zona_id, cantidad, es_reserva) VALUES (?,NULL,?,1)")
-                ->execute([$productoId, $stockReserva]);
+            $pdo->prepare("INSERT INTO inventario_ICA_final (producto_id, zona_id, cantidad, es_reserva, sucursal_id) VALUES (?,NULL,?,1,?)")
+                ->execute([$productoId, $stockReserva, $sucursal_id_create]);
         }
 
         $pdo->commit();
