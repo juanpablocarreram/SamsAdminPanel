@@ -19,7 +19,7 @@ try {
         // ─────────────────────────────────────────────────
         case 'list_titulares':
             $query = "
-                SELECT 
+                SELECT
                     sm.id as socio_membresia_id,
                     sm.numero_socio,
                     s.id as socio_id,
@@ -29,6 +29,7 @@ try {
                     tm.nombre as tipo_membresia,
                     sm.parentesco,
                     sm.saldo_cashback,
+                    sm.fecha_inicio,
                     sm.fecha_fin as vencimiento,
                     sm.activo,
                     (SELECT COUNT(*) FROM socio_membresia_ICA_final WHERE cuenta_titular_id = sm.id) as num_familiares
@@ -52,7 +53,7 @@ try {
             if (!$socio_membresia_id) throw new Exception('ID de socio requerido');
 
             $query = "
-                SELECT 
+                SELECT
                     sm.id,
                     sm.numero_socio,
                     s.id as socio_id,
@@ -63,6 +64,7 @@ try {
                     tm.nombre as tipo_membresia,
                     tm.cashback as cashback_pct,
                     sm.saldo_cashback,
+                    sm.fecha_inicio,
                     sm.fecha_fin as vencimiento,
                     sm.activo
                 FROM socio_membresia_ICA_final sm
@@ -132,9 +134,9 @@ try {
                 $numero_socio = 'SAM-' . date('Ymd') . str_pad($socio_id, 4, '0', STR_PAD_LEFT);
 
                 $stmtMembresia = $db->prepare("
-                    INSERT INTO socio_membresia_ICA_final 
-                    (numero_socio, socio_id, tipo_id, parentesco, cuenta_titular_id, saldo_cashback, fecha_fin, activo)
-                    VALUES (?, ?, ?, 'TITULAR', NULL, 0, ?, 1)
+                    INSERT INTO socio_membresia_ICA_final
+                    (numero_socio, socio_id, tipo_id, parentesco, cuenta_titular_id, saldo_cashback, fecha_inicio, fecha_fin, activo)
+                    VALUES (?, ?, ?, 'TITULAR', NULL, 0, CURDATE(), ?, 1)
                 ");
                 $stmtMembresia->execute([$numero_socio, $socio_id, $tipo_membresia_id, $fecha_fin]);
                 $socio_membresia_id = $db->lastInsertId();
@@ -201,9 +203,9 @@ try {
 
                 // El familiar hereda tipo_id (membresía) y fecha_fin del titular
                 $stmtFamiliar = $db->prepare("
-                    INSERT INTO socio_membresia_ICA_final 
-                    (numero_socio, socio_id, cuenta_titular_id, tipo_id, parentesco, es_complementaria, saldo_cashback, fecha_fin, activo)
-                    VALUES (?, ?, ?, ?, ?, ?, 0, ?, 1)
+                    INSERT INTO socio_membresia_ICA_final
+                    (numero_socio, socio_id, cuenta_titular_id, tipo_id, parentesco, es_complementaria, saldo_cashback, fecha_inicio, fecha_fin, activo)
+                    VALUES (?, ?, ?, ?, ?, ?, 0, CURDATE(), ?, 1)
                 ");
                 $stmtFamiliar->execute([
                     $numero_socio,
@@ -430,7 +432,7 @@ try {
         // ─────────────────────────────────────────────────
         case 'list_familiares':
             $stmt = $db->prepare("
-                SELECT 
+                SELECT
                     sm.id as socio_membresia_id,
                     sm.numero_socio,
                     s.nombre,
@@ -440,6 +442,7 @@ try {
                     tm.nombre as tipo_membresia,
                     sm.saldo_cashback,
                     sm.es_complementaria,
+                    sm.fecha_inicio,
                     sm.fecha_fin as vencimiento,
                     sm.activo,
                     sm.cuenta_titular_id,
