@@ -20,7 +20,7 @@ try {
 
         $search = '%' . ($_GET['q'] ?? '') . '%';
 
-        $sql = "SELECT 
+        $sql = "SELECT
                     p.id, p.sku, p.nombre, p.marca, p.tipo, p.es_members_mark,
                     c.nombre AS categoria,
                     d.nombre AS division,
@@ -36,10 +36,14 @@ try {
                 LEFT JOIN division_ICA_final d ON c.division_id = d.id
                 LEFT JOIN inventario_ICA_final inv ON inv.producto_id = p.id AND inv.sucursal_id = ?
                 LEFT JOIN promocion_ICA_final pr ON pr.producto_id = p.id AND pr.activo = 1
-                LEFT JOIN lista_precio_ICA_final lp ON lp.producto_id = p.id AND lp.vigente = 1
+                LEFT JOIN lista_precio_ICA_final lp ON lp.id = (
+                    SELECT id FROM lista_precio_ICA_final
+                    WHERE producto_id = p.id AND vigente = 1
+                    ORDER BY fecha DESC LIMIT 1
+                )
                 WHERE p.activo = 1
                   AND (p.nombre LIKE ? OR p.sku LIKE ? OR p.marca LIKE ?)
-                GROUP BY 
+                GROUP BY
                     p.id, p.sku, p.nombre, p.marca, p.tipo, p.es_members_mark,
                     c.nombre, d.nombre, pr.descuento_pct, pr.descuento_monto,
                     pr.nombre_promo, lp.precio
