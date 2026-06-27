@@ -4,6 +4,31 @@ Panel de administración web para la gestión operativa de tiendas Sam's Club. D
 
 ---
 
+## Capturas de pantalla
+
+### Login
+![Login](screenshots/login.png)
+
+### Dashboard
+![Dashboard](screenshots/dashboard.png)
+
+### Inventario
+![Inventario](screenshots/inventario.png)
+
+### Punto de Venta
+![Ventas](screenshots/ventas.png)
+
+### Socios y Membresías
+![Socios](screenshots/socios.png)
+
+### Promociones
+![Promociones](screenshots/promociones.png)
+
+### Compras
+![Compras](screenshots/compras.png)
+
+---
+
 ## Características principales
 
 - **Autenticación** con email/password y OAuth2 con Google
@@ -38,6 +63,7 @@ SamsAdminPanel/
 │   ├── schema.sql          # Esquema completo de la base de datos
 │   ├── sample.sql          # Datos de ejemplo para desarrollo
 │   └── delete_tables.sql   # Script para resetear la BD
+├── screenshots/            # Capturas de pantalla para el README
 ├── auth.php                # Guard de sesión para APIs y páginas
 ├── auth_handler.php        # Login, registro, logout, OAuth Google
 ├── google_callback.php     # Callback OAuth2 de Google
