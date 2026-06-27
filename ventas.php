@@ -3,6 +3,8 @@ ini_set('display_errors', 0);
 error_reporting(E_ALL);
 
 header('Content-Type: application/json');
+define('SAMS_API_REQUEST', true);
+require_once __DIR__ . '/auth.php';
 include 'database.php';
 
 $action = $_POST['action'] ?? $_GET['action'] ?? '';
@@ -23,13 +25,14 @@ try {
                        COALESCE(SUM(CASE WHEN inv.es_reserva=0 THEN inv.cantidad ELSE 0 END), 0) AS stock
                 FROM producto_ICA_final p
                 LEFT JOIN lista_precio_ICA_final lp ON lp.producto_id = p.id AND lp.vigente = 1
-                LEFT JOIN inventario_ICA_final inv ON inv.producto_id = p.id AND inv.es_reserva = 0
+                LEFT JOIN inventario_ICA_final inv ON inv.producto_id = p.id AND inv.es_reserva = 0 AND inv.sucursal_id = ?
                 WHERE p.activo = 1 AND (p.nombre LIKE ? OR p.sku LIKE ? OR p.marca LIKE ?)
                 GROUP BY p.id, p.sku, p.nombre, p.marca, p.tipo, p.multipack, lp.precio
                 LIMIT 20";
 
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$q, $q, $q]);
+        $sucursal_id = (int)$_SESSION['sucursal_id'];
+        $stmt->execute([$sucursal_id, $q, $q, $q]);
         $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         $stmtPromos = $pdo->prepare("
@@ -90,6 +93,7 @@ try {
         if (empty($pagos)) throw new Exception('No hay información de pago');
 
         // --- Inicio de transacción ---
+        $sucursal_id = (int)$_SESSION['sucursal_id'];
         $pdo->beginTransaction();
 
         // 1. Verificar stock y calcular total
@@ -98,11 +102,11 @@ try {
         $stmtStock = $pdo->prepare(
             "SELECT COALESCE(SUM(cantidad), 0) AS stock
              FROM inventario_ICA_final
-             WHERE producto_id = ? AND es_reserva = 0"
+             WHERE producto_id = ? AND es_reserva = 0 AND sucursal_id = ?"
         );
 
         foreach ($items as $item) {
-            $stmtStock->execute([$item['producto_id']]);
+            $stmtStock->execute([$item['producto_id'], $sucursal_id]);
             $stockRow = $stmtStock->fetch(PDO::FETCH_ASSOC);
 
             if ((int)$stockRow['stock'] < (int)$item['cantidad']) {
@@ -116,10 +120,10 @@ try {
 
         // 2. Registrar cabecera de venta
         $stmtVenta = $pdo->prepare(
-            "INSERT INTO venta_ICA_final (socio_membresia_id, canal, total, fecha)
-             VALUES (?, ?, ?, NOW())"
+            "INSERT INTO venta_ICA_final (socio_membresia_id, canal, total, fecha, sucursal_id)
+             VALUES (?, ?, ?, NOW(), ?)"
         );
-        $stmtVenta->execute([$socio_membresia_id, $canal, $total]);
+        $stmtVenta->execute([$socio_membresia_id, $canal, $total, $sucursal_id]);
         $venta_id = $pdo->lastInsertId();
 
         // 3. Registrar ítems, descontar inventario FIFO y movimientos
@@ -131,7 +135,7 @@ try {
 
         $stmtZonas = $pdo->prepare(
             "SELECT id, cantidad FROM inventario_ICA_final
-             WHERE producto_id = ? AND es_reserva = 0 AND cantidad > 0
+             WHERE producto_id = ? AND es_reserva = 0 AND cantidad > 0 AND sucursal_id = ?
              ORDER BY id ASC"
         );
 
@@ -140,8 +144,8 @@ try {
         );
 
         $stmtMovimiento = $pdo->prepare(
-            "INSERT INTO inventario_movimiento_ICA_final (producto_id, tipo, cantidad, fecha)
-             VALUES (?, 'VENTA', ?, NOW())"
+            "INSERT INTO inventario_movimiento_ICA_final (producto_id, tipo, cantidad, fecha, sucursal_id)
+             VALUES (?, 'VENTA', ?, NOW(), ?)"
         );
 
         foreach ($items as $item) {
@@ -161,7 +165,7 @@ try {
             ]);
 
             // Descuento FIFO
-            $stmtZonas->execute([$item['producto_id']]);
+            $stmtZonas->execute([$item['producto_id'], $sucursal_id]);
             $zonas       = $stmtZonas->fetchAll(PDO::FETCH_ASSOC);
             $porDescontar = (int)$item['cantidad'];
 
@@ -173,7 +177,7 @@ try {
             }
 
             // Movimiento de inventario
-            $stmtMovimiento->execute([$item['producto_id'], $item['cantidad']]);
+            $stmtMovimiento->execute([$item['producto_id'], $item['cantidad'], $sucursal_id]);
         }
 
         // 4. Registrar pagos
@@ -231,6 +235,7 @@ try {
     // =========================================================
     } elseif ($action === 'historial') {
 
+        $suc = (int)$_SESSION['sucursal_id'];
         $sql = "SELECT v.id, v.fecha, v.total, v.canal,
                        s.nombre AS socio, sm.numero_socio,
                        COUNT(vi.id) AS num_items
@@ -238,11 +243,13 @@ try {
                 LEFT JOIN socio_membresia_ICA_final sm ON v.socio_membresia_id = sm.id
                 LEFT JOIN socio_ICA_final s ON sm.socio_id = s.id
                 LEFT JOIN venta_item_ICA_final vi ON vi.venta_id = v.id
+                WHERE v.sucursal_id = ?
                 GROUP BY v.id, v.fecha, v.total, v.canal, s.nombre, sm.numero_socio
                 ORDER BY v.fecha DESC
                 LIMIT 50";
 
-        $stmt = $pdo->query($sql);
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$suc]);
         echo json_encode(['success' => true, 'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
 
     } else {
